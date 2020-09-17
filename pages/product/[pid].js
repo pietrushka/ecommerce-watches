@@ -1,15 +1,11 @@
-import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 export default function ProductPage() {
-  const router = useRouter()
-  const {pid} = router.query
   
   return (
     <>
       <Head>
-        <title>{pid}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>nazwa zegarka</title>
       </Head>
       
       <div className='relative overflow-hidden shadow-lg'>

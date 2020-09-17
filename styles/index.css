@@ -5,3 +5,13 @@
 .category {
   @apply px-8 py-3 bg-primary text-white rounded-full
 }
+
+:checked.fill-label + label {
+  background-color: #17150F;
+  color: white;
+}
+
+:focus.move-label + label {
+  padding: 0;
+  top: 0;
+}
