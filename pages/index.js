@@ -2,14 +2,12 @@
 import fetch from 'isomorphic-unfetch'
 import Card from '../components/Card'
 
-
-export default function Home({watches}) {
+export default function Home ({ watches }) {
   console.log(watches)
   return (
     <>
       <div className='flex justify-center py-4'>
-        <input type="text" className='w-10/12 px-4 py-4 text-lg text-white placeholder-white border-2 rounded-full shadow-lg bg-primary'  placeholder='Search here'>
-        </input>
+        <input type='text' className='w-10/12 px-4 py-4 text-lg text-white placeholder-white border-2 rounded-full shadow-lg bg-primary' placeholder='Search here' />
       </div>
 
       <div className='flex items-center py-4 justify-evenly'>
@@ -23,22 +21,22 @@ export default function Home({watches}) {
           Seiko
         </div>
       </div>
-      
-      <div className='grid gap-5 px-10 py-8 ' >
-    
-          {
-            watches.map(({id, brand, price, model, cover, refCode}) => (
-              <Card key={id} id={id} brand={brand} model={model} imageUrl={cover[0].url} refCode={refCode} price={price} /> 
-            ))
-          }   
-      
+
+      <div className='grid gap-5 px-10 py-8 '>
+
+        {
+          watches.map(({ id, brand, price, model, cover, refCode }) => (
+            <Card key={id} id={id} brand={brand} model={model} imageUrl={cover[0].url} refCode={refCode} price={price} />
+          ))
+        }
+
       </div>
     </>
   )
 }
 
-export async function getServerSideProps() {
-  const {API_URL} = process.env
+export async function getServerSideProps () {
+  const { API_URL } = process.env
 
   const res = await fetch(`${API_URL}/watches`)
   const data = await res.json()

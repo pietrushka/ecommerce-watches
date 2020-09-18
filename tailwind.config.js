@@ -3,21 +3,20 @@ module.exports = {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
-  purge: []
-  
+  purge: [],
   // {
   //   enabled: true,
   //   content: ['./pages/**/*.js'], //don't export unused styles
   // }
-  ,
+
   theme: {
     extend: {
       colors: {
         primary: '#17150F',
-        secondary: '#F7F7F2',
+        secondary: '#F7F7F2'
       }
-    },
+    }
   },
   variants: {},
-  plugins: [],
+  plugins: []
 }

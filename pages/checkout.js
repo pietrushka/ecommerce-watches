@@ -6,16 +6,15 @@ import InputField from '../components/InputField'
 import CartSummary from '../components/CartSummary'
 
 const checkoutReducer = (state, action) => {
-  switch(action.type) {
-
+  switch (action.type) {
     case 'field': {
       return {
         ...state,
-        [action.field]: action.value 
+        [action.field]: action.value
       }
     }
 
-    case 'proceed': { 
+    case 'proceed': {
       return {
         ...state,
         isLoading: true,
@@ -29,15 +28,15 @@ const checkoutReducer = (state, action) => {
         newPassword: '',
         newPasswordConfirm: '',
         currentPassword: '',
-        isLoading: false,
+        isLoading: false
       }
     }
 
-    case 'error': { 
-      return { 
+    case 'error': {
+      return {
         ...state,
         error: 'Wrong password',
-        isLoading: false,
+        isLoading: false
       }
     }
 
@@ -47,7 +46,7 @@ const checkoutReducer = (state, action) => {
   return state
 }
 
-const initialState = { 
+const initialState = {
   shipping: '',
   payment: '',
   firstName: '',
@@ -58,16 +57,16 @@ const initialState = {
   email: '',
   phoneNumber: '',
   isLoading: false,
-  error: '',
+  error: ''
 }
 
-export default function Options() {
+export default function Options () {
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
-  const {firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, isLoading, error} = state
-  
+  const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber } = state
+
   const handleChange = event => {
     dispatch({
-      type: "field",
+      type: 'field',
       field: `${event.target.name}`,
       value: event.target.value
     })
@@ -85,14 +84,14 @@ export default function Options() {
 
         <div onChange={handleChange} name='shipping' className='flex flex-col items-center justify-center py-4'>
           <h2 className='text-2xl text-center'>Shipping options</h2>
-              
-          <input className='hidden fill-label' type='radio' name='shipping' value='dhl' id='dhl'/>
+
+          <input className='hidden fill-label' type='radio' name='shipping' value='dhl' id='dhl' />
           <label htmlFor='dhl' className='block w-4/6 p-2 my-2 text-center bg-white rounded-lg shadow'>DHL $10</label>
 
-          <input className='hidden fill-label' type='radio' name='shipping' value='gls' id='gls'/>
+          <input className='hidden fill-label' type='radio' name='shipping' value='gls' id='gls' />
           <label htmlFor='gls' className='block w-4/6 p-2 my-2 text-center bg-white rounded-lg shadow'>GLS $11</label>
 
-          <input className='hidden fill-label' type='radio' name='shipping' value='dpd' id='dpd'/>
+          <input className='hidden fill-label' type='radio' name='shipping' value='dpd' id='dpd' />
           <label htmlFor='dpd' className='block w-4/6 p-2 my-2 text-center bg-white rounded-lg shadow'>DPD $12</label>
         </div>
 
@@ -100,7 +99,7 @@ export default function Options() {
 
           <h2 className='text-2xl text-center'>Payment methods</h2>
 
-          <input className='hidden fill-label' type='radio' name='payment' id='card' value='card'/>
+          <input className='hidden fill-label' type='radio' name='payment' id='card' value='card' />
           <label htmlFor='card' className='block w-4/6 p-2 my-2 text-center bg-white rounded-lg shadow'>Card</label>
 
           <input className='hidden fill-label' type='radio' name='payment' id='bankTransfer' value='bankTransfer' />
@@ -117,61 +116,59 @@ export default function Options() {
             <h2 className='w-full text-2xl'>Address</h2>
           </div>
 
-
-          <InputField 
+          <InputField
             name='firstName'
             type='text'
-            labelText='First name' 
+            labelText='First name'
             value={firstName}
             handleChange={handleChange}
           />
 
-          <InputField 
+          <InputField
             name='lastName'
             type='text'
-            labelText='Last name' 
+            labelText='Last name'
             value={lastName}
             handleChange={handleChange}
           />
 
-
           {/* Make proper validation in the future */}
-          <InputField 
+          <InputField
             name='zipCode'
             type='text'
-            labelText='Zip code' 
+            labelText='Zip code'
             value={zipCode}
             handleChange={handleChange}
           />
 
-          <InputField 
+          <InputField
             name='city'
             type='text'
-            labelText='City' 
+            labelText='City'
             value={city}
             handleChange={handleChange}
           />
 
-          <InputField 
+          <InputField
             name='streetAndNumber'
             type='text'
-            labelText='Street and number' 
+            labelText='Street and number'
             value={streetAndNumber}
             handleChange={handleChange}
           />
 
-          <InputField 
+          <InputField
             name='email'
             type='text'
-            labelText='E-mail' 
+            labelText='E-mail'
             value={email}
             handleChange={handleChange}
           />
 
-          <InputField 
+          <InputField
             name='phoneNumber'
             type='text'
-            labelText='Phone number' 
+            labelText='Phone number'
             value={phoneNumber}
             handleChange={handleChange}
           />
