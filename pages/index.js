@@ -1,14 +1,8 @@
-import Head from 'next/head'
 import Link from 'next/link'
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Sikory</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <div className='flex justify-center py-4'>
         <input type="text" className='w-10/12 px-4 py-4 text-lg text-white placeholder-white border-2 rounded-full shadow-lg bg-primary'  placeholder='Search here'>
         </input>
