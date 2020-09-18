@@ -2,7 +2,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useReducer } from 'react'
 
-import InputField from '../components/InputField/InputField'
+import InputField from '../components/InputField'
+import CartSummary from '../components/CartSummary'
 
 const checkoutReducer = (state, action) => {
   switch(action.type) {
@@ -51,7 +52,7 @@ const initialState = {
   payment: '',
   firstName: '',
   lastName: '',
-  postalCode: '',
+  zipCode: '',
   city: '',
   streetAndNumber: '',
   email: '',
@@ -62,7 +63,7 @@ const initialState = {
 
 export default function Options() {
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
-  const {firstName, lastName, postalCode, city, streetAndNumber, email, phoneNumber, isLoading, error} = state
+  const {firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, isLoading, error} = state
   
   const handleChange = event => {
     dispatch({
@@ -78,16 +79,7 @@ export default function Options() {
         <title>Checkout</title>
       </Head>
 
-      <div className='p-2 rounded-b-lg shadow-lg bg-secondary'>
-        <h2 className='text-xl text-center'>Cart summary</h2>
-        <div className='flex items-center justify-center'>
-          <img className='inline-block object-cover w-1/6' src='https://wkruk.pl/product_picture/square_1024/55a0661afdb58cf2a4076feb7e4b09e3.png' />
-
-          <span className='w-1/3 text-center'>Omega</span>
-
-          <span className='w-1/3 text-center right-4'>$396</span>
-        </div>
-      </div>
+      <CartSummary />
 
       <form className='p-4'>
 
@@ -129,7 +121,7 @@ export default function Options() {
           <InputField 
             name='firstName'
             type='text'
-            labelText='First Name' 
+            labelText='First name' 
             value={firstName}
             handleChange={handleChange}
           />
@@ -137,8 +129,50 @@ export default function Options() {
           <InputField 
             name='lastName'
             type='text'
-            labelText='Last Name' 
+            labelText='Last name' 
             value={lastName}
+            handleChange={handleChange}
+          />
+
+
+          {/* Make proper validation in the future */}
+          <InputField 
+            name='zipCode'
+            type='text'
+            labelText='Zip code' 
+            value={zipCode}
+            handleChange={handleChange}
+          />
+
+          <InputField 
+            name='city'
+            type='text'
+            labelText='City' 
+            value={city}
+            handleChange={handleChange}
+          />
+
+          <InputField 
+            name='streetAndNumber'
+            type='text'
+            labelText='Street and number' 
+            value={streetAndNumber}
+            handleChange={handleChange}
+          />
+
+          <InputField 
+            name='email'
+            type='text'
+            labelText='E-mail' 
+            value={email}
+            handleChange={handleChange}
+          />
+
+          <InputField 
+            name='phoneNumber'
+            type='text'
+            labelText='Phone number' 
+            value={phoneNumber}
             handleChange={handleChange}
           />
 
