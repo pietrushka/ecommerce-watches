@@ -1,11 +1,13 @@
 
 import fetch from 'isomorphic-unfetch'
+
+import FullNavbar from '../components/FullNavbar'
 import Card from '../components/Card'
 
 export default function Home ({ watches }) {
-  console.log(watches)
   return (
     <>
+      <FullNavbar />
       <div className='flex justify-center py-4'>
         <input type='text' className='w-10/12 px-4 py-4 text-lg text-white placeholder-white border-2 rounded-full shadow-lg bg-primary' placeholder='Search here' />
       </div>

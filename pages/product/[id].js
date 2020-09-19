@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 
+import FullNavbar from '../../components/FullNavbar'
+
 export default function ProductPage ({ watch }) {
   const { API_URL } = process.env
 
@@ -13,6 +15,8 @@ export default function ProductPage ({ watch }) {
       <Head>
         <title>brandAndModel</title>
       </Head>
+
+      <FullNavbar />
 
       <div className='relative overflow-hidden shadow-lg'>
         <img className='object-cover w-full' src={imageUrl} />
