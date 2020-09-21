@@ -3,7 +3,7 @@ import { useCart } from '../hooks/useCart'
 const { API_URL } = process.env
 
 export default function CartItem ({ item }) {
-  const { addItem, removeItem } = useCart()
+  const { addItem, removeItem, clearItem } = useCart()
 
   return (
     <div className='flex items-center'>
@@ -18,6 +18,7 @@ export default function CartItem ({ item }) {
 
       <span className='w-1/3 p-2 text-center right-4'>{`$${item.price}`}</span>
       <button
+        onClick={() => clearItem({ ...item })}
         className='w-1/6 p-1'
       >
         <svg className='p-1 mr-3 text-gray-100 bg-red-600 rounded-full ' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
