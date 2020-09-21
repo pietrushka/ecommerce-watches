@@ -1,8 +1,8 @@
-export default function Layout ({ children }) {
+export default function Layout ({ children, color }) {
   return (
     <>
-      <div className='min-h-screen'>
-        <main>{children}</main>
+      <div className={`flex flex-col min-h-screen ${color}`}>
+        {children}
       </div>
     </>
   )

@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import fetch from 'isomorphic-unfetch'
 
 import Layout from '../../components/layout'
 import FullNavbar from '../../components/full-navbar'

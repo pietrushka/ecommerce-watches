@@ -27,9 +27,6 @@ const checkoutReducer = (state, action) => {
     case 'success': {
       return {
         ...state,
-        newPassword: '',
-        newPasswordConfirm: '',
-        currentPassword: '',
         isLoading: false
       }
     }
@@ -37,7 +34,7 @@ const checkoutReducer = (state, action) => {
     case 'error': {
       return {
         ...state,
-        error: 'Wrong password',
+        error: 'error',
         isLoading: false
       }
     }
