@@ -32,3 +32,7 @@ export const removeItemFromCart = (cart, cartItemToRemove) => {
       : cartItem
   )
 }
+
+export const clearItemFromCart = (cart, cartItemToRemove) => {
+  return cart.filter(cartItem => cartItem.refCode !== cartItemToRemove.refCode)
+}

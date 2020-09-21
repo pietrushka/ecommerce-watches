@@ -33,7 +33,7 @@ export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
 
         <div className='flex items-center justify-center w-full py-4'>
           <button
-            onClick={() => addItem({ brand, model, price, imageUrl, refCode, quantity: 1 })}
+            onClick={() => addItem({ id, brand, model, price, imageUrl, refCode, quantity: 1 })}
             className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
           >
             {`Add to cart $${price}`}
