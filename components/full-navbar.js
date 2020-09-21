@@ -19,6 +19,7 @@ export default function Overlay () {
   // toggle doesnt't applay transition when cart is hidding
   const showCart = () => {
     overlayBg.classList.remove('hidden')
+    overlayBg.classList.add('flex')
     cart.classList.remove('hidden')
     setTimeout(() => {
       cart.classList.remove('translate-y-full')
@@ -30,13 +31,14 @@ export default function Overlay () {
     setTimeout(() => {
       cart.classList.add('hidden')
 
+      overlayBg.classList.remove('flex')
       overlayBg.classList.add('hidden')
     }, 100)
   }
 
   return (
     <>
-      <div id='overlayBg' onClick={hideCart} className='fixed top-0 z-40 flex items-end justify-center hidden w-screen h-screen bg-black bg-opacity-50' />
+      <div id='overlayBg' onClick={hideCart} className='fixed top-0 z-40 items-end justify-center hidden w-screen h-screen bg-black bg-opacity-50' />
 
       <div id='cart' className='fixed bottom-0 z-50 hidden w-11/12 m-4 transition-transform duration-300 ease-out transform translate-y-full bg-white rounded-lg'>
         <div className='relative my-1'>
