@@ -11,8 +11,8 @@ export default function CartItem ({ item }) {
 
       <span className='w-1/3 text-center'>{`${item.brand} ${item.model}`}</span>
 
-      {/* <button onClick={addItem({ ...item, quantity: 1 })}>+</button>
-      <button onClick={removeItem({ ...item, quantity: 1 })}>-</button> */}
+      <button onClick={() => addItem({ ...item, quantity: 1 })}>+</button>
+      <button onClick={() => removeItem({ ...item, quantity: 1 })}>-</button>
 
       <span className='w-1/3 text-center'>{item.quantity}</span>
 
