@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "stripe": "cd .. && cd watches-strapi && npm run develop",
-    "x": "concurrently \"npm run dev\" \"npm run stripe\""
+    "both": "concurrently \"npm run dev\" \"npm run stripe\""
   },
   "dependencies": {
     "axios": "^0.20.0",

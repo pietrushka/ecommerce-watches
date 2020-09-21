@@ -2,6 +2,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { CartProvider } from '../hooks/useCart'
 
 import AppContext from '../context/app-context'
 
@@ -10,7 +11,7 @@ import '../styles/index.css'
 export default function App ({ Component, pageProps }) {
   const [user, setUser] = useState(null)
 
-  const providerValue = useMemo(() => ({ user, setUser, isAuthenticated: !!user }), [user, setUser])
+  const providerValue = useMemo(() => ({ user, setUser, cart: null, isAuthenticated: !!user }), [user, setUser])
 
   useEffect(() => {
     // grab token value from cookie
@@ -38,9 +39,11 @@ export default function App ({ Component, pageProps }) {
 
   return (
     <AppContext.Provider value={providerValue}>
-      <div>
-        <Component {...pageProps} />
-      </div>
+      <CartProvider>
+        <div>
+          <Component {...pageProps} />
+        </div>
+      </CartProvider>
     </AppContext.Provider>
   )
 }
