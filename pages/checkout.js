@@ -5,6 +5,7 @@ import { useReducer } from 'react'
 import Layout from '../components/layout'
 import InputField from '../components/input-field'
 import CartSummary from '../components/cart-summary'
+import PrevPageNavbar from '../components/prev-page-navbar'
 
 const checkoutReducer = (state, action) => {
   switch (action.type) {
@@ -80,6 +81,8 @@ export default function Options () {
         <Head>
           <title>Checkout</title>
         </Head>
+
+        <PrevPageNavbar />
 
         <CartSummary />
 

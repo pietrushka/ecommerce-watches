@@ -15,7 +15,7 @@ export default function ProductPage ({ watch }) {
     <>
       <Layout>
         <Head>
-          <title>brandAndModel</title>
+          <title>{brandAndModel}</title>
         </Head>
 
         <FullNavbar />
