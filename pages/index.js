@@ -1,9 +1,8 @@
-
-import fetch from 'isomorphic-unfetch'
-
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import Card from '../components/card'
+
+import { getAllWatches } from '../lib/api'
 
 export default function Home ({ watches }) {
   return (
@@ -42,11 +41,7 @@ export default function Home ({ watches }) {
 }
 
 export async function getServerSideProps () {
-  const { API_URL } = process.env
-
-  const res = await fetch(`${API_URL}/watches`)
-  const data = await res.json()
-
+  const data = await getAllWatches()
   return {
     props: {
       watches: data

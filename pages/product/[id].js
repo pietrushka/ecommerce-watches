@@ -1,19 +1,22 @@
 import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
 import FullNavbar from '../../components/full-navbar'
 
-export default function ProductPage ({ watch }) {
-  const { API_URL } = process.env
+import { getWatchesPaths, getWatchById} from '../../lib/api'
 
+const { API_URL } = process.env
+
+
+export default function ProductPage ({ watch }) {
   const { brand, model, price, cover, ref } = watch
   const brandAndModel = `${brand} ${model}`
   const imageUrl = `${API_URL}${cover[0].url}`
 
   return (
     <>
-      <Layout>
+       <Layout>
         <Head>
           <title>{brandAndModel}</title>
         </Head>
@@ -59,24 +62,13 @@ export default function ProductPage ({ watch }) {
 }
 
 export async function getStaticPaths () {
-  const { API_URL } = process.env
-
-  const res = await fetch(`${API_URL}/watches`)
-  const watches = await res.json()
-
-  const paths = watches.map((watch) => ({
-    params: { id: watch.id.toString() }
-  }))
-
-  console.log(paths)
+  const paths = await getWatchesPaths()
 
   return { paths, fallback: false }
 }
 
 export async function getStaticProps ({ params }) {
-  const { API_URL } = process.env
-  const res = await fetch(`${API_URL}/watches/${params.id}`)
-  const watch = await res.json()
+  const watch = await getWatchById(params.id)
 
   return { props: { watch } }
 }

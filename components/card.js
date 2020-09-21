@@ -2,7 +2,6 @@ import Link from 'next/link'
 
 export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
   const { API_URL } = process.env
-  console.log(price)
 
   return (
     <div className='bg-white rounded-lg shadow-lg'>
