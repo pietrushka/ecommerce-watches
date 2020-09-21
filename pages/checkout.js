@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { useReducer } from 'react'
 
 import Layout from '../components/layout'
-import InputField from '../components/InputField'
-import CartSummary from '../components/CartSummary'
+import InputField from '../components/input-field'
+import CartSummary from '../components/cart-summary'
 
 const checkoutReducer = (state, action) => {
   switch (action.type) {

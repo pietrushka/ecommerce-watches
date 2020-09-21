@@ -2,7 +2,7 @@ import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 
 import Layout from '../components/layout'
-import FullNavbar from '../../components/FullNavbar'
+import FullNavbar from '../../components/full-navbar'
 
 export default function ProductPage ({ watch }) {
   const { API_URL } = process.env

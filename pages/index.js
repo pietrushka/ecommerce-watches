@@ -2,8 +2,8 @@
 import fetch from 'isomorphic-unfetch'
 
 import Layout from '../components/layout'
-import FullNavbar from '../components/FullNavbar'
-import Card from '../components/Card'
+import FullNavbar from '../components/full-navbar'
+import Card from '../components/card'
 
 export default function Home ({ watches }) {
   return (
