@@ -111,11 +111,31 @@ export default function Overlay () {
 
       <div id='overlay-menu' className='fixed bottom-0 left-0 right-0 z-20 flex items-center justify-center h-screen transition duration-500 ease-in transform translate-y-full bg-secondary'>
         <ul className='text-2xl'>
-          <li className='p-6 text-center'>Favorites</li>
-          <li className='p-6 text-center'>About</li>
-          <li className='p-6 text-center'>Contact</li>
-          <li className='p-6 text-center'>Login</li>
-          <li className='p-6 text-center'>Register</li>
+          <li className='p-6 text-center'>
+            <Link href='/favorites'>
+              <a>Favorites</a>
+            </Link>
+          </li>
+          <li className='p-6 text-center'>
+            <Link href='/orders'>
+              <a>Orders</a>
+            </Link>
+          </li>
+          <li className='p-6 text-center'>
+            <Link href='/contact'>
+              <a>Contact</a>
+            </Link>
+          </li>
+          <li className='p-6 text-center'>
+            <Link href='/register'>
+              <a>Register</a>
+            </Link>
+          </li>
+          <li className='p-6 text-center'>
+            <Link href='/login'>
+              <a>Login</a>
+            </Link>
+          </li>
         </ul>
       </div>
     </>
