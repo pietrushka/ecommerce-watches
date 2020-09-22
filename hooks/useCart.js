@@ -43,6 +43,11 @@ const initialState = {
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState)
+
+  useEffect(() => {
+    if (state.items.length === 0) setCart()
+  }, [])
+
   useEffect(() => {
     // if (!isAuthenticated) {
     // }

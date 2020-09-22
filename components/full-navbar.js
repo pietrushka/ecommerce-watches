@@ -1,19 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 
-import { useCart } from '../hooks/useCart'
 import Cart from '../components/cart'
 
 import AppContext from '../context/app-context'
 import { logout } from '../lib/auth'
 
 export default function FullNavbar () {
-  const { items, setCart } = useCart()
-
-  useEffect(() => {
-    if (items.length === 0) setCart()
-  }, [])
-
   const { user, setUser } = useContext(AppContext)
   const [isCartOpen, setIsCartOpen] = useState(false)
 
