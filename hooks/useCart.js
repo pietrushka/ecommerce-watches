@@ -42,15 +42,12 @@ const initialState = {
 }
 
 export const CartProvider = ({ children }) => {
-  const { user, isAuthenticated } = useContext(AppContext)
   const [state, dispatch] = useReducer(cartReducer, initialState)
-
   useEffect(() => {
-    console.log({ user })
-    if (!isAuthenticated) {
-      window.localStorage.setItem('items', JSON.stringify(state.items))
-      console.log('Saved cart to local storage')
-    }
+    // if (!isAuthenticated) {
+    // }
+    window.localStorage.setItem('items', JSON.stringify(state.items))
+    console.log('Saved cart to local storage')
   }, [state.items])
 
   const setCart = () => {

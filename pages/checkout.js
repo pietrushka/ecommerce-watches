@@ -8,7 +8,7 @@ import PrevPageNavbar from '../components/prev-page-navbar'
 import CartItem from '../components/cart-item'
 
 import { useCart } from '../hooks/useCart'
-import { getAllwShippingOptions } from '../lib/api'
+import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
 import { placeOrder } from '../lib/order'
 
 const checkoutReducer = (state, action) => {
@@ -73,7 +73,7 @@ const initialState = {
   error: ''
 }
 
-export default function Options ({ shippingOptions }) {
+export default function Options ({ shippingOptions, paymentOptions }) {
   const { items, getCartValue } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment } = state
@@ -157,14 +157,14 @@ export default function Options ({ shippingOptions }) {
 
                     <h2 className='text-2xl text-center'>Payment methods</h2>
 
-                    <input className='hidden fill-label' type='radio' name='payment' id='card' value='card' />
-                    <label htmlFor='card' className='block w-4/6 p-2 my-2 text-center bg-white rounded-lg shadow'>Card</label>
-
-                    <input className='hidden fill-label' type='radio' name='payment' id='bankTransfer' value='bankTransfer' />
-                    <label htmlFor='bankTransfer' className='block w-4/6 p-2 my-2 text-center bg-white rounded-lg shadow'>Bank Transfer</label>
-
-                    <input className='hidden fill-label' type='radio' name='payment' id='paypal' value='paypal' />
-                    <label htmlFor='paypal' className='block w-4/6 p-2 my-2 text-center bg-white rounded-lg shadow'>PayPal</label>
+                    {
+                      paymentOptions.map(({ id, name }) => (
+                        <div key={id} className='w-full'>
+                          <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} />
+                          <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{name}</label>
+                        </div>
+                      ))
+                    }
 
                   </div>
 
@@ -251,10 +251,12 @@ export default function Options ({ shippingOptions }) {
 }
 
 export async function getServerSideProps () {
-  const data = await getAllwShippingOptions()
+  const shippingOptions = await getAllShippingOptions()
+  const paymentOptions = await getAllPaymentOptions()
   return {
     props: {
-      shippingOptions: data
+      shippingOptions,
+      paymentOptions
     }
   }
 }
