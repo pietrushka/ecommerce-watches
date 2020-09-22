@@ -1,16 +1,23 @@
 import { useRouter } from 'next/router'
 
+import { useCart } from '../hooks/useCart'
+
 export default function PrevPageNavbar () {
+  const { getCartValueWithShippingCost } = useCart()
+  const total = getCartValueWithShippingCost()
   const router = useRouter()
 
   return (
     <>
-      <nav className='sticky top-0 z-30 w-full px-4 py-2 bg-white rounded-b-lg shadow text-primary'>
+      <nav className='sticky top-0 z-30 flex justify-between w-full px-4 py-2 bg-white rounded-b-lg shadow text-primary'>
         <button onClick={() => router.back()} className='block w-10'>
           <svg className='w-full' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
           </svg>
         </button>
+
+        <p className='p-1 text-2xl'>Total: {total}</p>
+
       </nav>
     </>
   )

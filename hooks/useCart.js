@@ -1,6 +1,6 @@
 import React, { useReducer, useContext, createContext } from 'react'
 
-import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../utils/cart-utils'
+import { addItemToCart, removeItemFromCart, clearItemFromCart, chooseShippingOption } from '../utils/cart-utils'
 
 const CartContext = createContext()
 
@@ -8,26 +8,40 @@ const cartReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_ITEM': {
       return {
+        ...state,
         items: addItemToCart(state.items, action.payload)
       }
     }
 
     case 'REMOVE_ITEM': {
       return {
+        ...state,
         items: removeItemFromCart(state.items, action.payload)
       }
     }
 
     case 'CLEAR_ITEM': {
       return {
+        ...state,
         items: clearItemFromCart(state.items, action.payload)
+      }
+    }
+
+    case 'CHOOSE_SHIPPING': {
+      return {
+        ...state,
+        shipping: chooseShippingOption(state.shipping, action.payload)
       }
     }
   }
 }
 
 const initialState = {
-  items: []
+  items: [],
+  shipping: {
+    cost: 0,
+    name: ''
+  }
 }
 
 export const CartProvider = ({ children }) => {
@@ -52,14 +66,25 @@ export const CartProvider = ({ children }) => {
     return value
   }
 
+  const chooseShipping = (option) => {
+    dispatch({ type: 'CHOOSE_SHIPPING', payload: option })
+  }
+
+  const getCartValueWithShippingCost = () => {
+    const cartValue = getCartValue()
+    return cartValue + state.shipping.cost
+  }
+
   return (
     <CartContext.Provider
       value={{
         items: state.items,
         addItem,
         removeItem,
+        getCartValueWithShippingCost,
         getCartValue,
-        clearItem
+        clearItem,
+        chooseShipping
       }}
     >
       {children}

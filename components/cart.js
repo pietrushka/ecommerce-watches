@@ -37,16 +37,24 @@ export default function Cart ({ hideCart }) {
         </div>
 
         {
-          items.map(item => <CartItem key={item.id} item={item} />)
+          items.length > 0
+            ? (
+              <>
+                {
+                  items.map(item => <CartItem key={item.id} item={item} />)
+                }
+                <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
+                  <Link href='/checkout'>
+                    <a className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'>
+                      {`Checkout $${cartValue}`}
+                    </a>
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <p>Your cart is empty</p>
+            )
         }
-
-        <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
-          <Link href='/checkout'>
-            <a className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'>
-              {`Checkout $${cartValue}`}
-            </a>
-          </Link>
-        </div>
 
         <div />
       </div>
