@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 export default function PaymentPage () {
   const { query } = useRouter()
   const orderId = query.orderId
-  console.log(query)
 
   return (
     <>

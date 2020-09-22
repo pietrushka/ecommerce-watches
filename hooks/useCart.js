@@ -1,6 +1,5 @@
 import React, { useReducer, useContext, createContext, useEffect } from 'react'
 
-import AppContext from '../context/app-context'
 import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../utils/cart-utils'
 
 const CartContext = createContext()
@@ -52,12 +51,16 @@ export const CartProvider = ({ children }) => {
     // if (!isAuthenticated) {
     // }
     window.localStorage.setItem('items', JSON.stringify(state.items))
-    console.log('Saved cart to local storage')
   }, [state.items])
 
   const setCart = () => {
     const items = JSON.parse(window.localStorage.getItem('items'))
     if (items) dispatch({ type: 'SET_CART', payload: items })
+  }
+
+  const clearCart = () => {
+    window.localStorage.setItem('items', [])
+    dispatch({ type: 'SET_CART', payload: [] })
   }
 
   const addItem = (item) => {
@@ -87,7 +90,8 @@ export const CartProvider = ({ children }) => {
         addItem,
         removeItem,
         getCartValue,
-        clearItem
+        clearItem,
+        clearCart
       }}
     >
       {children}

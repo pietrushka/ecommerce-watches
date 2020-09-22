@@ -74,7 +74,7 @@ const initialState = {
 }
 
 export default function Options ({ shippingOptions, paymentOptions }) {
-  const { items, getCartValue } = useCart()
+  const { items, getCartValue, clearCart } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment } = state
 
@@ -102,12 +102,20 @@ export default function Options ({ shippingOptions, paymentOptions }) {
     const user = null
 
     placeOrder({ items, methods, personalData, user })
-      .then((orderId) => {
-        console.log({ orderId })
+      .then(({ orderId, paymentMethod }) => {
         dispatch({ type: 'success' })
 
+        clearCart()
+        // when user pays on delivery redirect to confirm page
+        if (paymentMethod.toLowerCase().trim() === 'cash on delivery') {
+          return Router.push({
+            pathname: '/order-confirm',
+            query: { orderId }
+          })
+        }
+
         // redirect to payment
-        Router.push({
+        return Router.push({
           pathname: '/payment',
           query: { orderId }
         })
@@ -143,12 +151,14 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                     <h2 className='text-2xl text-center'>Shipping options</h2>
 
                     {
-                      shippingOptions.map(({ id, cost, name }) => (
+                      shippingOptions.map(({ id, cost, name }, index) => (
                         <div key={id} className='w-full'>
-                          <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} />
+                          <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} required />
                           <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{`${name} $${cost}`}</label>
                         </div>
-                      ))
+                      )
+
+                      )
                     }
 
                   </div>
@@ -160,7 +170,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                     {
                       paymentOptions.map(({ id, name }) => (
                         <div key={id} className='w-full'>
-                          <input className='hidden fill-label' type='radio' name='payment' value={name} id={name} />
+                          <input className='hidden fill-label' type='radio' name='payment' value={name} id={name} required />
                           <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{name}</label>
                         </div>
                       ))
@@ -179,6 +189,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                       type='text'
                       labelText='First name'
                       value={firstName}
+                      required
                       handleChange={handleChange}
                     />
 
@@ -187,6 +198,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                       type='text'
                       labelText='Last name'
                       value={lastName}
+                      required
                       handleChange={handleChange}
                     />
 
@@ -196,6 +208,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                       type='text'
                       labelText='Zip code'
                       value={zipCode}
+                      required
                       handleChange={handleChange}
                     />
 
@@ -204,6 +217,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                       type='text'
                       labelText='City'
                       value={city}
+                      required
                       handleChange={handleChange}
                     />
 
@@ -212,22 +226,25 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                       type='text'
                       labelText='Street and number'
                       value={streetAndNumber}
+                      required
                       handleChange={handleChange}
                     />
 
                     <InputField
                       name='email'
-                      type='text'
+                      type='email'
                       labelText='E-mail'
                       value={email}
+                      required
                       handleChange={handleChange}
                     />
 
                     <InputField
                       name='phoneNumber'
-                      type='text'
+                      type='tel'
                       labelText='Phone number'
                       value={phoneNumber}
+                      required
                       handleChange={handleChange}
                     />
 
