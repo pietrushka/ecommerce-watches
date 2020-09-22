@@ -26,8 +26,8 @@ export default function Cart ({ hideCart }) {
     <>
       <div onClick={animateOut} className='fixed top-0 z-40 items-end justify-center w-screen h-screen bg-black bg-opacity-50' />
 
-      <div ref={refCart} className='fixed bottom-0 z-50 w-11/12 m-4 transition-transform duration-200 ease-out transform translate-y-full bg-white rounded-lg'>
-        <div className='relative my-1'>
+      <div ref={refCart} className='fixed bottom-0 z-50 w-11/12 p-4 m-4 transition-transform duration-200 ease-out transform translate-y-full bg-white rounded-lg'>
+        <div className='relative py-2 my-1'>
           <h2 className='text-4xl text-center'>Cart</h2>
           <button onClick={animateOut} className='absolute top-0 right-0 w-1/6 focus:outline-none'>
             <svg className='ml-auto ' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
@@ -52,7 +52,7 @@ export default function Cart ({ hideCart }) {
                 </div>
               </>
             ) : (
-              <p>Your cart is empty</p>
+              <p className='text-3xl text-center text-red-500'>Your cart is empty</p>
             )
         }
 

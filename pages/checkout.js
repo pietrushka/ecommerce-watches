@@ -130,7 +130,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
         {
           items.length === 0
             ? (
-              <p>Your cart is empty</p>
+              <p className='my-auto text-3xl text-center text-red-500'>Your cart is empty</p>
             ) : (
               <>
                 {
@@ -160,7 +160,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                     {
                       paymentOptions.map(({ id, name }) => (
                         <div key={id} className='w-full'>
-                          <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} />
+                          <input className='hidden fill-label' type='radio' name='payment' value={name} id={name} />
                           <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{name}</label>
                         </div>
                       ))
