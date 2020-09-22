@@ -1,10 +1,6 @@
 import { useRouter } from 'next/router'
 
-import { useCart } from '../hooks/useCart'
-
 export default function PrevPageNavbar () {
-  const { getCartValueWithShippingCost } = useCart()
-  const total = getCartValueWithShippingCost()
   const router = useRouter()
 
   return (
@@ -15,9 +11,6 @@ export default function PrevPageNavbar () {
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
           </svg>
         </button>
-
-        <p className='p-1 text-2xl'>Total: {total}</p>
-
       </nav>
     </>
   )

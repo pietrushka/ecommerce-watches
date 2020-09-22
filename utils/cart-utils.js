@@ -36,8 +36,3 @@ export const removeItemFromCart = (cart, cartItemToRemove) => {
 export const clearItemFromCart = (cart, cartItemToRemove) => {
   return cart.filter(cartItem => cartItem.refCode !== cartItemToRemove.refCode)
 }
-
-export const chooseShippingOption = (currentShippingOption, newShippingOption) => {
-  if (currentShippingOption.name === newShippingOption.name) return currentShippingOption
-  return newShippingOption
-}

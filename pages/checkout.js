@@ -74,16 +74,18 @@ const initialState = {
 }
 
 export default function Options ({ shippingOptions }) {
-  const { items, chooseShipping } = useCart()
+  const { items, getCartValue } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment } = state
 
+  const getCartValueWithShippingCost = () => {
+    const itemsValue = getCartValue()
+    if (!shipping) return `$ ${itemsValue}`
+    const shippingCost = shippingOptions.find((option) => option.name === shipping).cost
+    return `$ ${itemsValue + shippingCost}`
+  }
+
   const handleChange = event => {
-    if (event.target.name === 'shipping') {
-      const condition = (option) => option.name === event.target.value
-      const option = { name: event.target.value, cost: shippingOptions.find(condition).cost }
-      chooseShipping(option)
-    }
     dispatch({
       type: 'field',
       field: `${event.target.name}`,
@@ -236,7 +238,7 @@ export default function Options ({ shippingOptions }) {
                       type='submit'
                       className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
                     >
-                      Go to payment
+                      Submit {getCartValueWithShippingCost()}
                     </button>
                   </div>
                 </form>

@@ -26,22 +26,11 @@ const cartReducer = (state, action) => {
         items: clearItemFromCart(state.items, action.payload)
       }
     }
-
-    case 'CHOOSE_SHIPPING': {
-      return {
-        ...state,
-        shipping: chooseShippingOption(state.shipping, action.payload)
-      }
-    }
   }
 }
 
 const initialState = {
-  items: [],
-  shipping: {
-    cost: 0,
-    name: ''
-  }
+  items: []
 }
 
 export const CartProvider = ({ children }) => {
@@ -66,25 +55,14 @@ export const CartProvider = ({ children }) => {
     return value
   }
 
-  const chooseShipping = (option) => {
-    dispatch({ type: 'CHOOSE_SHIPPING', payload: option })
-  }
-
-  const getCartValueWithShippingCost = () => {
-    const cartValue = getCartValue()
-    return cartValue + state.shipping.cost
-  }
-
   return (
     <CartContext.Provider
       value={{
         items: state.items,
         addItem,
         removeItem,
-        getCartValueWithShippingCost,
         getCartValue,
-        clearItem,
-        chooseShipping
+        clearItem
       }}
     >
       {children}
