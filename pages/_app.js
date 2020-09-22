@@ -11,7 +11,7 @@ import '../styles/index.css'
 export default function App ({ Component, pageProps }) {
   const [user, setUser] = useState(null)
 
-  const providerValue = useMemo(() => ({ user, setUser, cart: null, isAuthenticated: !!user }), [user, setUser])
+  const providerValue = useMemo(() => ({ user, setUser, isAuthenticated: !!user }), [user, setUser])
 
   useEffect(() => {
     // grab token value from cookie

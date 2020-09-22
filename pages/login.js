@@ -57,7 +57,7 @@ export default function LoginPage () {
   const appContext = useContext(AppContext)
 
   const [state, dispatch] = useReducer(loginReducer, initialState)
-  const { identifier, password, isLoading, error } = state
+  const { identifier, password, isLoading } = state
 
   const handleChange = event => {
     dispatch({

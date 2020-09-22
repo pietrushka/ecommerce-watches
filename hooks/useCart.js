@@ -1,11 +1,19 @@
-import React, { useReducer, useContext, createContext } from 'react'
+import React, { useReducer, useContext, createContext, useEffect } from 'react'
 
-import { addItemToCart, removeItemFromCart, clearItemFromCart, chooseShippingOption } from '../utils/cart-utils'
+import AppContext from '../context/app-context'
+import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../utils/cart-utils'
 
 const CartContext = createContext()
 
 const cartReducer = (state, action) => {
   switch (action.type) {
+    case 'SET_CART': {
+      return {
+        ...state,
+        items: action.payload
+      }
+    }
+
     case 'ADD_ITEM': {
       return {
         ...state,
@@ -34,7 +42,21 @@ const initialState = {
 }
 
 export const CartProvider = ({ children }) => {
+  const { user, isAuthenticated } = useContext(AppContext)
   const [state, dispatch] = useReducer(cartReducer, initialState)
+
+  useEffect(() => {
+    console.log({ user })
+    if (!isAuthenticated) {
+      window.localStorage.setItem('items', JSON.stringify(state.items))
+      console.log('Saved cart to local storage')
+    }
+  }, [state.items])
+
+  const setCart = () => {
+    const items = JSON.parse(window.localStorage.getItem('items'))
+    if (items) dispatch({ type: 'SET_CART', payload: items })
+  }
 
   const addItem = (item) => {
     dispatch({ type: 'ADD_ITEM', payload: { ...item } })
@@ -58,6 +80,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        setCart,
         items: state.items,
         addItem,
         removeItem,
