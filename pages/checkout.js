@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import { useEffect, useReducer } from 'react'
+import Router from 'next/router'
+import { useReducer } from 'react'
 
 import Layout from '../components/layout'
 import InputField from '../components/input-field'
@@ -9,6 +9,7 @@ import CartItem from '../components/cart-item'
 
 import { useCart } from '../hooks/useCart'
 import { getAllwShippingOptions } from '../lib/api'
+import { placeOrder } from '../lib/order'
 
 const checkoutReducer = (state, action) => {
   switch (action.type) {
@@ -19,7 +20,7 @@ const checkoutReducer = (state, action) => {
       }
     }
 
-    case 'proceed': {
+    case 'checkout': {
       return {
         ...state,
         isLoading: true,
@@ -30,7 +31,17 @@ const checkoutReducer = (state, action) => {
     case 'success': {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        shipping: '',
+        payment: '',
+        firstName: '',
+        lastName: '',
+        zipCode: '',
+        city: '',
+        streetAndNumber: '',
+        email: '',
+        phoneNumber: '',
+        error: ''
       }
     }
 
@@ -65,7 +76,7 @@ const initialState = {
 export default function Options ({ shippingOptions }) {
   const { items, chooseShipping } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
-  const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber } = state
+  const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment } = state
 
   const handleChange = event => {
     if (event.target.name === 'shipping') {
@@ -78,6 +89,30 @@ export default function Options ({ shippingOptions }) {
       field: `${event.target.name}`,
       value: event.target.value
     })
+  }
+
+  const checkoutSubmit = event => {
+    event.preventDefault()
+    dispatch({ type: 'checkout' })
+
+    const methods = { shipping, payment }
+    const personalData = { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber }
+    const user = null
+
+    placeOrder({ items, methods, personalData, user })
+      .then((orderId) => {
+        console.log({ orderId })
+        dispatch({ type: 'success' })
+
+        // redirect to payment
+        Router.push({
+          pathname: '/payment',
+          query: { orderId }
+        })
+      })
+      .catch((error) => {
+        dispatch({ type: 'error', payload: error })
+      })
   }
 
   return (
@@ -100,7 +135,7 @@ export default function Options ({ shippingOptions }) {
                   items.map(item => <CartItem key={item.id} item={item} />)
                 }
 
-                <form className='p-4'>
+                <form onSubmit={checkoutSubmit} className='p-4'>
 
                   <div onChange={handleChange} name='shipping' className='flex flex-col items-center justify-center py-4'>
                     <h2 className='text-2xl text-center'>Shipping options</h2>
@@ -197,11 +232,12 @@ export default function Options ({ shippingOptions }) {
                   </div>
 
                   <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
-                    <Link href='/checkout/address'>
-                      <a className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'>
+                    <button
+                      type='submit'
+                      className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+                    >
                       Go to payment
-                      </a>
-                    </Link>
+                    </button>
                   </div>
                 </form>
               </>
