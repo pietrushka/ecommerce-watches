@@ -14,6 +14,7 @@ export default function ProductPage ({ watch }) {
   const {id, brand, model, price, cover, refCode} = watch
   const brandAndModel = `${brand} ${model}`
   const imageUrl = `${API_URL}${cover[0].url}`
+  console.log('img url from pdp', imageUrl)
 
   return (
     <>

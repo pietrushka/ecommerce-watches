@@ -1,13 +1,12 @@
 import { useCart } from '../hooks/useCart'
 
-const { API_URL } = process.env
-
 export default function CartItem ({ item }) {
   const { addItem, removeItem, clearItem } = useCart()
+  console.log(item.imageUrl)
 
   return (
     <div className='flex items-center'>
-      <img className='inline-block object-cover w-1/3' src={API_URL + item.imageUrl} />
+      <img className='inline-block object-cover w-1/3' src={item.imageUrl} />
 
       <span className='w-1/3 text-center'>{`${item.brand} ${item.model}`}</span>
 

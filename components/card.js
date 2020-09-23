@@ -38,6 +38,7 @@ export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
               model,
               price,
               refCode,
+              imageUrl,
               quantity: 1
             })}
             className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
