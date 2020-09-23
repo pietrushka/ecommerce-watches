@@ -2,6 +2,7 @@ import Head from 'next/head'
 
 import Layout from '../../components/layout'
 import FullNavbar from '../../components/full-navbar'
+import Heart from '../../components/heart'
 
 import { getWatchesPaths, getWatchById} from '../../lib/api'
 import { useCart } from '../../hooks/useCart'
@@ -13,9 +14,6 @@ export default function ProductPage ({ watch }) {
   const {id, brand, model, price, cover, refCode} = watch
   const brandAndModel = `${brand} ${model}`
   const imageUrl = `${API_URL}${cover[0].url}`
-
-  console.log({ brand, model, price, imageUrl, refCode, quantity: 1 })
-
 
   return (
     <>
@@ -47,9 +45,7 @@ export default function ProductPage ({ watch }) {
             <button className='inline-block w-8 h-8 mr-4 bg-gray-600 rounded-full cursor-pointer focus:outline-none' />
           </div>
 
-          <svg className='absolute top-0 right-0 w-12 mt-4 mr-4 cursor-pointer hover:text-red-600' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' />
-          </svg>
+          <Heart size='12' />
         </div>
 
         <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>

@@ -15,3 +15,8 @@
   padding: 0;
   top: 0;
 }
+
+:checked.fill-heart + label svg { 
+  color: #e53e3e;
+  fill: currentColor;
+}
