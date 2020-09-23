@@ -64,7 +64,6 @@ export const CartProvider = ({ children }) => {
   }
 
   const addItem = (item) => {
-    console.log(item)
     dispatch({ type: 'ADD_ITEM', payload: { ...item } })
   }
 

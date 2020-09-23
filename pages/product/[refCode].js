@@ -4,17 +4,13 @@ import Layout from '../../components/layout'
 import FullNavbar from '../../components/full-navbar'
 import Heart from '../../components/heart'
 
-import { getWatchesPaths, getWatchById} from '../../lib/api'
+import { getWatchesPaths, getWatchByRef} from '../../lib/api'
 import { useCart } from '../../hooks/useCart'
-
-const { API_URL } = process.env
 
 export default function ProductPage ({ watch }) {
   const { addItem } = useCart()
-  const {id, brand, model, price, cover, refCode} = watch
+  const {id, brand, model, price, imageUrl, refCode} = watch
   const brandAndModel = `${brand} ${model}`
-  const imageUrl = `${API_URL}${cover[0].url}`
-  console.log('img url from pdp', imageUrl)
 
   return (
     <>
@@ -70,7 +66,7 @@ export async function getStaticPaths () {
 }
 
 export async function getStaticProps ({ params }) {
-  const watch = await getWatchById(params.id)
+  const watch = await getWatchByRef(params.refCode)
 
   return { props: { watch } }
 }

@@ -29,8 +29,8 @@ export default function Home ({ watches }) {
         <div className='grid gap-5 px-10 py-8 '>
 
           {
-            watches.map(({ id, brand, price, model, cover, refCode }) => (
-              <Card key={id} id={id} brand={brand} model={model} imageUrl={cover[0].url} refCode={refCode} price={price} />
+            watches.map(({ id, brand, price, model, refCode, imageUrl }) => (
+              <Card key={id} id={id} brand={brand} model={model} imageUrl={imageUrl} refCode={refCode} price={price} />
             ))
           }
 

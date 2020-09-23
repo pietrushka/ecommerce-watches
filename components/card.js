@@ -5,24 +5,23 @@ import Heart from './heart'
 
 export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
   const { addItem } = useCart()
-  const { API_URL } = process.env
 
   return (
     <div className='bg-white rounded-lg shadow-lg'>
       <div className='relative p-2'>
-        <Link href={`/product/${id}`}>
+        <Link href={`/product/${refCode}`}>
           <a>
-            <img src={API_URL + imageUrl} />
+            <img src={imageUrl} />
           </a>
         </Link>
 
-        <Link href={`/product/${id}`}>
+        <Link href={`/product/${refCode}`}>
           <a>
             <h2 className='cursor-pointer'>{refCode}</h2>
           </a>
         </Link>
 
-        <Link href={`/product/${id}`}>
+        <Link href={`/product/${refCode}`}>
           <a>
             <h1 className='block text-2xl cursor-pointer'>{`${brand} ${model}`}</h1>
           </a>
