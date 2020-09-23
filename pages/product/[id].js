@@ -4,14 +4,18 @@ import Layout from '../../components/layout'
 import FullNavbar from '../../components/full-navbar'
 
 import { getWatchesPaths, getWatchById} from '../../lib/api'
+import { useCart } from '../../hooks/useCart'
 
 const { API_URL } = process.env
 
-
 export default function ProductPage ({ watch }) {
-  const { brand, model, price, cover, ref } = watch
+  const { addItem } = useCart()
+  const {id, brand, model, price, cover, refCode} = watch
   const brandAndModel = `${brand} ${model}`
   const imageUrl = `${API_URL}${cover[0].url}`
+
+  console.log({ brand, model, price, imageUrl, refCode, quantity: 1 })
+
 
   return (
     <>
@@ -34,7 +38,7 @@ export default function ProductPage ({ watch }) {
 
         <div className='relative p-4'>
 
-          <h2 className='text-lg cursor-pointer'>{ref}</h2>
+          <h2 className='text-lg cursor-pointer'>{refCode}</h2>
           <h1 className='block text-3xl cursor-pointer'>{brandAndModel}</h1>
 
           <div className='flex items-center justify-center mt-4'>
@@ -49,7 +53,9 @@ export default function ProductPage ({ watch }) {
         </div>
 
         <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
-          <button className='px-20 py-4 text-lg text-white rounded-full shadow-lg focus:outline-none bg-primary'>{`Add to cart $${price}`}</button>
+          <button 
+            onClick={() => addItem({ id, brand, model, price, imageUrl, refCode, quantity: 1 })}
+            className='px-20 py-4 text-lg text-white rounded-full shadow-lg focus:outline-none bg-primary'>{`Add to cart $${price}`}</button>
         </div>
 
         <div className='p-4'>
