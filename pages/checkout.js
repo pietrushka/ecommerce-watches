@@ -81,7 +81,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
   const getCartValueWithShippingCost = () => {
     const itemsValue = getCartValue()
     if (!shipping) return `$ ${itemsValue}`
-    const shippingCost = shippingOptions.find((option) => option.name === shipping).cost
+    const shippingCost = shippingOptions.find((option) => option.name === shipping).price
     return `$ ${itemsValue + shippingCost}`
   }
 
@@ -151,10 +151,10 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                     <h2 className='text-2xl text-center'>Shipping options</h2>
 
                     {
-                      shippingOptions.map(({ id, cost, name }, index) => (
+                      shippingOptions.map(({ id, price, name }, index) => (
                         <div key={id} className='w-full'>
                           <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} required />
-                          <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{`${name} $${cost}`}</label>
+                          <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{`${name} $${price}`}</label>
                         </div>
                       )
 
