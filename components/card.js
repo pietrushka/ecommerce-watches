@@ -17,13 +17,15 @@ export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
 
         <Link href={`/product/${refCode}`}>
           <a>
-            <h2 className='cursor-pointer'>{refCode}</h2>
+            <h3 className='lg:text-center'>{refCode}</h3>
           </a>
         </Link>
 
         <Link href={`/product/${refCode}`}>
           <a>
-            <h1 className='block text-2xl cursor-pointer'>{`${brand} ${model}`}</h1>
+            <h2 className='text-2xl lg:text-center'>
+              <span className='lg:block'>{brand}</span> <span className=''>{model}</span>
+            </h2>
           </a>
         </Link>
 
@@ -40,9 +42,9 @@ export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
               imageUrl,
               quantity: 1
             })}
-            className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+            className='w-11/12 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
           >
-            {`Add to cart $${price}`}
+            <p className='block'>{`Add to cart $${price}`}</p>
           </button>
         </div>
       </div>

@@ -82,13 +82,13 @@ export default function LoginPage () {
   }
 
   return (
-    <Layout color='bg-brown'>
+    <Layout alignCenter>
       <Head>
         <title>Login</title>
       </Head>
       <FullNavbar />
 
-      <div className='flex flex-col items-center justify-center h-auto py-10 my-auto rounded-lg bg-secondary'>
+      <div className='flex flex-col items-center justify-center w-11/12 h-auto py-8 my-auto rounded-lg shadow-2xl md:w-1/2 bg-secondary' style={{ maxWidth: '768px' }}>
         <div className='w-4/6'>
           <h2 className='w-full text-2xl'>Login</h2>
         </div>

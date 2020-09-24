@@ -5,6 +5,7 @@ import Cart from '../components/cart'
 
 import AppContext from '../context/app-context'
 import { logout } from '../lib/auth'
+import MenuList from './menu-list'
 
 export default function FullNavbar () {
   const { user, setUser } = useContext(AppContext)
@@ -29,16 +30,17 @@ export default function FullNavbar () {
 
           <Link href='/'>
             <a className='focus:outline-none'>
-              <h1 className='p-4 text-xl font-bold'>Sikory.</h1>
+              <h1 className='p-2 text-xl font-bold lg:text-2xl xl:text-3xl '>Sikory.</h1>
             </a>
           </Link>
 
-          <button onClick={() => setIsCartOpen(true)} className='px-4 cursor-pointer md:hidden focus:outline-none' id='burger'>
+          <MenuList orientation='horizontal' />
+
+          <button onClick={() => setIsCartOpen(true)} className='px-4 cursor-pointer focus:outline-none' id='burger'>
             <svg className='w-8' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z' />
             </svg>
           </button>
-
         </div>
 
       </nav>
