@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 
 export default function PrevPageNavbar () {
   const router = useRouter()
+  console.log(router)
 
   return (
     <>
