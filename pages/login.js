@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import Router from 'next/router'
+import Cookies from 'js-cookie'
 import { useReducer, useContext } from 'react'
 
 import Layout from '../components/layout'
@@ -28,6 +30,7 @@ const loginReducer = (state, action) => {
     case 'success': {
       return {
         ...state,
+        error: '',
         isLoading: false
       }
     }
@@ -35,7 +38,8 @@ const loginReducer = (state, action) => {
     case 'error': {
       return {
         ...state,
-        error: 'Error',
+        password: '',
+        error: action.payload,
         isLoading: false
       }
     }
@@ -57,7 +61,7 @@ export default function LoginPage () {
   const appContext = useContext(AppContext)
 
   const [state, dispatch] = useReducer(loginReducer, initialState)
-  const { identifier, password, isLoading } = state
+  const { identifier, password, isLoading, error } = state
 
   const handleChange = event => {
     dispatch({
@@ -67,18 +71,19 @@ export default function LoginPage () {
     })
   }
 
-  const onLogin = event => {
-    event.preventDefault()
-    dispatch({ type: 'login' })
-    loginUser(identifier, password)
-      .then((res) => {
-        // set authed user in global context object
-        appContext.setUser(res.data.user)
-        dispatch({ type: 'success' })
-      })
-      .catch((error) => {
-        dispatch({ type: 'error', payload: error })
-      })
+  const onLogin = async event => {
+    try {
+      event.preventDefault()
+      dispatch({ type: 'login' })
+      const res = await loginUser(identifier, password)
+      dispatch({ type: 'success' })
+      Cookies.set('token', res.data.jwt, { expires: 1 })
+      appContext.setUser(res.data.user)
+      Router.push('/')
+    } catch (error) {
+      const message = error.response.data.message[0].messages[0].message
+      dispatch({ type: 'error', payload: message })
+    }
   }
 
   return (
@@ -89,8 +94,8 @@ export default function LoginPage () {
       <FullNavbar />
 
       <div className='flex flex-col items-center justify-center w-11/12 h-auto py-8 my-auto rounded-lg shadow-2xl md:w-1/2 bg-secondary' style={{ maxWidth: '768px' }}>
-        <div className='w-4/6'>
-          <h2 className='w-full text-2xl'>Login</h2>
+        <div className='w-4/6 '>
+          <h2 className='w-full py-4 text-2xl'>Login</h2>
         </div>
 
         <form
@@ -104,6 +109,7 @@ export default function LoginPage () {
             labelText='Identifier'
             aria-label='identifier-input'
             value={identifier}
+            required
             handleChange={handleChange}
           />
 
@@ -113,16 +119,19 @@ export default function LoginPage () {
             labelText='Password'
             aria-label='password-input'
             value={password}
+            required
             handleChange={handleChange}
           />
 
-          <div className='flex items-center justify-center w-full pt-8'>
+          <p className='h-8 py-2 text-center text-red-600 '>{error}</p>
+
+          <div className='flex items-center justify-center w-full pt-4'>
             <button
               type='submit'
               disabled={isLoading}
-              className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+              className='w-1/3 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
             >
-            Login
+              {!isLoading ? 'Login' : 'Loading...'}
             </button>
           </div>
         </form>

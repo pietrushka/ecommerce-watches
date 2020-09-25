@@ -39,31 +39,15 @@ export const loginUser = (identifier, password) => {
     return
   }
 
-  return new Promise((resolve, reject) => {
-    const requestBody = { identifier, password }
-    const url = `${API_URL}/auth/local`
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+  const requestBody = { identifier, password }
+  const url = `${API_URL}/auth/local`
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
     }
+  }
 
-    axios.post(url, JSON.stringify(requestBody), config)
-      .then((res) => {
-        // set token response from Strapi for server validation
-        Cookies.set('token', res.data.jwt, { expires: 1 })
-
-        // resolve the promise to set loading to false in SignUp form
-        resolve(res)
-
-        // redirect back to home page for restaurance selection
-        Router.push('/')
-      })
-      .catch((error) => {
-        // reject the promise and pass the error object back to the form
-        reject(error)
-      })
-  })
+  return axios.post(url, JSON.stringify(requestBody), config)
 }
 
 export const logout = () => {
