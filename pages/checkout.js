@@ -9,7 +9,7 @@ import CartItem from '../components/cart-item'
 
 import { useCart } from '../hooks/useCart'
 import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
-import { placeOrder } from '../lib/order'
+import { placeOrder } from '../utils/order'
 
 const checkoutReducer = (state, action) => {
   switch (action.type) {

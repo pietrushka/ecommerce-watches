@@ -20,3 +20,13 @@
   color: #e53e3e;
   fill: currentColor;
 }
+
+.handle-rounded[open] summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.handle-rounded[open] ul {
+  border-top-left-radius: 0;
+  border-top-left-radius: 0;
+}
