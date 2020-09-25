@@ -106,6 +106,7 @@ export default function LoginPage () {
           <InputField
             name='identifier'
             type='text'
+            autoFocus
             labelText='Identifier'
             aria-label='identifier-input'
             value={identifier}
