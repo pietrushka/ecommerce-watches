@@ -60,8 +60,8 @@ const checkoutReducer = (state, action) => {
 }
 
 const initialState = {
-  shipping: '',
-  payment: '',
+  shipping: 'DHL',
+  payment: 'Cash on delivery',
   firstName: '',
   lastName: '',
   zipCode: '',
@@ -154,7 +154,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                       {
                         shippingOptions.map(({ id, price, name }, index) => (
                           <div key={id} className='w-full'>
-                            <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} required />
+                            <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} checked={shipping === name} required />
                             <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{`${name} $${price}`}</label>
                           </div>
                         )
@@ -171,7 +171,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                       {
                         paymentOptions.map(({ id, name }) => (
                           <div key={id} className='w-full'>
-                            <input className='hidden fill-label' type='radio' name='payment' value={name} id={name} required />
+                            <input className='hidden fill-label' type='radio' name='payment' value={name} id={name} checked={payment === name} required />
                             <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{name}</label>
                           </div>
                         ))
