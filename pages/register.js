@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
-import { useReducer, useContext } from 'react'
+import { useReducer, useContext, useRef } from 'react'
 
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import InputField from '../components/input-field'
 
+import { setFocus } from '../utils/utils'
 import { registerUser } from '../utils/auth'
 import AppContext from '../context/app-context'
 
@@ -58,6 +59,8 @@ const initialState = {
 
 export default function RegisterPage () {
   const appContext = useContext(AppContext)
+  const usernameRef = useRef(null)
+  const emailRef = useRef(null)
 
   const [state, dispatch] = useReducer(registerReducer, initialState)
   const { username, email, password, isLoading, error } = state
@@ -81,6 +84,8 @@ export default function RegisterPage () {
       Router.push('/')
     } catch (error) {
       const message = error.response.data.message[0].messages[0].message
+      if (message === 'Username already taken') setFocus(usernameRef)
+      if (message === 'Email is already taken.') setFocus(emailRef)
       dispatch({ type: 'error', payload: message })
     }
   }
@@ -106,6 +111,7 @@ export default function RegisterPage () {
             autoFocus
             labelText='Username'
             value={username}
+            reference={usernameRef}
             required
             handleChange={handleChange}
           />
@@ -115,6 +121,7 @@ export default function RegisterPage () {
             type='email'
             labelText='E-mail'
             value={email}
+            reference={emailRef}
             required
             handleChange={handleChange}
           />

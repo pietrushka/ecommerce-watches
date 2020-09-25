@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
-import { useReducer, useContext } from 'react'
+import { useReducer, useContext, useRef } from 'react'
 
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import InputField from '../components/input-field'
 
+import { setFocus } from '../utils/utils'
 import { loginUser } from '../utils/auth'
 import AppContext from '../context/app-context'
 
@@ -59,6 +60,7 @@ const initialState = {
 
 export default function LoginPage () {
   const appContext = useContext(AppContext)
+  const passwordRef = useRef()
 
   const [state, dispatch] = useReducer(loginReducer, initialState)
   const { identifier, password, isLoading, error } = state
@@ -120,6 +122,7 @@ export default function LoginPage () {
             labelText='Password'
             aria-label='password-input'
             value={password}
+            reference={passwordRef}
             required
             handleChange={handleChange}
           />
