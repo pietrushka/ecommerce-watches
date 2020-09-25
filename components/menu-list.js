@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import Link from 'next/link'
 
-import { logout } from '../lib/auth'
+import { logout } from '../utils/auth'
 import AppContext from '../context/app-context'
 
 export default function MenuList ({ orientation }) {

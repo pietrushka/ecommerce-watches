@@ -5,11 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "test": "jest --watch",
     "start": "next start",
     "stripe": "cd .. && cd watches-strapi && npm run develop",
     "both": "concurrently \"npm run dev\" \"npm run stripe\""
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.4",
     "axios": "^0.20.0",
     "dotenv": "^8.2.0",
     "js-cookie": "^2.2.1",
@@ -21,6 +24,10 @@
     "tailwindcss": "^1.8.10"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0"
-  }
+    "concurrently": "^5.3.0",
+    "jest": "^26.4.2"
+  },
+  "standard": {
+    "env": [ "jest" ]
+  } 
 }

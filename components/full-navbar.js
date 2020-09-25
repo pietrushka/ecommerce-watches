@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Cart from '../components/cart'
 
 import AppContext from '../context/app-context'
-import { logout } from '../lib/auth'
+import { logout } from '../utils/auth'
 import MenuList from './menu-list'
 
 export default function FullNavbar () {

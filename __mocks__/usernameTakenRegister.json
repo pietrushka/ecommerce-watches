@@ -1,0 +1,24 @@
+{
+    "statusCode": 400,
+    "error": "Bad Request",
+    "message": [
+        {
+            "messages": [
+                {
+                    "id": "Auth.form.error.username.taken",
+                    "message": "Username already taken"
+                }
+            ]
+        }
+    ],
+    "data": [
+        {
+            "messages": [
+                {
+                    "id": "Auth.form.error.username.taken",
+                    "message": "Username already taken"
+                }
+            ]
+        }
+    ]
+}

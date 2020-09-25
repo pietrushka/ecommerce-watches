@@ -5,7 +5,7 @@ import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import InputField from '../components/input-field'
 
-import { loginUser } from '../lib/auth'
+import { loginUser } from '../utils/auth'
 import AppContext from '../context/app-context'
 
 const loginReducer = (state, action) => {
@@ -101,7 +101,8 @@ export default function LoginPage () {
           <InputField
             name='identifier'
             type='text'
-            labelText='E-mail'
+            labelText='Identifier'
+            aria-label='identifier-input'
             value={identifier}
             handleChange={handleChange}
           />
@@ -110,6 +111,7 @@ export default function LoginPage () {
             name='password'
             type='password'
             labelText='Password'
+            aria-label='password-input'
             value={password}
             handleChange={handleChange}
           />
