@@ -28,7 +28,7 @@ export default function Cart ({ hideCart }) {
 
       <div className='flex justify-center'>
         <div ref={refCart} className='fixed bottom-0 z-50 flex flex-col max-h-full p-4 m-4 transition-transform duration-200 ease-out transform translate-y-full bg-white rounded-lg md:w-3/4 xl:w-1/2'>
-          <div className='relative py-2 my-1'>
+          <div className='relative py-1 my-1'>
             <h2 className='text-4xl text-center'>Cart</h2>
             <button onClick={animateOut} className='absolute top-0 right-0 w-1/12 focus:outline-none'>
               <svg className='ml-auto' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
@@ -47,7 +47,7 @@ export default function Cart ({ hideCart }) {
                     }
                   </div>
 
-                  <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
+                  <div className='flex items-center justify-center w-full my-1 rounded-t-lg '>
                     <Link href='/checkout'>
                       <a className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'>
                         {`Checkout $${cartValue}`}
