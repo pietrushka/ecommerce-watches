@@ -1,11 +1,13 @@
 import Head from 'next/head'
+import Router from 'next/router'
+import Cookies from 'js-cookie'
 import { useReducer, useContext } from 'react'
 
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import InputField from '../components/input-field'
 
-import { registerUser } from '../lib/auth'
+import { registerUser } from '../utils/auth'
 import AppContext from '../context/app-context'
 
 const registerReducer = (state, action) => {
@@ -35,7 +37,7 @@ const registerReducer = (state, action) => {
     case 'error': {
       return {
         ...state,
-        error: 'Error',
+        error: action.payload,
         isLoading: false
       }
     }
@@ -68,18 +70,19 @@ export default function RegisterPage () {
     })
   }
 
-  const onRegister = event => {
-    event.preventDefault()
-    dispatch({ type: 'register' })
-    registerUser(username, email, password)
-      .then((res) => {
-        // set authed user in global context object
-        appContext.setUser(res.data.user)
-        dispatch({ type: 'success' })
-      })
-      .catch((error) => {
-        dispatch({ type: 'error', payload: error })
-      })
+  const onRegister = async event => {
+    try {
+      event.preventDefault()
+      dispatch({ type: 'register' })
+      const res = await registerUser(username, email, password)
+      dispatch({ type: 'success' })
+      appContext.setUser(res.data.user)
+      Cookies.set('token', res.data.jwt, { expires: 1 })
+      Router.push('/')
+    } catch (error) {
+      const message = error.response.data.message[0].messages[0].message
+      dispatch({ type: 'error', payload: message })
+    }
   }
 
   return (
@@ -100,6 +103,7 @@ export default function RegisterPage () {
           <InputField
             name='username'
             type='text'
+            autoFocus
             labelText='Username'
             value={username}
             required
@@ -124,13 +128,15 @@ export default function RegisterPage () {
             handleChange={handleChange}
           />
 
-          <div className='flex items-center justify-center w-full pt-8'>
+          <p className='h-8 py-2 text-center text-red-600 '>{error}</p>
+
+          <div className='flex items-center justify-center w-full pt-4'>
             <button
               type='submit'
               disabled={isLoading}
-              className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+              className='w-1/3 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
             >
-                Register
+              {!isLoading ? 'Register' : 'Loading...'}
             </button>
           </div>
 
