@@ -85,6 +85,7 @@ export default function LoginPage () {
     } catch (error) {
       const message = error.response.data.message[0].messages[0].message
       dispatch({ type: 'error', payload: message })
+      setFocus(passwordRef)
     }
   }
 
