@@ -61,9 +61,10 @@ export default function RegisterPage () {
   const appContext = useContext(AppContext)
   const usernameRef = useRef(null)
   const emailRef = useRef(null)
-
   const [state, dispatch] = useReducer(registerReducer, initialState)
   const { username, email, password, isLoading, error } = state
+
+  if (appContext.isAuthenticated) Router.push('/')
 
   const handleChange = event => {
     dispatch({

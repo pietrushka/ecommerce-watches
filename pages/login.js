@@ -61,9 +61,10 @@ const initialState = {
 export default function LoginPage () {
   const appContext = useContext(AppContext)
   const passwordRef = useRef()
-
   const [state, dispatch] = useReducer(loginReducer, initialState)
   const { identifier, password, isLoading, error } = state
+
+  if (appContext.isAuthenticated) Router.push('/')
 
   const handleChange = event => {
     dispatch({
