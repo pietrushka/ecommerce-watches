@@ -1,13 +1,18 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import Card from '../components/card'
 
 export default function WatchesOverview ({ watches }) {
+  const sortOptRef = useRef(null)
   const [searchBox, setSearchBox] = useState('')
   const [sortValue, setSortValue] = useState('default')
 
   const handleChange = event => {
     setSortValue(event.target.value)
+  }
+
+  const closeDetails = event => {
+    sortOptRef.current.removeAttribute('open')
   }
 
   const searchConditions = watch => {
@@ -36,20 +41,20 @@ export default function WatchesOverview ({ watches }) {
       </div>
 
       <div className='flex justify-center py-4'>
-        <details className='w-1/4 text-center handle-rounded'>
+        <details ref={sortOptRef} className='w-1/4 text-center handle-rounded'>
           <summary className='text-xl rounded-lg outline-none cursor-pointer bg-primary text-secondary'>Sort by</summary>
           <ul onChange={handleChange} className='absolute z-20 w-1/4 p-4 text-lg rounded-b-lg shadow-md bg-secondary'>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='default' id='default' defaultChecked={sortValue === 'default'} />
-              <label htmlFor='default' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Default</label>
+              <label onClick={closeDetails} htmlFor='default' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Default</label>
             </li>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='lowestPrice' id='lowestPrice' />
-              <label htmlFor='lowestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Lowest price</label>
+              <label onClick={closeDetails} htmlFor='lowestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Lowest price</label>
             </li>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='highestPrice' id='highestPrice' />
-              <label htmlFor='highestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Highest price</label>
+              <label onClick={closeDetails} htmlFor='highestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Highest price</label>
             </li>
           </ul>
         </details>
