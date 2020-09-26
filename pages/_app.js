@@ -24,7 +24,6 @@ export default function App ({ Component, pageProps }) {
           Authorization: `Bearer ${token}`
         }
       }).then(async (res) => {
-        console.log(res)
         // if res comes back not valid, token is not valid
         // delete the token and log the user out on client
         if (res.statusText !== 'OK') {
