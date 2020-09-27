@@ -48,8 +48,6 @@ export const CartProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    // if (!isAuthenticated) {
-    // }
     window.localStorage.setItem('items', JSON.stringify(state.items))
   }, [state.items])
 

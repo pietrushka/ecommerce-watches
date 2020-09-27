@@ -2,9 +2,10 @@
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { CartProvider } from '../hooks/useCart'
 
 import AppContext from '../context/app-context'
+import { CartProvider } from '../hooks/useCart'
+import { FavoritesProvider } from '../hooks/useFavorites'
 
 import '../styles/index.css'
 
@@ -40,9 +41,11 @@ export default function App ({ Component, pageProps }) {
   return (
     <AppContext.Provider value={providerValue}>
       <CartProvider>
-        <div>
-          <Component {...pageProps} />
-        </div>
+        <FavoritesProvider>
+          <div>
+            <Component {...pageProps} />
+          </div>
+        </FavoritesProvider>
       </CartProvider>
     </AppContext.Provider>
   )

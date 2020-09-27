@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { useCart } from '../hooks/useCart'
 import Heart from './heart'
 
-export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
+export default function Card ({ item }) {
+  // console.log('item from card.js', item)
+  const { id, brand, price, model, refCode, imageUrl } = item
   const { addItem } = useCart()
 
   return (
@@ -29,7 +31,7 @@ export default function Card ({ id, brand, model, price, imageUrl, refCode }) {
           </a>
         </Link>
 
-        <Heart size='10' />
+        <Heart size='10' item={item} />
 
         <div className='flex items-center justify-center w-full py-4'>
           <button
