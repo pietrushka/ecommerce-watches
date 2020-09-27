@@ -9,24 +9,26 @@ export default function Card ({ item }) {
   const { id, brand, price, model, refCode, imageUrl } = item
   const { addItem } = useCart()
 
+  const pdpLink = `/product/${id}`
+
   const addToCart = () => addItem(({ id, brand, model, price, refCode, imageUrl, quantity: 1 }))
 
   return (
     <div className='bg-white rounded-lg shadow-lg'>
       <div className='relative p-2'>
-        <Link href={`/product/${refCode}`}>
+        <Link href={pdpLink}>
           <a>
             <img src={imageUrl} />
           </a>
         </Link>
 
-        <Link href={`/product/${refCode}`}>
+        <Link href={pdpLink}>
           <a>
             <h3 className='lg:text-center'>{refCode}</h3>
           </a>
         </Link>
 
-        <Link href={`/product/${refCode}`}>
+        <Link href={pdpLink}>
           <a>
             <h2 className='text-2xl lg:text-center'>
               <span className='lg:block'>{brand}</span> <span className=''>{model}</span>

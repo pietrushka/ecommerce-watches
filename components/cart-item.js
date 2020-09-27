@@ -6,7 +6,7 @@ export default function CartItem ({ item }) {
 
   return (
     <div className='flex items-center justify-around'>
-      <Link href={`/${item.refCode}`}>
+      <Link href={`/${item.id}`}>
         <a className='w-1/3'><img classame='inline-block object-cover' src={item.imageUrl} /></a>
       </Link>
 

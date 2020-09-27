@@ -7,7 +7,7 @@ export default function Heart ({ item, size }) {
   const { favorites, addFavorite, removeFavorite } = useFavorites()
 
   useEffect(() => {
-    const isFavExist = favorites.find(favorite => favorite.refCode === item.refCode)
+    const isFavExist = favorites.find(favorite => favorite.id === item.id)
     isFavExist ? setFavorite(true) : setFavorite(false)
   })
 

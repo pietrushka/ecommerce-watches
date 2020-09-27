@@ -70,7 +70,7 @@ export async function getStaticPaths () {
 }
 
 export async function getStaticProps ({ params }) {
-  const watch = await getWatchByRef(params.refCode)
+  const watch = await getWatchByRef(params.id)
 
   return { props: { watch } }
 }
