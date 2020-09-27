@@ -1,6 +1,7 @@
 import React, { useReducer, useContext, createContext, useEffect } from 'react'
 
-import { addItemToFavorites, removeItemFromFavorites } from '../utils/favorites-utils'
+import AppContext from '../context/app-context'
+import { addItemToFavorites, removeItemFromFavorites, putFavoritesOnDB } from '../utils/favorites-utils'
 
 const FavoritesContext = createContext()
 
@@ -34,7 +35,20 @@ const initialState = {
 }
 
 export const FavoritesProvider = ({ children }) => {
+  const { user, isAuthenticated } = useContext(AppContext)
+
   const [state, dispatch] = useReducer(cartReducer, initialState)
+
+  const saveFavoritesInDB = async () => {
+    const favIds = state.favorites.map(favorite => favorite.id)
+    console.log('favIds: ', favIds)
+    try {
+      const res = await putFavoritesOnDB(favIds)
+      console.log(res)
+    } catch (err) {
+      console.log(err.response)
+    }
+  }
 
   useEffect(() => {
     if (state.favorites.length === 0) setFavorites()
@@ -42,6 +56,11 @@ export const FavoritesProvider = ({ children }) => {
 
   useEffect(() => {
     window.localStorage.setItem('favorites', JSON.stringify(state.favorites))
+
+    if (isAuthenticated) {
+      console.log('user from fav hook: ', user)
+      saveFavoritesInDB()
+    }
   }, [state.favorites])
 
   const setFavorites = () => {

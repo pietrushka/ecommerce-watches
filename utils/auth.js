@@ -1,6 +1,7 @@
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import qs from 'qs'
 
 const API_URL = process.env.API_URL
 
@@ -18,7 +19,7 @@ export const registerUser = (username, email, password) => {
     }
   }
 
-  return axios.post(url, JSON.stringify(requestBody), config)
+  return axios.post(url, qs.stringify(requestBody), config)
 }
 
 export const loginUser = (identifier, password) => {
