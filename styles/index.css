@@ -16,11 +16,6 @@
   top: 0;
 }
 
-:checked.fill-heart + label svg { 
-  color: #e53e3e;
-  fill: currentColor;
-}
-
 .handle-rounded[open] summary {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;

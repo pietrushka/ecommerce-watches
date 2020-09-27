@@ -42,7 +42,6 @@ export const FavoritesProvider = ({ children }) => {
 
   useEffect(() => {
     window.localStorage.setItem('favorites', JSON.stringify(state.favorites))
-    console.log(state.favorites)
   }, [state.favorites])
 
   const setFavorites = () => {

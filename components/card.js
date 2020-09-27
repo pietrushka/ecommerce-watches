@@ -5,7 +5,6 @@ import CustomButton from './custom-button'
 import Heart from './heart'
 
 export default function Card ({ item }) {
-  // console.log('item from card.js', item)
   const { id, brand, price, model, refCode, imageUrl } = item
   const { addItem } = useCart()
 
