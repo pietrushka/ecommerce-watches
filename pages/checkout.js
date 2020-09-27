@@ -6,6 +6,7 @@ import Layout from '../components/layout'
 import InputField from '../components/input-field'
 import PrevPageNavbar from '../components/prev-page-navbar'
 import CartItem from '../components/cart-item'
+import CustomButton from '../components/custom-button'
 
 import { useCart } from '../hooks/useCart'
 import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
@@ -252,12 +253,13 @@ export default function Options ({ shippingOptions, paymentOptions }) {
                     </div>
 
                     <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
-                      <button
+                      <CustomButton
+                        width='w-2/3'
                         type='submit'
-                        className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+
                       >
                       Submit {getCartValueWithShippingCost()}
-                      </button>
+                      </CustomButton>
                     </div>
                   </form>
                 </>

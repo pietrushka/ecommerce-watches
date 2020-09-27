@@ -6,6 +6,7 @@ import { useReducer, useContext, useRef } from 'react'
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import InputField from '../components/input-field'
+import CustomButton from '../components/custom-button'
 
 import { setFocus } from '../utils/utils'
 import { loginUser } from '../utils/auth'
@@ -132,13 +133,13 @@ export default function LoginPage () {
           <p className='h-8 py-2 text-center text-red-600 '>{error}</p>
 
           <div className='flex items-center justify-center w-full pt-4'>
-            <button
+            <CustomButton
               type='submit'
               disabled={isLoading}
-              className='w-1/3 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+              width='w-1/3'
             >
               {!isLoading ? 'Login' : 'Loading...'}
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>

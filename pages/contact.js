@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import InputField from '../components/input-field'
+import CustomButton from '../components/custom-button'
 
 export default function ContactPage () {
   const [email, setEmail] = useState('')
@@ -13,7 +14,7 @@ export default function ContactPage () {
   // simulate call to lambda function
   const sendMessage = (email, message) => {
     return new Promise(function (resolve) {
-      setTimeout(() => resolve(window.alert(message)), 2000)
+      setTimeout(() => resolve(window.alert('send message: ', message)), 2000)
     })
   }
 
@@ -63,13 +64,13 @@ export default function ContactPage () {
           />
 
           <div className='flex items-center justify-center w-3/4 pt-4 xl:pt-8'>
-            <button
+            <CustomButton
               type='submit'
               disabled={isLoading}
-              className='w-3/4 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+              width='w-3/4'
             >
               {!isLoading ? 'Send message' : 'Loading...'}
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>

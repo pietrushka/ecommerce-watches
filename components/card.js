@@ -1,12 +1,15 @@
 import Link from 'next/link'
 
 import { useCart } from '../hooks/useCart'
+import CustomButton from './custom-button'
 import Heart from './heart'
 
 export default function Card ({ item }) {
   // console.log('item from card.js', item)
   const { id, brand, price, model, refCode, imageUrl } = item
   const { addItem } = useCart()
+
+  const addToCart = () => addItem(({ id, brand, model, price, refCode, imageUrl, quantity: 1 }))
 
   return (
     <div className='bg-white rounded-lg shadow-lg'>
@@ -34,20 +37,12 @@ export default function Card ({ item }) {
         <Heart size='10' item={item} />
 
         <div className='flex items-center justify-center w-full py-4'>
-          <button
-            onClick={() => addItem({
-              id,
-              brand,
-              model,
-              price,
-              refCode,
-              imageUrl,
-              quantity: 1
-            })}
-            className='w-11/12 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'
+          <CustomButton
+            width='w-11/12'
+            onClick={addToCart}
           >
             <p className='block'>{`Add to cart $${price}`}</p>
-          </button>
+          </CustomButton>
         </div>
       </div>
     </div>
