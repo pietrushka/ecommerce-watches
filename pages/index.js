@@ -1,17 +1,17 @@
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 
-import { getAllWatches } from '../lib/api'
-import WatchesOverview from '../components/watches-overview'
+import { getAllItems } from '../lib/api'
+import ItemsOverview from '../components/items-overview'
 
-export default function Home ({ watches }) {
+export default function Home ({ items }) {
   return (
     <>
       <Layout>
 
         <FullNavbar />
 
-        <WatchesOverview watches={watches} />
+        <ItemsOverview items={items} />
 
       </Layout>
     </>
@@ -19,10 +19,10 @@ export default function Home ({ watches }) {
 }
 
 export async function getServerSideProps () {
-  const data = await getAllWatches()
+  const data = await getAllItems()
   return {
     props: {
-      watches: data
+      items: data
     }
   }
 }

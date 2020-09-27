@@ -4,12 +4,12 @@ import Layout from '../../components/layout'
 import FullNavbar from '../../components/full-navbar'
 import Heart from '../../components/heart'
 
-import { getWatchesPaths, getWatchByRef} from '../../lib/api'
+import { getItemsPaths, getItemById} from '../../lib/api'
 import { useCart } from '../../hooks/useCart'
 
-export default function ProductPage ({ watch }) {
+export default function ProductPage ({ item }) {
   const { addItem } = useCart()
-  const {id, brand, model, price, imageUrl, refCode} = watch
+  const {id, brand, model, price, imageUrl, refCode} = item
   const brandAndModel = `${brand} ${model}`
 
   return (
@@ -42,7 +42,7 @@ export default function ProductPage ({ watch }) {
                 <button className='inline-block w-8 h-8 mr-4 bg-gray-600 rounded-full cursor-pointer focus:outline-none' />
               </div>
 
-              <Heart size='12' item={watch} />
+              <Heart size='12' item={item} />
             </div>
 
             <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
@@ -64,13 +64,13 @@ export default function ProductPage ({ watch }) {
 }
 
 export async function getStaticPaths () {
-  const paths = await getWatchesPaths()
+  const paths = await getItemsPaths()
 
   return { paths, fallback: false }
 }
 
 export async function getStaticProps ({ params }) {
-  const watch = await getWatchByRef(params.id)
+  const item = await getItemById(params.id)
 
-  return { props: { watch } }
+  return { props: { item } }
 }

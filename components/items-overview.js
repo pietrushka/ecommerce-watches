@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 
-import Card from '../components/card'
+import Card from './card'
 
-export default function WatchesOverview ({ watches }) {
+export default function ItemsOverview ({ items }) {
   const sortOptRef = useRef(null)
   const [searchBox, setSearchBox] = useState('')
   const [sortValue, setSortValue] = useState('default')
@@ -15,19 +15,20 @@ export default function WatchesOverview ({ watches }) {
     sortOptRef.current.removeAttribute('open')
   }
 
-  const searchConditions = watch => {
+  const searchConditions = item => {
     const searchQuery = searchBox.toLowerCase().trim()
-    return watch.brand.toLowerCase(searchQuery).includes() || watch.model.toLowerCase().includes(searchQuery)
+    return item.brand.toLowerCase(searchQuery).includes() || item.model.toLowerCase().includes(searchQuery)
   }
-  const searchedWatches = watches.filter(watch => searchConditions(watch))
+  const searchedItems = items.filter(item => searchConditions(item))
 
-  const sortWatches = () => {
-    if (sortValue === 'lowestPrice') return searchedWatches.sort((watch, prevWatch) => parseFloat(watch.price) - parseFloat(prevWatch.price))
-    if (sortValue === 'highestPrice') return searchedWatches.sort((watch, prevWatch) => parseFloat(prevWatch.price) - parseFloat(watch.price))
-    return searchedWatches
+  const sortItems = () => {
+    if (sortValue === 'lowestPrice') return searchedItems.sort((item, prevItem) => parseFloat(item.price) - parseFloat(prevItem.price))
+    if (sortValue === 'highestPrice') return searchedItems.sort((item, prevItem) => parseFloat(prevItem.price) - parseFloat(item.price))
+    return searchedItems
   }
 
-  const sortedWatches = sortWatches()
+  const sortedItems = sortItems()
+
   return (
     <>
       <div className='flex justify-center py-4'>
@@ -62,7 +63,7 @@ export default function WatchesOverview ({ watches }) {
 
       <div className='grid gap-5 px-8 py-8 mx-auto sm:gap-2 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:gap-8 lg:w-10/12'>
         {
-          sortedWatches.map(({ id, brand, price, model, refCode, imageUrl }) => (
+          sortedItems.map(({ id, brand, price, model, refCode, imageUrl }) => (
             <Card key={id} item={{ id, brand, price, model, refCode, imageUrl }} />
           ))
         }
