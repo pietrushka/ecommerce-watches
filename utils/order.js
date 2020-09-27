@@ -1,5 +1,4 @@
 import axios from 'axios'
-import qs from 'qs'
 
 const { API_URL } = process.env
 
@@ -11,7 +10,7 @@ export async function placeOrder (requestBody) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }
-    axios.post(url, qs.stringify(requestBody), config)
+    axios.post(url, JSON.stringify(requestBody), config)
       .then((res) => {
         resolve({ orderId: res.data.id, paymentMethod: res.data.methods.payment })
       })
