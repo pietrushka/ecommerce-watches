@@ -1,4 +1,3 @@
-const path = require('path')
 require('dotenv').config()
 
 module.exports = {
@@ -6,9 +5,13 @@ module.exports = {
     API_URL: process.env.API_URL
   },
 
-  webpack: config => {
-    config.resolve.alias.components = path.join(__dirname, 'components')
-    config.resolve.alias.public = path.join(__dirname, 'public')
+  webpack: (config, { isServer }) => {
+    // Fixes npm packages that depend on `fs` module
+    if (!isServer) {
+      config.node = {
+        fs: 'empty'
+      }
+    }
 
     return config
   }
