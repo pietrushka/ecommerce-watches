@@ -8,11 +8,11 @@ import AppContext from '../context/app-context'
 export default function MenuList ({ orientation }) {
   const { user, setUser } = useContext(AppContext)
 
-  const liPadding = orientation === 'horizontal' ? 'px-4' : 'p-6'
+  const liStyles = orientation === 'horizontal' ? 'px-4' : 'px-8 py-5 text-center bg-white my-4 rounded-lg shadow-lg'
 
   const ulClassNames = orientation === 'horizontal'
     ? 'hidden md:flex lg:text-xl xl:text-2xl'
-    : 'text-2xl'
+    : 'text-3xl'
 
   const logout = () => {
     // remove token and user cookie
@@ -28,35 +28,35 @@ export default function MenuList ({ orientation }) {
   return (
 
     <ul className={` text-center ${ulClassNames} `}>
-      <li className={liPadding}>
+      <li className={liStyles}>
         <Link href='/favorites'>
           <a>Favorites</a>
         </Link>
       </li>
-      <li className={liPadding}>
+      <li className={liStyles}>
         <Link href='/orders'>
           <a>Orders</a>
         </Link>
       </li>
-      <li className={liPadding}>
+      <li className={liStyles}>
         <Link href='/contact'>
           <a>Contact</a>
         </Link>
       </li>
       {user ? (
-        <li className={liPadding}>
+        <li className={liStyles}>
           <button onClick={logout}>
                 Logout
           </button>
         </li>
       ) : (
         <>
-          <li className={liPadding}>
+          <li className={liStyles}>
             <Link href='/register'>
               <a>Register</a>
             </Link>
           </li>
-          <li className={liPadding}>
+          <li className={liStyles}>
             <Link href='/login'>
               <a>Login</a>
             </Link>
