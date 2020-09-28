@@ -1,5 +1,3 @@
-import Router from 'next/router'
-import Cookies from 'js-cookie'
 import axios from 'axios'
 import qs from 'qs'
 
@@ -32,15 +30,4 @@ export const loginUser = (identifier, password) => {
   }
 
   return axios.post(url, JSON.stringify(requestBody), config)
-}
-
-export const logout = () => {
-  if (typeof window === 'undefined') {
-    return
-  }
-  // remove token and user cookie
-  Cookies.remove('token')
-  delete window.__user
-  // redirect to the home page
-  Router.reload()
 }

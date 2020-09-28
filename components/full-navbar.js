@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
+import Cookies from 'js-cookie'
 
 import Cart from '../components/cart'
 
 import AppContext from '../context/app-context'
-import { logout } from '../utils/auth'
 import MenuList from './menu-list'
 
 export default function FullNavbar () {
@@ -13,6 +14,18 @@ export default function FullNavbar () {
 
   const toggleHamburger = () => {
     document.querySelector('#overlay-menu').classList.toggle('translate-y-full')
+  }
+
+  const logout = () => {
+    logout()
+    setUser(null)
+    Router.reload()
+    // remove token and user cookie
+    Cookies.remove('token')
+    delete window.__user
+
+    // redirect to the home page
+    Router.reload()
   }
 
   return (
@@ -65,10 +78,7 @@ export default function FullNavbar () {
           {user ? (
             <li className='p-6 text-center'>
               <button
-                onClick={() => {
-                  logout()
-                  setUser(null)
-                }}
+                onClick={logout}
               >
                 Logout
               </button>
