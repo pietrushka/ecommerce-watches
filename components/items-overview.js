@@ -41,10 +41,10 @@ export default function ItemsOverview ({ items }) {
         />
       </div>
 
-      <div className='flex justify-center py-4'>
-        <details ref={sortOptRef} className='w-1/4 text-center handle-rounded'>
+      <div className='flex justify-center py-4 select-none'>
+        <details ref={sortOptRef} className='w-1/2 max-w-sm text-center md:w-1/3 lg:w-1/4 handle-rounded'>
           <summary className='text-xl rounded-lg outline-none cursor-pointer bg-primary text-secondary'>Sort by</summary>
-          <ul onChange={handleChange} className='absolute z-20 w-1/4 p-4 text-lg rounded-b-lg shadow-md bg-secondary'>
+          <ul onChange={handleChange} className='absolute z-20 w-1/2 max-w-sm p-4 text-lg rounded-b-lg shadow-lg md:w-1/3 lg:w-1/4 bg-secondary'>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='default' id='default' defaultChecked={sortValue === 'default'} />
               <label onClick={closeDetails} htmlFor='default' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Default</label>
