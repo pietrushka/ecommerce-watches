@@ -1,85 +1,55 @@
-import React, { useReducer, useContext, createContext, useEffect } from 'react'
+import React, { useReducer, useContext, createContext, useEffect, useState } from 'react'
 
 import AppContext from '../context/app-context'
-import { addItemToFavorites, removeItemFromFavorites, putFavoritesOnDB } from '../utils/favorites-utils'
+import { addItemToFavorites, removeItemFromFavorites, putFavoritesOnDB, getFavoritesFromDB } from '../utils/favorites-utils'
 
 const FavoritesContext = createContext()
 
-const cartReducer = (state, action) => {
-  switch (action.type) {
-    case 'SET_FAVORITES': {
-      return {
-        ...state,
-        favorites: action.payload
-      }
-    }
-
-    case 'ADD_FAVORITE': {
-      return {
-        ...state,
-        favorites: addItemToFavorites(state.favorites, action.payload)
-      }
-    }
-
-    case 'REMOVE_FAVORITE': {
-      return {
-        ...state,
-        favorites: removeItemFromFavorites(state.favorites, action.payload)
-      }
-    }
-  }
-}
-
-const initialState = {
-  favorites: []
-}
-
 export const FavoritesProvider = ({ children }) => {
-  const { user, isAuthenticated } = useContext(AppContext)
+  const [favorites, setFavorites] = useState([])
+  const { isAuthenticated } = useContext(AppContext)
 
-  const [state, dispatch] = useReducer(cartReducer, initialState)
+  useEffect(() => {
+    if (!isAuthenticated) return
 
-  const saveFavoritesInDB = async () => {
-    const favIds = state.favorites.map(favorite => favorite.id)
-    console.log('favIds: ', favIds)
+    const fetchData = async () => {
+      try {
+        const res = await getFavoritesFromDB()
+        const favFromDB = res.data.favorites
+        console.log(favFromDB)
+        setFavorites(favFromDB)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    fetchData()
+  }, [isAuthenticated])
+
+  const addFavorite = async (newFavorite) => {
     try {
-      const res = await putFavoritesOnDB(favIds)
-      console.log(res)
+      const newFavIds = addItemToFavorites(favorites, newFavorite)
+      setFavorites(newFavIds)
+      await putFavoritesOnDB(newFavIds)
     } catch (err) {
-      console.log(err.response)
+      console.log(err, err.response)
     }
   }
 
-  useEffect(() => {
-    if (state.favorites.length === 0) setFavorites()
-  }, [])
-
-  useEffect(() => {
-    window.localStorage.setItem('favorites', JSON.stringify(state.favorites))
-
-    if (isAuthenticated) {
-      console.log('user from fav hook: ', user)
-      saveFavoritesInDB()
+  const removeFavorite = async (favoriteToRemove) => {
+    try {
+      const newFavIds = removeItemFromFavorites(favorites, favoriteToRemove)
+      setFavorites(newFavIds)
+      await putFavoritesOnDB(newFavIds)
+    } catch (err) {
+      console.log(err, err.response)
     }
-  }, [state.favorites])
-
-  const setFavorites = () => {
-    const favorites = JSON.parse(window.localStorage.getItem('favorites'))
-    if (favorites) dispatch({ type: 'SET_FAVORITES', payload: favorites })
-  }
-
-  const addFavorite = (favorite) => {
-    dispatch({ type: 'ADD_FAVORITE', payload: { ...favorite } })
-  }
-
-  const removeFavorite = (favorite) => {
-    dispatch({ type: 'REMOVE_FAVORITE', payload: favorite })
   }
 
   return (
     <FavoritesContext.Provider
       value={{
-        favorites: state.favorites,
+        favorites,
         addFavorite,
         removeFavorite
       }}

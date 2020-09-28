@@ -35,7 +35,7 @@ export default function Card ({ item }) {
           </a>
         </Link>
 
-        <Heart size='10' item={item} />
+        <Heart size='10' itemId={item.id} />
 
         <div className='flex items-center justify-center w-full py-4'>
           <CustomButton

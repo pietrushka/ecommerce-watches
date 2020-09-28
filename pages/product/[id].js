@@ -42,7 +42,7 @@ export default function ProductPage ({ item }) {
                 <button className='inline-block w-8 h-8 mr-4 bg-gray-600 rounded-full cursor-pointer focus:outline-none' />
               </div>
 
-              <Heart size='12' item={item} />
+              <Heart size='12' itemId={item.id} />
             </div>
 
             <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>

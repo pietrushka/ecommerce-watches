@@ -5,7 +5,7 @@ const { API_URL } = process.env
 
 export const putFavoritesOnDB = async (favorites) => {
   const token = Cookies.get('token')
-  console.log('req body', favorites)
+  console.log('req body', { favorites })
   const url = `${API_URL}/users/updateMe`
   const config = {
     headers: {
@@ -17,37 +17,38 @@ export const putFavoritesOnDB = async (favorites) => {
   return axios.put(url, { favorites }, config)
 }
 
-// export const getFavoritesFromDB = async () => {
-//   const token = Cookies.get('token')
-//   const url = `${API_URL}/users/updateMe`
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: `Bearer  ${token}`
-//     }
-//   }
+export const getFavoritesFromDB = async () => {
+  const token = Cookies.get('token')
+  if (!token) return
+  const url = `${API_URL}/users/getMyFavorites`
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  }
 
-//   return axios.get(url, config)
-// }
+  return await axios.get(url, config)
+}
 
-export const addItemToFavorites = (favorites, favItemToAdd) => {
+export const addItemToFavorites = (favorites, itemToAddId) => {
   // check if there is such item in the cart
   const existingFavItem = favorites.find(
-    favItem => favItem.id === favItemToAdd.id
+    favItemId => favItemId === itemToAddId
   )
 
   if (existingFavItem) return
 
-  return [...favorites, { ...favItemToAdd }]
+  return [...favorites, itemToAddId]
 }
 
-export const removeItemFromFavorites = (favorites, favItemToRemove) => {
+export const removeItemFromFavorites = (favorites, itemToRemoveId) => {
   // check if there is such item in the cart
   const existingFavItem = favorites.find(
-    favItem => favItem.id === favItemToRemove.id
+    favItemId => favItemId === itemToRemoveId
   )
 
   if (!existingFavItem) return
 
-  return favorites.filter(favItem => favItem.id !== favItemToRemove.id)
+  return favorites.filter(favItemId => favItemId !== itemToRemoveId)
 }

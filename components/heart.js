@@ -2,17 +2,19 @@ import { useState, useEffect } from 'react'
 
 import { useFavorites } from '../hooks/useFavorites'
 
-export default function Heart ({ item, size }) {
+export default function Heart ({ itemId, size }) {
   const [isFavorite, setFavorite] = useState(false)
   const { favorites, addFavorite, removeFavorite } = useFavorites()
 
   useEffect(() => {
-    const isFavExist = favorites.find(favorite => favorite.id === item.id)
+    if (favorites.length === 0) return setFavorite(false)
+
+    const isFavExist = favorites.find(favorite => favorite === itemId)
     isFavExist ? setFavorite(true) : setFavorite(false)
   }, [favorites])
 
   const handleHeartClick = () => {
-    isFavorite ? removeFavorite(item) : addFavorite(item)
+    isFavorite ? removeFavorite(itemId) : addFavorite(itemId)
   }
 
   return (
