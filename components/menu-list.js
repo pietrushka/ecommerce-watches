@@ -1,7 +1,8 @@
 import { useContext } from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
+import Cookies from 'js-cookie'
 
-import { logout } from '../utils/auth'
 import AppContext from '../context/app-context'
 
 export default function MenuList ({ orientation }) {
@@ -12,6 +13,17 @@ export default function MenuList ({ orientation }) {
   const ulClassNames = orientation === 'horizontal'
     ? 'hidden md:flex lg:text-xl xl:text-2xl'
     : 'text-2xl'
+
+  const logout = () => {
+    // remove token and user cookie
+    Cookies.remove('token')
+    delete window.__user
+
+    setUser(null)
+
+    // redirect to the home page
+    Router.reload()
+  }
 
   return (
 
@@ -33,12 +45,7 @@ export default function MenuList ({ orientation }) {
       </li>
       {user ? (
         <li className={liPadding}>
-          <button
-            onClick={() => {
-              logout()
-              setUser(null)
-            }}
-          >
+          <button onClick={logout}>
                 Logout
           </button>
         </li>
