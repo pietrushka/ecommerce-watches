@@ -9,7 +9,7 @@ import AppContext from '../context/app-context'
 import MenuList from './menu-list'
 
 export default function FullNavbar () {
-  const { user, setUser } = useContext(AppContext)
+  const { setUser } = useContext(AppContext)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const refMenu = useRef(null)
@@ -40,10 +40,10 @@ export default function FullNavbar () {
           <button onClick={toggleHamburger} className='px-4 cursor-pointer md:hidden focus:outline-none' id='burger'>
             {
               isMenuOpen ? (
-                <svg className='w-8'  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg className='w-8' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
                 </svg>
-              ) : ( 
+              ) : (
                 <svg className='w-8' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                   <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4 6h16M4 12h16M4 18h16' />
                 </svg>
@@ -68,14 +68,13 @@ export default function FullNavbar () {
 
       </nav>
 
-      
       <div ref={refMenu} id='overlay-menu' className='fixed bottom-0 left-0 right-0 z-20 flex items-center justify-center h-screen transition duration-500 ease-in transform translate-y-full bg-secondary'>
         <MenuList />
       </div>
-    
-      
 
-      
+
+
+
     </>
   )
 }

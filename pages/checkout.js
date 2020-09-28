@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Router from 'next/router'
-import { useReducer } from 'react'
+import { useRouter } from 'next/router'
+import { useReducer, useContext, useEffect } from 'react'
 
 import Layout from '../components/layout'
 import InputField from '../components/input-field'
@@ -8,6 +8,7 @@ import PrevPageNavbar from '../components/prev-page-navbar'
 import CartItem from '../components/cart-item'
 import CustomButton from '../components/custom-button'
 
+import AppContext from '../context/app-context'
 import { useCart } from '../hooks/useCart'
 import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
 import { placeOrder } from '../utils/order'
@@ -74,10 +75,17 @@ const initialState = {
   error: ''
 }
 
-export default function Options ({ shippingOptions, paymentOptions }) {
+export default function Checkout ({ shippingOptions, paymentOptions }) {
+  const Router = useRouter()
+  const { user, isAuthenticated } = useContext(AppContext)
+
   const { items, getCartValue, clearCart } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment } = state
+
+  useEffect(() => {
+    if (!isAuthenticated) Router.push('/login')
+  }, [])
 
   const getCartValueWithShippingCost = () => {
     const itemsValue = getCartValue()
@@ -94,36 +102,19 @@ export default function Options ({ shippingOptions, paymentOptions }) {
     })
   }
 
-  const checkoutSubmit = event => {
+  const checkoutSubmit = async event => {
     event.preventDefault()
     dispatch({ type: 'checkout' })
 
     const methods = { shipping, payment }
     const personalData = { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber }
-    const user = null
-
-    placeOrder({ items, methods, personalData, user })
-      .then(({ orderId, paymentMethod }) => {
-        dispatch({ type: 'success' })
-
-        clearCart()
-        // when user pays on delivery redirect to confirm page
-        if (paymentMethod.toLowerCase().trim() === 'cash on delivery') {
-          return Router.push({
-            pathname: '/order-confirm',
-            query: { orderId }
-          })
-        }
-
-        // redirect to payment
-        return Router.push({
-          pathname: '/payment',
-          query: { orderId }
-        })
-      })
-      .catch((error) => {
-        dispatch({ type: 'error', payload: error })
-      })
+    try {
+      const response = await placeOrder({ items, methods, personalData, user })
+      console.log(response)
+    } catch (error) {
+      dispatch({ type: 'error', payload: error })
+      console.log(error, error.response)
+    }
   }
 
   return (
