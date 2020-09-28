@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, createContext, useEffect, useState } from 'react'
+import React, { useContext, createContext, useEffect, useState } from 'react'
 
 import AppContext from '../context/app-context'
 import { addItemToFavorites, removeItemFromFavorites, putFavoritesOnDB, getFavoritesFromDB } from '../utils/favorites-utils'
@@ -16,7 +16,6 @@ export const FavoritesProvider = ({ children }) => {
       try {
         const res = await getFavoritesFromDB()
         const favFromDB = res.data.favorites
-        console.log(favFromDB)
         setFavorites(favFromDB)
       } catch (err) {
         console.log(err)

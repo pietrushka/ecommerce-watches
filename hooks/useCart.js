@@ -1,80 +1,97 @@
-import React, { useReducer, useContext, createContext, useEffect } from 'react'
+import React, { useState, useContext, createContext, useEffect } from 'react'
 
-import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../utils/cart-utils'
+import AppContext from '../context/app-context'
+import { addItemToCart, removeItemFromCart, clearItemFromCart, putCartOnDB, getCartFromDB } from '../utils/cart-utils'
 
 const CartContext = createContext()
 
-const cartReducer = (state, action) => {
-  switch (action.type) {
-    case 'SET_CART': {
-      return {
-        ...state,
-        items: action.payload
-      }
-    }
-
-    case 'ADD_ITEM': {
-      return {
-        ...state,
-        items: addItemToCart(state.items, action.payload)
-      }
-    }
-
-    case 'REMOVE_ITEM': {
-      return {
-        ...state,
-        items: removeItemFromCart(state.items, action.payload)
-      }
-    }
-
-    case 'CLEAR_ITEM': {
-      return {
-        ...state,
-        items: clearItemFromCart(state.items, action.payload)
-      }
-    }
-  }
-}
-
-const initialState = {
-  items: []
-}
-
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, initialState)
+  const [cart, setCart] = useState([])
+  const { isAuthenticated } = useContext(AppContext)
 
   useEffect(() => {
-    if (state.items.length === 0) setCart()
-  }, [])
+    if (!isAuthenticated) {
+      const cartFromLS = JSON.parse(window.localStorage.getItem('cart'))
+      setCart(cartFromLS)
+    }
+
+    const fetchData = async () => {
+      try {
+        const res = await getCartFromDB()
+        const cartFromDB = res.data.cart
+        console.log(cartFromDB)
+        if (cartFromDB === undefined) return setCart([])
+        setCart(cartFromDB)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    if (isAuthenticated) {
+      fetchData()
+    }
+  }, [isAuthenticated])
 
   useEffect(() => {
-    window.localStorage.setItem('items', JSON.stringify(state.items))
-  }, [state.items])
+    if (!isAuthenticated) {
+      window.localStorage.setItem('items', JSON.stringify(cart))
+    }
+  }, [cart])
 
-  const setCart = () => {
-    const items = JSON.parse(window.localStorage.getItem('items'))
-    if (items) dispatch({ type: 'SET_CART', payload: items })
+  const addItem = async (itemToAdd) => {
+    const newCart = addItemToCart(cart, itemToAdd)
+    setCart(newCart)
+
+    if (!isAuthenticated) return
+
+    try {
+      await putCartOnDB(newCart)
+    } catch (err) {
+      console.log(err, err.response)
+    }
   }
 
-  const clearCart = () => {
-    window.localStorage.setItem('items', [])
-    dispatch({ type: 'SET_CART', payload: [] })
+  const removeItem = async (itemToRemove) => {
+    const newCart = removeItemFromCart(cart, itemToRemove)
+    setCart(newCart)
+
+    if (!isAuthenticated) return
+
+    try {
+      await putCartOnDB(newCart)
+    } catch (err) {
+      console.log(err, err.response)
+    }
   }
 
-  const addItem = (item) => {
-    dispatch({ type: 'ADD_ITEM', payload: { ...item } })
+  const clearItem = async (cart, itemToClear) => {
+    const newCart = clearItemFromCart(cart, itemToClear)
+    setCart(newCart)
+
+    if (!isAuthenticated) return
+
+    try {
+      await putCartOnDB(newCart)
+    } catch (err) {
+      console.log(err, err.response)
+    }
   }
 
-  const removeItem = (item) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: item })
-  }
+  const clearCart = async () => {
+    const newCart = []
+    setCart([])
 
-  const clearItem = (item) => {
-    dispatch({ type: 'CLEAR_ITEM', payload: item })
+    if (!isAuthenticated) return
+
+    try {
+      await putCartOnDB(newCart)
+    } catch (err) {
+      console.log(err, err.response)
+    }
   }
 
   const getCartValue = () => {
-    const value = state.items.reduce((acc, item) => {
+    const value = cart.reduce((acc, item) => {
       return acc + (item.price * item.quantity)
     }, 0)
     return value
@@ -83,8 +100,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
-        setCart,
-        items: state.items,
+        items: cart,
         addItem,
         removeItem,
         getCartValue,

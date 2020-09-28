@@ -1,4 +1,38 @@
+import axios from 'axios'
+import Cookies from 'js-cookie'
+
+const { API_URL } = process.env
+
+export const putCartOnDB = async (cart) => {
+  const token = Cookies.get('token')
+  // const jsonCart = await cart.json()
+  const url = `${API_URL}/users/updateMe`
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  }
+  console.log('saved cart in db')
+  return axios.put(url, { cart }, config)
+}
+
+export const getCartFromDB = async () => {
+  const token = Cookies.get('token')
+  if (!token) return
+  const url = `${API_URL}/users/getMyCart`
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  return await axios.get(url, config)
+}
+
 export const addItemToCart = (cart, cartItemToAdd) => {
+  console.log({ cart, cartItemToAdd })
   const existingCartItem = cart.find(
     cartItem => cartItem.id === cartItemToAdd.id
   )
