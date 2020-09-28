@@ -20,14 +20,14 @@ export default function ProductPage ({ item }) {
         </Head>
 
         <FullNavbar />
-        <div className='grid gap-5 lg:grid-cols-2'>
+        <div className='grid gap-5 mx-auto lg:grid-cols-2 xl:mt-10' style={{maxWidth: '1500px'}}>
           <div className='relative overflow-hidden shadow-lg'>
             <img className='object-cover w-full' src={imageUrl} />
 
-            <div className='absolute top-0 right-0 flex flex-col justify-center h-full mr-5'>
-              <button className='block w-2 h-2 my-1 rounded-full bg-primary focus:outline-none' />
-              <button className='block w-2 h-2 my-1 rounded-full bg-primary focus:outline-none' />
-              <button className='block w-2 h-2 my-1 rounded-full bg-primary focus:outline-none' />
+            <div className='absolute bottom-0 flex justify-center w-full h-10 -500'>
+              <button className='block w-4 h-4 mx-2 my-1 bg-white border-4 rounded-full border-primary focus:outline-none' />
+              <button className='block w-4 h-4 mx-2 my-1 bg-white border-4 rounded-full border-primary focus:outline-none' />
+              <button className='block w-4 h-4 mx-2 my-1 bg-white border-4 rounded-full border-primary focus:outline-none' />
             </div>
           </div>
 
@@ -35,12 +35,6 @@ export default function ProductPage ({ item }) {
             <div className='relative p-4'>
               <h2 className='text-lg cursor-pointer lg:my-6'>{refCode}</h2>
               <h1 className='block text-3xl cursor-pointer'>{brandAndModel}</h1>
-
-              <div className='flex items-center justify-center mt-4 lg:my-8'>
-                <button className='inline-block w-8 h-8 mr-4 bg-blue-700 rounded-full cursor-pointer focus:outline-none' />
-                <button className='inline-block w-8 h-8 mr-4 bg-black rounded-full cursor-pointer focus:outline-none' />
-                <button className='inline-block w-8 h-8 mr-4 bg-gray-600 rounded-full cursor-pointer focus:outline-none' />
-              </div>
 
               <Heart size='12' itemId={item.id} />
             </div>

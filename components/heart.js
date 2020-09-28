@@ -1,3 +1,5 @@
+import { route } from 'next/dist/next-server/server/router'
+import {useRouter} from 'next/router'
 import { useState, useEffect, useContext } from 'react'
 
 import AppContext from '../context/app-context'
@@ -7,6 +9,7 @@ export default function Heart ({ itemId, size }) {
   const { isAuthenticated } = useContext(AppContext)
   const [isFavorite, setFavorite] = useState(false)
   const { favorites, addFavorite, removeFavorite } = useFavorites()
+  const router = useRouter()
 
   useEffect(() => {
     if (favorites.length === 0) return setFavorite(false)
@@ -18,7 +21,7 @@ export default function Heart ({ itemId, size }) {
   const handleHeartClick = () => {
     isAuthenticated
       ? isFavorite ? removeFavorite(itemId) : addFavorite(itemId)
-      : window.alert('You must be logged in')
+      : router.push('/login')
   }
 
   return (
