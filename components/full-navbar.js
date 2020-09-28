@@ -17,12 +17,11 @@ export default function FullNavbar () {
   }
 
   const logout = () => {
-    logout()
-    setUser(null)
-    Router.reload()
     // remove token and user cookie
     Cookies.remove('token')
     delete window.__user
+
+    setUser(null)
 
     // redirect to the home page
     Router.reload()
