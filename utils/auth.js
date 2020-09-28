@@ -35,6 +35,9 @@ export const loginUser = (identifier, password) => {
 }
 
 export const logout = () => {
+  if (typeof window === 'undefined') {
+    return
+  }
   // remove token and user cookie
   Cookies.remove('token')
   delete window.__user
