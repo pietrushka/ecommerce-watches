@@ -42,9 +42,9 @@ export default function App ({ Component, pageProps }) {
     <AppContext.Provider value={providerValue}>
       <CartProvider>
         <FavoritesProvider>
-          <div>
+          <>
             <Component {...pageProps} />
-          </div>
+          </>
         </FavoritesProvider>
       </CartProvider>
     </AppContext.Provider>

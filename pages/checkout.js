@@ -138,7 +138,7 @@ export default function Options ({ shippingOptions, paymentOptions }) {
 
         <div style={{ maxWidth: '768px' }}>
           {
-            items.length === 0
+            items.length === 0 || !items
               ? (
                 <p className='my-auto text-3xl text-center text-red-500'>Your cart is empty</p>
               ) : (

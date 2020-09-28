@@ -13,7 +13,6 @@ export const putCartOnDB = async (cart) => {
       Authorization: `Bearer ${token}`
     }
   }
-  console.log('saved cart in db')
   return axios.put(url, { cart }, config)
 }
 
@@ -32,7 +31,6 @@ export const getCartFromDB = async () => {
 }
 
 export const addItemToCart = (cart, cartItemToAdd) => {
-  console.log({ cart, cartItemToAdd })
   const existingCartItem = cart.find(
     cartItem => cartItem.id === cartItemToAdd.id
   )

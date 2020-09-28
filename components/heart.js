@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
+import AppContext from '../context/app-context'
 import { useFavorites } from '../hooks/useFavorites'
 
 export default function Heart ({ itemId, size }) {
+  const { isAuthenticated } = useContext(AppContext)
   const [isFavorite, setFavorite] = useState(false)
   const { favorites, addFavorite, removeFavorite } = useFavorites()
 
@@ -14,7 +16,9 @@ export default function Heart ({ itemId, size }) {
   }, [favorites])
 
   const handleHeartClick = () => {
-    isFavorite ? removeFavorite(itemId) : addFavorite(itemId)
+    isAuthenticated
+      ? isFavorite ? removeFavorite(itemId) : addFavorite(itemId)
+      : window.alert('You must be logged in')
   }
 
   return (

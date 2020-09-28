@@ -1,12 +1,18 @@
 import Head from 'next/head'
+import Router from 'next/router'
+import { useContext } from 'react'
 
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import Card from '../components/card'
 
+import AppContext from '../context/app-context'
 import { useFavorites } from '../hooks/useFavorites'
 
 export default function FavoritesPage () {
+  const { isAuthenticated } = useContext(AppContext)
+  if (!isAuthenticated) Router.push('/')
+
   const { favorites } = useFavorites()
 
   return (

@@ -5,7 +5,6 @@ const { API_URL } = process.env
 
 export const putFavoritesOnDB = async (favorites) => {
   const token = Cookies.get('token')
-  console.log('req body', { favorites })
   const url = `${API_URL}/users/updateMe`
   const config = {
     headers: {
@@ -13,7 +12,6 @@ export const putFavoritesOnDB = async (favorites) => {
       Authorization: `Bearer ${token}`
     }
   }
-  console.log('saved favorites in db')
   return axios.put(url, { favorites }, config)
 }
 

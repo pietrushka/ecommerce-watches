@@ -12,14 +12,13 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     if (!isAuthenticated) {
       const cartFromLS = JSON.parse(window.localStorage.getItem('cart'))
-      setCart(cartFromLS)
+      if (cartFromLS)setCart(cartFromLS)
     }
 
     const fetchData = async () => {
       try {
         const res = await getCartFromDB()
         const cartFromDB = res.data.cart
-        console.log(cartFromDB)
         if (cartFromDB === undefined) return setCart([])
         setCart(cartFromDB)
       } catch (err) {
@@ -29,12 +28,13 @@ export const CartProvider = ({ children }) => {
 
     if (isAuthenticated) {
       fetchData()
+      window.localStorage.setItem('cart', JSON.stringify([]))
     }
   }, [isAuthenticated])
 
   useEffect(() => {
     if (!isAuthenticated) {
-      window.localStorage.setItem('items', JSON.stringify(cart))
+      window.localStorage.setItem('cart', JSON.stringify(cart))
     }
   }, [cart])
 
@@ -64,7 +64,7 @@ export const CartProvider = ({ children }) => {
     }
   }
 
-  const clearItem = async (cart, itemToClear) => {
+  const clearItem = async (itemToClear) => {
     const newCart = clearItemFromCart(cart, itemToClear)
     setCart(newCart)
 
@@ -91,6 +91,7 @@ export const CartProvider = ({ children }) => {
   }
 
   const getCartValue = () => {
+    console.log(cart)
     const value = cart.reduce((acc, item) => {
       return acc + (item.price * item.quantity)
     }, 0)

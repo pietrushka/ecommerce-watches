@@ -1,5 +1,5 @@
 {
-  "name": "watches-ecommerce",
+  "name": "ecommerce-watches-nextjs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "build": "next build",
     "test": "jest --watch",
     "start": "next start",
-    "stripe": "cd .. && cd watches-strapi && npm run develop",
+    "stripe": "cd .. && cd ecommerce-watches-strapi && npm run develop",
     "both": "concurrently \"npm run dev\" \"npm run stripe\""
   },
   "dependencies": {

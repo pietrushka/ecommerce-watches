@@ -38,8 +38,6 @@ export const logout = () => {
   // remove token and user cookie
   Cookies.remove('token')
   delete window.__user
-  // sync logout between multiple windows
-  window.localStorage.setItem('logout', Date.now())
   // redirect to the home page
-  Router.push('/')
+  Router.reload()
 }
