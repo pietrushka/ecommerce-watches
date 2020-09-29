@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useReducer, useContext, useEffect } from 'react'
+import Cookies from 'js-cookie'
+import { loadStripe } from '@stripe/stripe-js'
 
 import Layout from '../components/layout'
 import InputField from '../components/input-field'
@@ -12,6 +14,8 @@ import AppContext from '../context/app-context'
 import { useCart } from '../hooks/useCart'
 import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
 import { placeOrder } from '../utils/order'
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE)
 
 const checkoutReducer = (state, action) => {
   switch (action.type) {
@@ -63,7 +67,7 @@ const checkoutReducer = (state, action) => {
 
 const initialState = {
   shipping: 'DHL',
-  payment: 'Cash on delivery',
+  payment: 'Card',
   firstName: '',
   lastName: '',
   zipCode: '',
@@ -107,10 +111,16 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
     dispatch({ type: 'checkout' })
 
     const methods = { shipping, payment }
+    const token = Cookies.get('token')
     const personalData = { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber }
     try {
-      const response = await placeOrder({ items, methods, personalData, user })
-      console.log(response)
+      const stripeResponse = await placeOrder({ items, methods, personalData, user, token })
+      const sessionId = stripeResponse.data.id
+      console.log({ sessionId }, stripeResponse)
+      clearCart()
+      const stripe = await stripePromise
+      const { error } = await stripe.redirectToCheckout({ sessionId })
+      console.log(error)
     } catch (error) {
       dispatch({ type: 'error', payload: error })
       console.log(error, error.response)
@@ -123,6 +133,7 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
 
         <Head>
           <title>Checkout</title>
+          <script src='https://js.stripe.com/v3/' />
         </Head>
 
         <PrevPageNavbar />
