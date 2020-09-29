@@ -106,8 +106,8 @@ export default async (req, res) => {
     return {
       price_data: {
         product_data: {
-          name: product.refCode,
-          description: `${product.brand} ${product.model}`
+          name: `${product.brand} ${product.model}`,
+          description: product.refCode
         },
         unit_amount: product.price * 100,
         currency: 'usd'
@@ -122,8 +122,8 @@ export default async (req, res) => {
   lineItems.push({
     price_data: {
       product_data: {
-        name: shippingId,
-        description: shippingName
+        name: shippingName,
+        description: shippingId
       },
       unit_amount: shippingPrice * 100,
       currency: 'usd'
