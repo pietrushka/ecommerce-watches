@@ -11,8 +11,7 @@ export default function OrdersPage () {
 
   useEffect(() => {
     const token = Cookies.get('token')
-    if (!token) Router.push('/')
-    if (token) setIsLoading(false)
+    token ? setIsLoading(false) : Router.push('/login')
   }, [])
 
   return (

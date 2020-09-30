@@ -2,24 +2,36 @@ import Head from 'next/head'
 import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 
 import WithSpinner from '../components/with-spinner'
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import Card from '../components/card'
 
-import { useFavorites } from '../hooks/useFavorites'
-
 export default function FavoritesPage () {
   const [isLoading, setIsLoading] = useState(true)
-  const { favorites } = useFavorites()
+  const token = Cookies.get('token')
+  const [favoritesData, setFavoritesData] = useState(null)
+  console.log(favoritesData)
 
   useEffect(() => {
-    const token = Cookies.get('token')
-    if (!token) Router.push('/')
-    console.log(favorites)
-    if (token && (favorites)) setIsLoading(false)
-  }, [favorites])
+    const fetchFavs = async () => {
+      try {
+        const response = await axios.get('http://localhost:1337/users/myPopulatedFavorites', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        setFavoritesData(response.data.favorites)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error.response)
+      }
+    }
+
+    token ? fetchFavs() : Router.push('/login')
+  }, [])
 
   return (
     <Layout>
@@ -29,11 +41,10 @@ export default function FavoritesPage () {
       <FullNavbar />
 
       <WithSpinner isLoading={isLoading}>
-
         <div className='mx-auto'>
           {
-            favorites.length === 0
-              ? (
+            favoritesData && (
+              favoritesData.length === 0 ? (
                 <div className='py-16'>
                   <h1 className='text-3xl text-center text-red-500'>You don't have favorites yet</h1>
                 </div>
@@ -44,17 +55,17 @@ export default function FavoritesPage () {
                   </div>
                   <div className='grid gap-5 px-16 py-8 mx-auto sm:gap-2 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:gap-8 lg:w-10/12'>
                     {
-                      favorites.map(({ id, brand, price, model, refCode, imageUrl }) => (
-                        <Card key={id} item={{ id, brand, price, model, refCode, imageUrl }} />
+                      favoritesData.map(({ id, brand, price, model, refCode, cover }) => (
+                        <Card key={id} item={{ id, brand, price, model, refCode, imageUrl: cover.url }} />
                       ))
                     }
                   </div>
                 </>
               )
+            )
           }
         </div>
       </WithSpinner>
-
     </Layout>
   )
 }
