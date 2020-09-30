@@ -1,18 +1,23 @@
 import React, { useState, useContext, createContext, useEffect } from 'react'
+import Cookies from 'js-cookie'
 
-import AppContext from '../context/app-context'
 import { addItemToCart, removeItemFromCart, clearItemFromCart, putCartOnDB, getCartFromDB } from '../utils/cart-utils'
 
 const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([])
-  const { isAuthenticated } = useContext(AppContext)
+  const [cart, setCart] = useState(null)
+  const token = Cookies.get('token')
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    console.log(token)
+    if (!token) {
       const cartFromLS = JSON.parse(window.localStorage.getItem('cart'))
-      if (cartFromLS)setCart(cartFromLS)
+      if (cartFromLS) {
+        return setCart(cartFromLS)
+      } else {
+        return setCart([])
+      }
     }
 
     const fetchData = async () => {
@@ -26,14 +31,14 @@ export const CartProvider = ({ children }) => {
       }
     }
 
-    if (isAuthenticated) {
+    if (token) {
       fetchData()
       window.localStorage.setItem('cart', JSON.stringify([]))
     }
-  }, [isAuthenticated])
+  }, [token])
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!token) {
       window.localStorage.setItem('cart', JSON.stringify(cart))
     }
   }, [cart])
@@ -42,7 +47,7 @@ export const CartProvider = ({ children }) => {
     const newCart = addItemToCart(cart, itemToAdd)
     setCart(newCart)
 
-    if (!isAuthenticated) return
+    if (!token) return
 
     try {
       await putCartOnDB(newCart)
@@ -55,7 +60,7 @@ export const CartProvider = ({ children }) => {
     const newCart = removeItemFromCart(cart, itemToRemove)
     setCart(newCart)
 
-    if (!isAuthenticated) return
+    if (!token) return
 
     try {
       await putCartOnDB(newCart)
@@ -68,7 +73,7 @@ export const CartProvider = ({ children }) => {
     const newCart = clearItemFromCart(cart, itemToClear)
     setCart(newCart)
 
-    if (!isAuthenticated) return
+    if (!token) return
 
     try {
       await putCartOnDB(newCart)
@@ -81,7 +86,7 @@ export const CartProvider = ({ children }) => {
     const newCart = []
     setCart([])
 
-    if (!isAuthenticated) return
+    if (!token) return
 
     try {
       await putCartOnDB(newCart)

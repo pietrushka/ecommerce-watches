@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useReducer, useContext, useEffect } from 'react'
-import Cookies from 'js-cookie'
+import { useReducer, useContext, useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
+import Cookies from 'js-cookie'
 
 import Layout from '../components/layout'
 import InputField from '../components/input-field'
@@ -14,6 +14,7 @@ import AppContext from '../context/app-context'
 import { useCart } from '../hooks/useCart'
 import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
 import { placeOrder } from '../utils/order'
+import WithSpinner from '../components/with-spinner'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE)
 
@@ -80,16 +81,18 @@ const initialState = {
 }
 
 export default function Checkout ({ shippingOptions, paymentOptions }) {
+  const [isLoading, setIsLoading] = useState(true)
   const Router = useRouter()
-  const { user, isAuthenticated } = useContext(AppContext)
-
+  const { user } = useContext(AppContext)
   const { items, getCartValue, clearCart } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment } = state
 
   useEffect(() => {
-    if (!isAuthenticated) Router.push('/login')
-  }, [])
+    const token = Cookies.get('token')
+    if (!token) Router.push('/')
+    if (token && items) setIsLoading(false)
+  }, [items])
 
   const getCartValueWithShippingCost = () => {
     const itemsValue = getCartValue()
@@ -127,6 +130,8 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
     }
   }
 
+  console.log(items)
+
   return (
     <>
       <Layout alignCenter>
@@ -138,136 +143,139 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
 
         <PrevPageNavbar />
 
-        <div style={{ maxWidth: '768px' }}>
-          {
-            items.length === 0 || !items
-              ? (
-                <p className='my-auto text-3xl text-center text-red-500'>Your cart is empty</p>
-              ) : (
-                <>
-                  {
-                    items.map(item => <CartItem key={item.id} item={item} />)
-                  }
+        <WithSpinner isLoading={isLoading}>
+          <div style={{ maxWidth: '768px' }}>
+            {
+              items && (
+                items.length === 0 ? (
+                  <p className='my-auto text-3xl text-center text-red-500'>Your cart is empty</p>
+                ) : (
+                  <>
+                    {
+                      items.map(item => <CartItem key={item.id} item={item} />)
+                    }
 
-                  <form onSubmit={checkoutSubmit} className='p-4'>
+                    <form onSubmit={checkoutSubmit} className='p-4'>
 
-                    <div onChange={handleChange} name='shipping' className='flex flex-col items-center justify-center py-4'>
-                      <h2 className='text-2xl text-center'>Shipping options</h2>
+                      <div onChange={handleChange} name='shipping' className='flex flex-col items-center justify-center py-4'>
+                        <h2 className='text-2xl text-center'>Shipping options</h2>
 
-                      {
-                        shippingOptions.map(({ id, price, name }, index) => (
-                          <div key={id} className='w-full'>
-                            <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} defaultChecked={shipping === name} required />
-                            <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{`${name} $${price}`}</label>
-                          </div>
-                        )
+                        {
+                          shippingOptions.map(({ id, price, name }, index) => (
+                            <div key={id} className='w-full'>
+                              <input className='hidden fill-label' type='radio' name='shipping' value={name} id={name} defaultChecked={shipping === name} required />
+                              <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{`${name} $${price}`}</label>
+                            </div>
+                          )
 
-                        )
-                      }
+                          )
+                        }
 
-                    </div>
-
-                    <div onChange={handleChange} className='flex flex-col items-center justify-center py-4'>
-
-                      <h2 className='text-2xl text-center'>Payment methods</h2>
-
-                      {
-                        paymentOptions.map(({ id, name }) => (
-                          <div key={id} className='w-full'>
-                            <input className='hidden fill-label' type='radio' name='payment' value={name} id={name} defaultChecked={payment === name} required />
-                            <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{name}</label>
-                          </div>
-                        ))
-                      }
-
-                    </div>
-
-                    <div className='flex flex-col items-center justify-center py-4'>
-
-                      <div className='w-4/6'>
-                        <h2 className='w-full text-2xl'>Address</h2>
                       </div>
 
-                      <InputField
-                        name='firstName'
-                        type='text'
-                        labelText='First name'
-                        value={firstName}
-                        required
-                        handleChange={handleChange}
-                      />
+                      <div onChange={handleChange} className='flex flex-col items-center justify-center py-4'>
 
-                      <InputField
-                        name='lastName'
-                        type='text'
-                        labelText='Last name'
-                        value={lastName}
-                        required
-                        handleChange={handleChange}
-                      />
+                        <h2 className='text-2xl text-center'>Payment methods</h2>
 
-                      {/* Make proper validation in the future */}
-                      <InputField
-                        name='zipCode'
-                        type='text'
-                        labelText='Zip code'
-                        value={zipCode}
-                        required
-                        handleChange={handleChange}
-                      />
+                        {
+                          paymentOptions.map(({ id, name }) => (
+                            <div key={id} className='w-full'>
+                              <input className='hidden fill-label' type='radio' name='payment' value={name} id={name} defaultChecked={payment === name} required />
+                              <label htmlFor={name} className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>{name}</label>
+                            </div>
+                          ))
+                        }
 
-                      <InputField
-                        name='city'
-                        type='text'
-                        labelText='City'
-                        value={city}
-                        required
-                        handleChange={handleChange}
-                      />
+                      </div>
 
-                      <InputField
-                        name='streetAndNumber'
-                        type='text'
-                        labelText='Street and number'
-                        value={streetAndNumber}
-                        required
-                        handleChange={handleChange}
-                      />
+                      <div className='flex flex-col items-center justify-center py-4'>
 
-                      <InputField
-                        name='email'
-                        type='email'
-                        labelText='E-mail'
-                        value={email}
-                        required
-                        handleChange={handleChange}
-                      />
+                        <div className='w-4/6'>
+                          <h2 className='w-full text-2xl'>Address</h2>
+                        </div>
 
-                      <InputField
-                        name='phoneNumber'
-                        type='tel'
-                        labelText='Phone number'
-                        value={phoneNumber}
-                        required
-                        handleChange={handleChange}
-                      />
+                        <InputField
+                          name='firstName'
+                          type='text'
+                          labelText='First name'
+                          value={firstName}
+                          required
+                          handleChange={handleChange}
+                        />
 
-                    </div>
+                        <InputField
+                          name='lastName'
+                          type='text'
+                          labelText='Last name'
+                          value={lastName}
+                          required
+                          handleChange={handleChange}
+                        />
 
-                    <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
-                      <CustomButton
-                        width='w-2/3'
-                        type='submit'
+                        {/* Make proper validation in the future */}
+                        <InputField
+                          name='zipCode'
+                          type='text'
+                          labelText='Zip code'
+                          value={zipCode}
+                          required
+                          handleChange={handleChange}
+                        />
 
-                      >
+                        <InputField
+                          name='city'
+                          type='text'
+                          labelText='City'
+                          value={city}
+                          required
+                          handleChange={handleChange}
+                        />
+
+                        <InputField
+                          name='streetAndNumber'
+                          type='text'
+                          labelText='Street and number'
+                          value={streetAndNumber}
+                          required
+                          handleChange={handleChange}
+                        />
+
+                        <InputField
+                          name='email'
+                          type='email'
+                          labelText='E-mail'
+                          value={email}
+                          required
+                          handleChange={handleChange}
+                        />
+
+                        <InputField
+                          name='phoneNumber'
+                          type='tel'
+                          labelText='Phone number'
+                          value={phoneNumber}
+                          required
+                          handleChange={handleChange}
+                        />
+
+                      </div>
+
+                      <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
+                        <CustomButton
+                          width='w-2/3'
+                          type='submit'
+
+                        >
                       Submit {getCartValueWithShippingCost()}
-                      </CustomButton>
-                    </div>
-                  </form>
-                </>
+                        </CustomButton>
+                      </div>
+                    </form>
+                  </>
+                )
               )
-          }
-        </div>
+            }
+          </div>
+        </WithSpinner>
 
       </Layout>
     </>

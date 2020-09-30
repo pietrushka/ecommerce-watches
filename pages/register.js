@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
-import { useReducer, useContext, useRef } from 'react'
+import { useReducer, useContext, useRef, useEffect } from 'react'
 
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
@@ -59,13 +59,15 @@ const initialState = {
 }
 
 export default function RegisterPage () {
-  const appContext = useContext(AppContext)
+  const { setUser, isAuthenticated } = useContext(AppContext)
   const usernameRef = useRef(null)
   const emailRef = useRef(null)
   const [state, dispatch] = useReducer(registerReducer, initialState)
   const { username, email, password, isLoading, error } = state
 
-  if (appContext.isAuthenticated) Router.push('/')
+  useEffect(() => {
+    if (isAuthenticated) Router.push('/')
+  })
 
   const handleChange = event => {
     dispatch({
@@ -81,7 +83,7 @@ export default function RegisterPage () {
       dispatch({ type: 'register' })
       const res = await registerUser(username, email, password)
       dispatch({ type: 'success' })
-      appContext.setUser(res.data.user)
+      setUser(res.data.user)
       Cookies.set('token', res.data.jwt, { expires: 1 })
       Router.push('/')
     } catch (error) {

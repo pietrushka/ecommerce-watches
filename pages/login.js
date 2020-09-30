@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
-import { useReducer, useContext, useRef } from 'react'
+import { useReducer, useContext, useRef, useEffect } from 'react'
 
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
@@ -60,12 +60,14 @@ const initialState = {
 }
 
 export default function LoginPage () {
-  const appContext = useContext(AppContext)
+  const { setUser, isAuthenticated } = useContext(AppContext)
   const passwordRef = useRef()
   const [state, dispatch] = useReducer(loginReducer, initialState)
   const { identifier, password, isLoading, error } = state
 
-  if (appContext.isAuthenticated) Router.push('/')
+  useEffect(() => {
+    if (isAuthenticated) Router.push('/')
+  })
 
   const handleChange = event => {
     dispatch({
@@ -82,7 +84,7 @@ export default function LoginPage () {
       const res = await loginUser(identifier, password)
       dispatch({ type: 'success' })
       Cookies.set('token', res.data.jwt, { expires: 1 })
-      appContext.setUser(res.data.user)
+      setUser(res.data.user)
       Router.push('/')
     } catch (error) {
       const message = error.response.data.message[0].messages[0].message
