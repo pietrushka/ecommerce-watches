@@ -10,7 +10,6 @@ export const CartProvider = ({ children }) => {
   const token = Cookies.get('token')
 
   useEffect(() => {
-    console.log(token)
     if (!token) {
       const cartFromLS = JSON.parse(window.localStorage.getItem('cart'))
       if (cartFromLS) {

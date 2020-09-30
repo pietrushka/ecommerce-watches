@@ -4,8 +4,9 @@ const axios = require('axios')
 const { API_URL } = process.env
 
 const getProducts = async () => {
-  const { data } = await axios(`${API_URL}/watches`)
-  return { products: data }
+  const { data } = await axios(`${API_URL}/watches/getAllForValidation`)
+  const { products } = data
+  return { products }
 }
 const getShippingOpitons = async () => {
   const { data } = await axios(`${API_URL}/shipping-options`)
@@ -18,8 +19,6 @@ const getPaymentOpitons = async () => {
 
 export default async (req, res) => {
   const { items, methods, personalData, user, token } = req.body
-
-  console.log({ items, methods, personalData, user, token })
 
   const dataFromCMS = {}
   let validatedOrder
@@ -38,10 +37,8 @@ export default async (req, res) => {
       const validatedItems = items.map(item => {
         const correspondingItemInCMS = dataFromCMS.products.find(product => product.id === item.id)
 
-        if (correspondingItemInCMS.price !== item.price) console.log('Items data error', item)
-
         // if evertything is OK return item
-        return item
+        return { ...correspondingItemInCMS, quantity: item.quantity }
       })
 
       const validatedPayment = dataFromCMS.paymentOpitons.find(option => option.name === methods.payment)
@@ -69,7 +66,6 @@ export default async (req, res) => {
     }
 
     validatedOrder = setOrderData()
-    console.log(validatedOrder)
 
     // send order to CMS
     const orderReqConfig = {
@@ -101,8 +97,6 @@ export default async (req, res) => {
   }
 
   const lineItems = validatedOrder.items.map(product => {
-    console.log(product.price)
-
     return {
       price_data: {
         product_data: {
@@ -118,7 +112,6 @@ export default async (req, res) => {
 
   // addShipping to lineItems
   const { price: shippingPrice, id: shippingId, name: shippingName } = validatedOrder.methods.shipping
-  console.log({ shippingPrice, shippingId, shippingName })
   lineItems.push({
     price_data: {
       product_data: {

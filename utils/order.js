@@ -15,7 +15,7 @@ const { API_URL } = process.env
 // }
 
 export async function placeOrder (requestBody) {
-  const url = 'http://localhost:3000/api/order'
+  const url = 'http://localhost:3000/api/place-order'
   const config = {
     headers: {
       'Content-Type': 'application/json'

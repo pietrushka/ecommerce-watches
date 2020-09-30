@@ -13,7 +13,6 @@ export default function FavoritesPage () {
   const [isLoading, setIsLoading] = useState(true)
   const token = Cookies.get('token')
   const [favoritesData, setFavoritesData] = useState(null)
-  console.log(favoritesData)
 
   useEffect(() => {
     const fetchFavs = async () => {

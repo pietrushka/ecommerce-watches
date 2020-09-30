@@ -119,7 +119,6 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
     try {
       const stripeResponse = await placeOrder({ items, methods, personalData, user, token })
       const sessionId = stripeResponse.data.id
-      console.log({ sessionId }, stripeResponse)
       clearCart()
       const stripe = await stripePromise
       const { error } = await stripe.redirectToCheckout({ sessionId })
@@ -129,8 +128,6 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
       console.log(error, error.response)
     }
   }
-
-  console.log(items)
 
   return (
     <>
