@@ -22,7 +22,6 @@ export default function OrdersPage () {
             Authorization: `Bearer ${token}`
           }
         })
-        console.log(responseOrdersIds)
         setOrdersData(responseOrdersIds.data.orders)
         setIsLoading(false)
       } catch (error) {
@@ -32,8 +31,6 @@ export default function OrdersPage () {
 
     token ? fetchOrders() : Router.push('/login')
   }, [])
-
-  console.log(ordersData)
 
   return (
     <>
@@ -57,6 +54,11 @@ export default function OrdersPage () {
                       <h1 className='inline text-3xl text-center border-b-2 border-primary'>Your orders</h1>
                     </div>
                     <div className='flex flex-col items-center justify-center w-full'>
+                      <div className='flex items-center justify-start w-full p-2 my-2 text-center border rounded-lg border-primary bg-secondary'>
+                        <div className='w-1/12'>
+                          <input type='checkbox' />
+                        </div>
+                      </div>
                       {
                         ordersData.map(order => (
                           <OrderItem key={order.id} order={order} />
