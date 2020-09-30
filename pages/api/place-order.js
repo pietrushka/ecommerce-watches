@@ -70,10 +70,10 @@ export default async (req, res) => {
     // send order to CMS
     const orderReqConfig = {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       }
     }
-    const orderResponse = await axios.post(`${API_URL}/orders`, JSON.stringify(validatedOrder), orderReqConfig)
+    const orderResponse = await axios.post(`${API_URL}/orders`, validatedOrder, orderReqConfig)
     orderId = orderResponse.data.id
 
     // create relation between user and order
