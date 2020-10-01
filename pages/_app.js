@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -13,7 +12,6 @@ const { CMS_URL } = process.env
 
 export default function App ({ Component, pageProps }) {
   const [user, setUser] = useState(null)
-
   const providerValue = useMemo(() => ({ user, setUser, isAuthenticated: !!user }), [user, setUser])
 
   useEffect(() => {
@@ -22,7 +20,7 @@ export default function App ({ Component, pageProps }) {
 
     if (token) {
       // authenticate the token on the server and place set user object
-      axios.get(`${process.env.CMS_URL}/users/me`, {
+      axios.get(`${CMS_URL}/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

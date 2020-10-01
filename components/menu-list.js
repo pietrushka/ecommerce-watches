@@ -4,9 +4,11 @@ import Router from 'next/router'
 import Cookies from 'js-cookie'
 
 import AppContext from '../context/app-context'
+import { useCart } from '../hooks/useCart'
 
 export default function MenuList ({ orientation, closeMenu }) {
   const { user, setUser } = useContext(AppContext)
+  const { clearCart } = useCart()
 
   const liStyles = orientation === 'horizontal' ? 'px-4' : 'px-8 py-3 text-center bg-white my-8 rounded-lg border-2 border-primary'
 
@@ -14,14 +16,15 @@ export default function MenuList ({ orientation, closeMenu }) {
     ? 'hidden md:flex lg:text-xl xl:text-2xl'
     : 'text-3xl'
 
-  const logout = () => {
+  const logout = async () => {
     // remove token and user cookie
-    Cookies.remove('token')
+    await Cookies.remove('token')
     delete window.__user
 
     setUser(null)
-    Router.push('/')
+    await clearCart()
     // redirect to the home page
+    Router.push('/')
     Router.reload()
   }
 

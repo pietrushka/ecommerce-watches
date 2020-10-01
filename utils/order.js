@@ -3,7 +3,6 @@ import axios from 'axios'
 const API_URL = process.env.API_URL
 
 export async function placeOrder (requestBody) {
-  console.log(`${API_URL}/api/place-order`)
   const url = `${API_URL}/api/place-order`
   const config = {
     headers: {

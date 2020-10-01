@@ -11,6 +11,7 @@ import CustomButton from '../components/custom-button'
 import { setFocus } from '../utils/utils'
 import { loginUser } from '../utils/auth'
 import AppContext from '../context/app-context'
+import Link from 'next/link'
 
 const loginReducer = (state, action) => {
   switch (action.type) {
@@ -143,6 +144,8 @@ export default function LoginPage () {
               {!isLoading ? 'Login' : 'Loading...'}
             </CustomButton>
           </div>
+
+          <p className='h-8 py-2 text-center'>If you don't have an account - <Link href='/register'><a className='font-bold'>Register</a></Link></p>
         </form>
       </div>
     </Layout>

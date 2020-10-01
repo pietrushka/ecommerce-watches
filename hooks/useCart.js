@@ -23,17 +23,20 @@ export const CartProvider = ({ children }) => {
       try {
         const res = await getCartFromDB()
         const cartFromDB = res.data.cart
-        if (cartFromDB === undefined) return setCart([])
-        setCart(cartFromDB)
+
+        if (!cartFromDB || cartFromDB.length === 0) {
+          // those items won't save in db unless user do sth with cart
+          const cartFromLS = JSON.parse(window.localStorage.getItem('cart'))
+          return setCart(cartFromLS)
+        } else {
+          return setCart(cartFromDB)
+        }
       } catch (err) {
         console.log(err)
       }
     }
 
-    if (token) {
-      fetchData()
-      window.localStorage.setItem('cart', JSON.stringify([]))
-    }
+    fetchData()
   }, [token])
 
   useEffect(() => {
@@ -82,12 +85,12 @@ export const CartProvider = ({ children }) => {
   }
 
   const clearCart = async () => {
-    const newCart = []
-    setCart([])
-
-    if (!token) return
-
+    await window.localStorage.setItem('cart', JSON.stringify([]))
+    const freshToken = Cookies.get('token')
+    if (!freshToken) return
     try {
+      const newCart = []
+      setCart([])
       await putCartOnDB(newCart)
     } catch (err) {
       console.log(err, err.response)

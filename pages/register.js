@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 import { useReducer, useContext, useRef, useEffect } from 'react'
@@ -150,7 +151,7 @@ export default function RegisterPage () {
               {!isLoading ? 'Register' : 'Loading...'}
             </CustomButton>
           </div>
-
+          <p className='h-8 py-2 text-center'>If you alreadt have an account - <Link href='/register'><a className='font-bold'>Login</a></Link></p>
         </form>
 
       </div>
