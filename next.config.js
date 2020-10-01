@@ -2,6 +2,7 @@ require('dotenv').config()
 
 module.exports = {
   env: {
+    CMS_URL: process.env.CMS_URL,
     API_URL: process.env.API_URL,
     NEXT_PUBLIC_STRIPE: process.env.NEXT_PUBLIC_STRIPE
   },

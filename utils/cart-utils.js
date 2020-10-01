@@ -1,12 +1,12 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-const { API_URL } = process.env
+const { CMS_URL } = process.env
 
 export const putCartOnDB = async (cart) => {
   const token = Cookies.get('token')
   // const jsonCart = await cart.json()
-  const url = `${API_URL}/users/updateMe`
+  const url = `${CMS_URL}/users/updateMe`
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const putCartOnDB = async (cart) => {
 export const getCartFromDB = async () => {
   const token = Cookies.get('token')
   if (!token) return
-  const url = `${API_URL}/users/getMyCart`
+  const url = `${CMS_URL}/users/getMyCart`
   const config = {
     headers: {
       'Content-Type': 'application/json',

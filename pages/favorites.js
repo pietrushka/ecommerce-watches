@@ -9,6 +9,8 @@ import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import Card from '../components/card'
 
+const { CMS_URL } = process.env
+
 export default function FavoritesPage () {
   const [isLoading, setIsLoading] = useState(true)
   const token = Cookies.get('token')
@@ -17,7 +19,7 @@ export default function FavoritesPage () {
   useEffect(() => {
     const fetchFavs = async () => {
       try {
-        const response = await axios.get('http://localhost:1337/users/myPopulatedFavorites', {
+        const response = await axios.get(`${CMS_URL}/users/myPopulatedFavorites`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

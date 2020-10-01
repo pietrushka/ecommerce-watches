@@ -1,11 +1,11 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-const { API_URL } = process.env
+const { CMS_URL } = process.env
 
 export const putFavoritesOnDB = async (favorites) => {
   const token = Cookies.get('token')
-  const url = `${API_URL}/users/updateMe`
+  const url = `${CMS_URL}/users/updateMe`
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export const putFavoritesOnDB = async (favorites) => {
 export const getFavoritesFromDB = async () => {
   const token = Cookies.get('token')
   if (!token) return
-  const url = `${API_URL}/users/getMyFavorites`
+  const url = `${CMS_URL}/users/getMyFavorites`
   const config = {
     headers: {
       'Content-Type': 'application/json',

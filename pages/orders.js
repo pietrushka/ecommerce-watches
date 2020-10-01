@@ -9,6 +9,8 @@ import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import OrderItem from '../components/order-item'
 
+const { CMS_URL } = process.env
+
 export default function OrdersPage () {
   const [isLoading, setIsLoading] = useState(true)
   const [ordersData, setOrdersData] = useState(null) // array
@@ -17,7 +19,7 @@ export default function OrdersPage () {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const responseOrdersIds = await axios.get('http://localhost:1337/users/getMyOrders', {
+        const responseOrdersIds = await axios.get(`${CMS_URL}/users/getMyOrders`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

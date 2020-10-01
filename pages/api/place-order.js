@@ -1,19 +1,19 @@
 const stripe = require('stripe')(process.env.STRIPE_KEY)
 const axios = require('axios')
 
-const { API_URL } = process.env
+const { CMS_URL } = process.env
 
 const getProducts = async () => {
-  const { data } = await axios(`${API_URL}/watches/getAllForValidation`)
+  const { data } = await axios(`${CMS_URL}/watches/getAllForValidation`)
   const { products } = data
   return { products }
 }
 const getShippingOpitons = async () => {
-  const { data } = await axios(`${API_URL}/shipping-options`)
+  const { data } = await axios(`${CMS_URL}/shipping-options`)
   return { shippingOpitons: data }
 }
 const getPaymentOpitons = async () => {
-  const { data } = await axios(`${API_URL}/payment-options`)
+  const { data } = await axios(`${CMS_URL}/payment-options`)
   return { paymentOpitons: data }
 }
 
@@ -73,12 +73,12 @@ export default async (req, res) => {
         'Content-Type': 'application/json'
       }
     }
-    const orderResponse = await axios.post(`${API_URL}/orders`, validatedOrder, orderReqConfig)
+    const orderResponse = await axios.post(`${CMS_URL}/orders`, validatedOrder, orderReqConfig)
     orderId = orderResponse.data.id
 
     // create relation between user and order
     if (user.id) {
-      const ordersUrl = `${API_URL}/users/getMyOrders`
+      const ordersUrl = `${CMS_URL}/users/getMyOrders`
       const authConfig = {
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export default async (req, res) => {
 
       const userOrders = [...userResponse.data.orders, orderId]
 
-      await axios.put(`${API_URL}/users/updateMe`, { orders: userOrders }, authConfig)
+      await axios.put(`${CMS_URL}/users/updateMe`, { orders: userOrders }, authConfig)
     }
   } catch (error) {
     console.log(error, error.response)
@@ -126,8 +126,8 @@ export default async (req, res) => {
 
   // Prepare payment
   const session = await stripe.checkout.sessions.create({
-    success_url: `https://localhost:3000/success/orderId=${orderId}`,
-    cancel_url: `https://localhost:3000/cancel/orderId=${orderId}`,
+    success_url: `${CMS_URL}/success/?orderId=${orderId}`,
+    cancel_url: `${CMS_URL}/cancel/?orderId=${orderId}`,
     payment_method_types: ['card'],
     line_items: lineItems,
     mode: 'payment',

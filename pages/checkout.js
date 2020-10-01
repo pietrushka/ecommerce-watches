@@ -90,7 +90,7 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
 
   useEffect(() => {
     const token = Cookies.get('token')
-    if (!token) Router.push('/')
+    if (!token) Router.push('/login')
     if (token && items) setIsLoading(false)
   }, [items])
 

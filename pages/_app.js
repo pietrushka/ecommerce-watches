@@ -9,6 +9,8 @@ import { FavoritesProvider } from '../hooks/useFavorites'
 
 import '../styles/index.css'
 
+const { CMS_URL } = process.env
+
 export default function App ({ Component, pageProps }) {
   const [user, setUser] = useState(null)
 
@@ -19,8 +21,8 @@ export default function App ({ Component, pageProps }) {
     const token = Cookies.get('token')
 
     if (token) {
-    // authenticate the token on the server and place set user object
-      axios.get(`${process.env.API_URL}/users/me`, {
+      // authenticate the token on the server and place set user object
+      axios.get(`${process.env.CMS_URL}/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
