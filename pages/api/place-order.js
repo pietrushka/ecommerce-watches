@@ -36,7 +36,6 @@ export default async (req, res) => {
     const setOrderData = () => {
       const validatedItems = items.map(item => {
         const correspondingItemInCMS = dataFromCMS.products.find(product => product.id === item.id)
-        console.log(correspondingItemInCMS)
         // if evertything is OK return item
         return { ...correspondingItemInCMS, quantity: item.quantity }
       })

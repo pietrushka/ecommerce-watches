@@ -104,6 +104,14 @@ export const CartProvider = ({ children }) => {
     return value
   }
 
+  const getCartItemsQuantity = () => {
+    if (!cart || cart.length === 0) return 0
+    const value = cart.reduce((acc, item) => {
+      return acc + item.quantity
+    }, 0)
+    return value
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -112,7 +120,8 @@ export const CartProvider = ({ children }) => {
         removeItem,
         getCartValue,
         clearItem,
-        clearCart
+        clearCart,
+        getCartItemsQuantity
       }}
     >
       {children}

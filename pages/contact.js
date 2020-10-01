@@ -12,9 +12,9 @@ export default function ContactPage () {
   const [isLoading, setLoading] = useState(false)
 
   // simulate call to lambda function
-  const sendMessage = (email, message) => {
+  const sendMessage = () => {
     return new Promise(function (resolve) {
-      setTimeout(() => resolve(window.alert('send message: ', message)), 2000)
+      setTimeout(() => resolve(window.alert(`email: ${email}, message: ${message}`)), 1000)
     })
   }
 
@@ -22,7 +22,7 @@ export default function ContactPage () {
     try {
       event.preventDefault()
       setLoading(true)
-      await sendMessage(email, message)
+      await sendMessage()
       setLoading(false)
       setEmail('')
       setMessage('')

@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react'
 import Link from 'next/link'
 
-import Cart from '../components/cart'
+import { useCart } from '../hooks/useCart'
 
+import Cart from '../components/cart'
 import MenuList from './menu-list'
 
 export default function FullNavbar () {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const refMenu = useRef(null)
+  const { getCartItemsQuantity } = useCart()
 
   const closeMenu = () => {
     setIsMenuOpen(false)
@@ -54,10 +56,11 @@ export default function FullNavbar () {
 
           <MenuList orientation='horizontal' closeMenu={closeMenu} />
 
-          <button onClick={openCart} className='px-4 cursor-pointer focus:outline-none'>
+          <button onClick={openCart} className='relative mx-4 cursor-pointer focus:outline-none'>
             <svg className='w-8' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z' />
             </svg>
+            <span className='absolute bottom-0 left-0 w-full mx-auto text-sm font-bold ' style={{ paddingBottom: '2px' }}>{getCartItemsQuantity()}</span>
           </button>
         </div>
 
