@@ -6,10 +6,11 @@ import Heart from '../../components/heart'
 
 import { getItemsPaths, getItemById} from '../../lib/api'
 import { useCart } from '../../hooks/useCart'
+import ImageSlider from '../../components/image-slider'
 
 export default function ProductPage ({ item }) {
   const { addItem } = useCart()
-  const {id, brand, model, price, imageUrl, refCode} = item
+  const {id, brand, model, price, refCode, images} = item
   const brandAndModel = `${brand} ${model}`
 
   return (
@@ -21,15 +22,10 @@ export default function ProductPage ({ item }) {
 
         <FullNavbar />
         <div className='grid gap-5 mx-auto lg:grid-cols-2 xl:mt-10' style={{maxWidth: '1500px'}}>
-          <div className='relative overflow-hidden shadow-lg'>
-            <img className='object-cover w-full' src={imageUrl} />
 
-            <div className='absolute bottom-0 flex justify-center w-full h-10 -500'>
-              <button className='block w-4 h-4 mx-2 my-1 bg-white border-4 rounded-full border-primary focus:outline-none' />
-              <button className='block w-4 h-4 mx-2 my-1 bg-white border-4 rounded-full border-primary focus:outline-none' />
-              <button className='block w-4 h-4 mx-2 my-1 bg-white border-4 rounded-full border-primary focus:outline-none' />
-            </div>
-          </div>
+            <ImageSlider images={images} />
+
+            
 
           <div className='flex flex-col justify-center p-2 sm:p-4 '>
             <div className='relative p-4'>
