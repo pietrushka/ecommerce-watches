@@ -7,7 +7,7 @@
     "build": "next build",
     "test": "jest --watch",
     "start": "next start",
-    "stripe": "cd .. && cd ecommerce-watches-strapi && npm run develop",
+    "strapi": "cd .. && cd ecommerce-watches-strapi && npm run develop",
     "both": "concurrently \"npm run dev\" \"npm run stripe\""
   },
   "dependencies": {
