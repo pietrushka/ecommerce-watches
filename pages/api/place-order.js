@@ -126,8 +126,8 @@ export default async (req, res) => {
 
   // Prepare payment
   const session = await stripe.checkout.sessions.create({
-    success_url: `/success/?orderId=${orderId}`,
-    cancel_url: `/cancel/?orderId=${orderId}`,
+    success_url: `https://sikory.vercel.app/success/?orderId=${orderId}`,
+    cancel_url: `https://sikory.vercel.app/cancel/?orderId=${orderId}`,
     payment_method_types: ['card'],
     line_items: lineItems,
     mode: 'payment',
