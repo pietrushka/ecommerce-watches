@@ -151,7 +151,7 @@ export default function RegisterPage () {
               {!isLoading ? 'Register' : 'Loading...'}
             </CustomButton>
           </div>
-          <p className='h-8 py-2 text-center'>If you alreadt have an account - <Link href='/register'><a className='font-bold'>Login</a></Link></p>
+          <p className='h-8 py-2 text-center'>If you alreadt have an account - <Link href='/login'><a className='font-bold'>Login</a></Link></p>
         </form>
 
       </div>

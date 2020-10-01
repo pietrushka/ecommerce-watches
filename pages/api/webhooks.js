@@ -9,9 +9,8 @@ export default async (req, res) => {
 
   // Handle the event
   switch (event.type) {
-    case 'payment_intent.succeeded': {
-      const paymentIntent = event.data.object
-      const { orderId } = paymentIntent.metadata
+    case 'checkout.session.completed': {
+      const { orderId } = event.data.object.metadata
       console.log('PaymentIntent was successful!', { orderId })
       // send order to CMS
       const orderReqConfig = {
