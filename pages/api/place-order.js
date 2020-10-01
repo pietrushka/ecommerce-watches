@@ -36,7 +36,7 @@ export default async (req, res) => {
     const setOrderData = () => {
       const validatedItems = items.map(item => {
         const correspondingItemInCMS = dataFromCMS.products.find(product => product.id === item.id)
-
+        console.log(correspondingItemInCMS)
         // if evertything is OK return item
         return { ...correspondingItemInCMS, quantity: item.quantity }
       })
@@ -73,23 +73,24 @@ export default async (req, res) => {
         'Content-Type': 'application/json'
       }
     }
+
+    // !!! Temporary solution for frontend development purposes !!!
     const orderResponse = await axios.post(`${CMS_URL}/orders`, validatedOrder, orderReqConfig)
     orderId = orderResponse.data.id
 
     // create relation between user and order
     if (user.id) {
-      const ordersUrl = `${CMS_URL}/users/getMyOrders`
       const authConfig = {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         }
       }
-
-      const userResponse = await axios.get(ordersUrl, authConfig)
-
+      // get user orders
+      const userResponse = await axios.get(`${CMS_URL}/users/getMyOrders`, authConfig)
       const userOrders = [...userResponse.data.orders, orderId]
 
+      // !!! Temporary solution for frontend development purposes !!!
       await axios.put(`${CMS_URL}/users/updateMe`, { orders: userOrders }, authConfig)
     }
   } catch (error) {

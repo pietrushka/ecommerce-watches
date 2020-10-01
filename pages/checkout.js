@@ -119,8 +119,8 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
     try {
       const stripeResponse = await placeOrder({ items, methods, personalData, user, token })
       const sessionId = stripeResponse.data.id
-      clearCart()
       const stripe = await stripePromise
+      clearCart()
       const { error } = await stripe.redirectToCheckout({ sessionId })
       console.log(error)
     } catch (error) {
@@ -263,7 +263,9 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
                           type='submit'
 
                         >
-                      Submit {getCartValueWithShippingCost()}
+                          {
+                            isLoading ? 'Loading' : `Submit ${getCartValueWithShippingCost()}`
+                          }
                         </CustomButton>
                       </div>
                     </form>

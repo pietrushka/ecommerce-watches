@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 
 import Cart from '../components/cart'
@@ -54,7 +54,7 @@ export default function FullNavbar () {
 
           <MenuList orientation='horizontal' closeMenu={closeMenu} />
 
-          <button onClick={openCart} className='px-4 cursor-pointer focus:outline-none' id='burger'>
+          <button onClick={openCart} className='px-4 cursor-pointer focus:outline-none'>
             <svg className='w-8' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z' />
             </svg>
@@ -62,9 +62,12 @@ export default function FullNavbar () {
         </div>
 
       </nav>
-
       <div ref={refMenu} id='overlay-menu' className='fixed bottom-0 left-0 right-0 z-20 flex items-center justify-center h-screen transition duration-300 ease-in transform translate-y-full bg-secondary'>
-        <MenuList closeMenu={closeMenu} />
+        {
+          isMenuOpen && (
+            <MenuList closeMenu={closeMenu} />
+          )
+        }
       </div>
 
     </>
