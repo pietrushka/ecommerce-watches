@@ -4,10 +4,12 @@ import { useCart } from '../hooks/useCart'
 export default function CartItem ({ item }) {
   const { addItem, removeItem, clearItem } = useCart()
 
+  const thumbnailUrl = item.cover.formats.small.url
+
   return (
     <div className='flex items-center justify-around'>
       <Link href={`/${item.id}`}>
-        <a className='w-1/3'><img classame='inline-block object-cover' src={item.imageUrl} /></a>
+        <a className='w-1/3'><img classame='inline-block object-cover' src={thumbnailUrl} /></a>
       </Link>
 
       <span className='w-1/3 text-center'>{`${item.brand} ${item.model}`}</span>

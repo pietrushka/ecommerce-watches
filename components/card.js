@@ -5,12 +5,14 @@ import CustomButton from './custom-button'
 import Heart from './heart'
 
 export default function Card ({ item }) {
-  const { id, brand, price, model, refCode, imageUrl } = item
+  const { id, brand, price, model, refCode, cover, images } = item
   const { addItem } = useCart()
 
   const pdpLink = `/product/${id}`
 
-  const addToCart = () => addItem(({ id, brand, model, price, refCode, imageUrl, quantity: 1 }))
+  const addToCart = () => addItem(({ id, brand, model, price, refCode, cover, images, quantity: 1 }))
+
+  const imageUrl = cover.url
 
   return (
     <div className='bg-white rounded-lg shadow-lg'>

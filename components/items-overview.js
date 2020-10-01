@@ -66,8 +66,8 @@ export default function ItemsOverview ({ items }) {
         className='grid gap-5 px-8 py-8 pt-10 mx-auto sm:gap-2 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:gap-8 lg:w-10/12'
       >
         {
-          sortedItems.map(({ id, brand, price, model, refCode, imageUrl }) => (
-            <Card key={id} item={{ id, brand, price, model, refCode, imageUrl }} />
+          sortedItems.map(({ id, brand, price, model, refCode, cover, images }) => (
+            <Card key={id} item={{ id, brand, price, model, refCode, cover, images }} />
           ))
         }
 

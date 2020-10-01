@@ -10,7 +10,7 @@ import ImageSlider from '../../components/image-slider'
 
 export default function ProductPage ({ item }) {
   const { addItem } = useCart()
-  const {id, brand, model, price, refCode, images} = item
+  const {id, brand, model, price, refCode, images, cover} = item
   const brandAndModel = `${brand} ${model}`
 
   return (
@@ -37,7 +37,7 @@ export default function ProductPage ({ item }) {
 
             <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
               <button 
-                onClick={() => addItem({ id, brand, model, price, imageUrl, refCode, quantity: 1 })}
+                onClick={() => addItem({ id, brand, model, price, images, cover, refCode, quantity: 1 })}
                 className='px-20 py-4 text-lg text-white rounded-full shadow-lg focus:outline-none bg-primary'>{`Add to cart $${price}`}</button>
             </div>
           </div>

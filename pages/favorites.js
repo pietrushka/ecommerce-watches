@@ -56,8 +56,8 @@ export default function FavoritesPage () {
                   </div>
                   <div className='grid gap-5 px-16 py-8 mx-auto sm:gap-2 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:gap-8 lg:w-10/12'>
                     {
-                      favoritesData.map(({ id, brand, price, model, refCode, cover }) => (
-                        <Card key={id} item={{ id, brand, price, model, refCode, imageUrl: cover.url }} />
+                      favoritesData.map(({ id, brand, price, model, refCode, cover, images }) => (
+                        <Card key={id} item={{ id, brand, price, model, refCode, cover, images }} />
                       ))
                     }
                   </div>

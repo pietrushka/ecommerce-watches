@@ -21,7 +21,7 @@ export default function PaymentPage () {
         <div className='w-2/3 h-auto py-4 mx-auto md:w-1/3 '>
           <img className='' src='/box.png' />
         </div>
-        <Link href='/'>
+        <Link href='/orders'>
           <a className='p-4 mt-2 text-lg text-center rounded-lg text-primary'>Check your orders</a>
         </Link>
         <Link href='/'>

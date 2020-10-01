@@ -34,10 +34,10 @@ export default function OrderItem ({ order }) {
       </div>
 
       {
-        items.map(({ id, brand, model, quantity, price, imageUrl }) => (
+        items.map(({ id, brand, model, quantity, price, cover }) => (
           <div key={id} className='flex items-center justify-around m-2 bg-white rounded-lg'>
             <Link href='/'>
-              <a className='w-1/4'><img classame='inline-block object-cover' src={imageUrl} /></a>
+              <a className='w-1/4'><img classame='inline-block object-cover' src={cover.formats.small.url} /></a>
             </Link>
             <div className='w-2/4'>
               <Link href='/'>
