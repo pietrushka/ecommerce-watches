@@ -1,6 +1,8 @@
+import { connectToDatabase } from './database'
+
+const ObjectId = require('mongodb').ObjectID
 const stripe = require('stripe')(process.env.STRIPE_KEY)
 const axios = require('axios')
-
 const { CMS_URL } = process.env
 
 const getProducts = async () => {
@@ -18,7 +20,11 @@ const getPaymentOpitons = async () => {
 }
 
 export default async (req, res) => {
-  const { items, methods, personalData, user, token } = req.body
+  const db = await connectToDatabase()
+  const collectionOrders = await db.collection('orders')
+  const collectionUsers = await db.collection('users-permissions_user')
+
+  const { items, methods, personalData, user } = req.body
 
   const dataFromCMS = {}
   let validatedOrder
@@ -61,36 +67,23 @@ export default async (req, res) => {
 
       const validatedAmount = validatedItemsValue + validatedShipping.price
 
-      return { items: validatedItems, methods: validatedMethods, personalData, amount: validatedAmount, paymentStatus: 'not-paid' }
+      const date = new Date()
+
+      return { items: validatedItems, methods: validatedMethods, personalData, amount: validatedAmount, paymentStatus: 'not-paid', createdAt: date }
     }
 
     validatedOrder = setOrderData()
 
-    // send order to CMS
-    const orderReqConfig = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-
-    // !!! Temporary solution for frontend development purposes !!!
-    const orderResponse = await axios.post(`${CMS_URL}/orders`, validatedOrder, orderReqConfig)
-    orderId = orderResponse.data.id
+    // send order to DB
+    const docsInserted = await collectionOrders.insertOne(validatedOrder)
+    orderId = docsInserted.insertedId
 
     // create relation between user and order
     if (user.id) {
-      const authConfig = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      }
-      // get user orders
-      const userResponse = await axios.get(`${CMS_URL}/users/getMyOrders`, authConfig)
-      const userOrders = [...userResponse.data.orders, orderId]
+      const userDB = await collectionUsers.findOne({ _id: ObjectId(user.id) })
+      const userOrders = [...userDB.orders, orderId]
 
-      // !!! Temporary solution for frontend development purposes !!!
-      await axios.put(`${CMS_URL}/users/updateMe`, { orders: userOrders }, authConfig)
+      await collectionUsers.updateOne({ _id: ObjectId(user.id) }, { $set: { orders: userOrders } })
     }
   } catch (error) {
     console.log(error, error.response)
@@ -134,7 +127,7 @@ export default async (req, res) => {
     client_reference_id: user.id,
     customer_email: user.email,
     metadata: {
-      orderId
+      orderId: orderId.toString()
     }
   })
 

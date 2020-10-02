@@ -1,21 +1,19 @@
-const axios = require('axios')
-
-const { CMS_URL } = process.env
+import { connectToDatabase } from './database'
+const ObjectId = require('mongodb').ObjectID
 
 export default async (req, res) => {
+  const db = await connectToDatabase()
+  const collection = await db.collection('orders')
+
   const event = req.body
 
   // Handle the event
   switch (event.type) {
     case 'checkout.session.completed': {
       const { orderId } = event.data.object.metadata
-
-      // !!! Temporary solution for frontend development purposes !!!
-      await axios.put(`${CMS_URL}/orders/${orderId}`, { paymentStatus: 'paid' }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      console.log(orderId)
+      const order = await collection.update({ _id: ObjectId(orderId) }, { $set: { paymentStatus: 'paid' } })
+      console.log(order)
       break
     }
     // ... handle other event types
