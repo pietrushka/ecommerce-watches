@@ -10,11 +10,11 @@ export default function MenuList ({ orientation, closeMenu }) {
   const { user, setUser } = useContext(AppContext)
   const { clearCart } = useCart()
 
-  const liStyles = orientation === 'horizontal' ? 'px-4' : 'px-8 py-3 text-center bg-white my-8 rounded-lg border-2 border-primary'
+  const liStyles = orientation === 'horizontal' ? 'px-4 text-xl' : 'px-6  py-2 text-center bg-white my-5 rounded-lg border-2 border-primary'
 
   const ulClassNames = orientation === 'horizontal'
     ? 'hidden md:flex lg:text-xl xl:text-2xl'
-    : 'text-3xl'
+    : 'text-3xl flex flex-col justify-center mt-20'
 
   const logout = async () => {
     // remove token and user cookie

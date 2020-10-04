@@ -34,7 +34,7 @@ export default function ItemsOverview ({ items }) {
       <div className='flex justify-center py-4 pb-6' onClick={() => sortOptRef.current.removeAttribute('open')}>
         <input
           type='text'
-          className='w-10/12 max-w-xl px-2 py-4 text-lg text-white placeholder-white border-2 rounded-full shadow-lg outline-none xl:max-w-2xl bg-primary'
+          className='w-10/12 max-w-xl px-6 py-4 text-lg text-white placeholder-white border-2 rounded-full shadow-lg outline-none xl:max-w-2xl bg-primary'
           placeholder='Search here'
           onChange={(event) => setSearchBox(event.target.value)}
           value={searchBox}
@@ -43,7 +43,7 @@ export default function ItemsOverview ({ items }) {
 
       <div className='flex justify-center select-none'>
         <details ref={sortOptRef} className='w-1/2 max-w-sm text-center md:w-1/3 lg:w-1/4 handle-rounded'>
-          <summary className='text-xl rounded-lg outline-none cursor-pointer bg-primary text-secondary'>Sort by</summary>
+          <summary className='py-1 text-xl rounded-lg outline-none cursor-pointer bg-primary text-secondary'>Sort by</summary>
           <ul onChange={handleChange} className='absolute z-20 w-1/2 max-w-sm p-4 text-lg rounded-b-lg shadow-lg md:w-1/3 lg:w-1/4 bg-secondary'>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='default' id='default' defaultChecked={sortValue === 'default'} />
@@ -63,7 +63,7 @@ export default function ItemsOverview ({ items }) {
 
       <div
         onClick={() => sortOptRef.current.removeAttribute('open')}
-        className='grid gap-5 px-8 py-8 pt-10 mx-auto sm:gap-2 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:gap-8 lg:w-10/12'
+        className='grid gap-5 px-8 py-8 pt-10 mx-auto sm:gap-2 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 lg:w-10/12'
       >
         {
           sortedItems.map(({ id, brand, price, model, refCode, cover, images }) => (
