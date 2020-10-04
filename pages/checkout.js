@@ -55,8 +55,15 @@ const checkoutReducer = (state, action) => {
     case 'error': {
       return {
         ...state,
-        error: 'error',
+        error: action.payload,
         isLoading: false
+      }
+    }
+
+    case 'set_loading': {
+      return {
+        ...state,
+        isLoading: action.payload
       }
     }
 
@@ -76,22 +83,23 @@ const initialState = {
   streetAndNumber: '',
   email: '',
   phoneNumber: '',
-  isLoading: false,
+  isLoading: true,
   error: ''
 }
 
 export default function Checkout ({ shippingOptions, paymentOptions }) {
-  const [isLoading, setIsLoading] = useState(true)
   const Router = useRouter()
   const { user } = useContext(AppContext)
   const { items, getCartValue, clearCart } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
-  const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment } = state
+  const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment, isLoading, error } = state
+
+  console.log(isLoading)
 
   useEffect(() => {
     const token = Cookies.get('token')
     if (!token) Router.push('/login')
-    if (token && items) setIsLoading(false)
+    if (token && items) dispatch({ type: 'set_loading', payload: false })
   }, [items])
 
   const getCartValueWithShippingCost = () => {
@@ -120,6 +128,7 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
       const stripeResponse = await placeOrder({ items, methods, personalData, user, token })
       const sessionId = stripeResponse.data.id
       const stripe = await stripePromise
+      dispatch({ type: 'success' })
       clearCart()
       const { error } = await stripe.redirectToCheckout({ sessionId })
       console.log(error)
@@ -256,6 +265,10 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
                         />
 
                       </div>
+
+                      {error && (
+                        <p className='mb-4 text-lg font-bold text-center text-red-700'>{error}</p>
+                      )}
 
                       <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
                         <CustomButton

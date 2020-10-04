@@ -103,7 +103,7 @@ export default function LoginPage () {
 
       <div className='flex flex-col items-center justify-center w-11/12 h-auto py-8 my-auto rounded-lg shadow-2xl md:w-1/2 bg-secondary' style={{ maxWidth: '768px' }}>
         <div className='w-4/6 '>
-          <h2 className='w-full py-4 text-2xl'>Login</h2>
+          <h2 className='w-full py-4 text-3xl'>Login</h2>
         </div>
 
         <form
@@ -145,7 +145,9 @@ export default function LoginPage () {
             </CustomButton>
           </div>
 
-          <p className='h-8 py-2 text-center'>If you don't have an account - <Link href='/register'><a className='font-bold'>Register</a></Link></p>
+          <p className='h-8 py-2 text-center'>
+            If you don't have an account - <Link href='/register'><a className='inline-block font-bold transform hover:-skew-y-6'>Register</a></Link>
+          </p>'
         </form>
       </div>
     </Layout>

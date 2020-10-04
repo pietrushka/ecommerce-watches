@@ -45,13 +45,13 @@ export default function Cart ({ hideCart }) {
                 <>
                   <div className='overflow-auto'>
                     {
-                      items.map(item => <CartItem key={item.id} item={item} />)
+                      items.map(item => <CartItem hideCart={animateOut} key={item.id} item={item} />)
                     }
                   </div>
 
                   <div className='flex items-center justify-center w-full my-1 rounded-t-lg '>
                     <Link href='/checkout'>
-                      <a className='px-20 py-4 text-lg text-white rounded-full shadow-lg bg-primary focus:outline-none'>
+                      <a className='px-16 py-4 text-lg text-white border-4 rounded-full shadow-lg border-primary bg-primary focus:outline-none clickAnimation hover:bg-secondary hover:text-primary hover:font-bold'>
                         {`Checkout $${cartValue}`}
                       </a>
                     </Link>

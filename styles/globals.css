@@ -11,8 +11,8 @@ a {
   text-decoration: none;
 }
 
-button {
-  outline: none;
+button:focus {
+	outline: none;
 }
 
 * {

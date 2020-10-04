@@ -10,7 +10,7 @@ export default function MenuList ({ orientation, closeMenu }) {
   const { user, setUser } = useContext(AppContext)
   const { clearCart } = useCart()
 
-  const liStyles = orientation === 'horizontal' ? 'px-4 text-xl' : 'px-6  py-2 text-center bg-white my-5 rounded-lg border-2 border-primary'
+  const liStyles = orientation === 'horizontal' ? ' text-xl font-bold px-6 relative addMenuUnderlineOnHover' : 'px-6 py-2 text-center bg-primary text-secondary my-5 rounded-full border-2 border-primary'
 
   const ulClassNames = orientation === 'horizontal'
     ? 'hidden md:flex lg:text-xl xl:text-2xl'

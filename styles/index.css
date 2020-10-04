@@ -26,10 +26,26 @@
   border-top-left-radius: 0;
 }
 
+
+.addMenuUnderlineOnHover::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 3px;
+  background-color: #17150F;
+  transition: width .3s;
+}
+
+.addMenuUnderlineOnHover:hover::after {
+  width: 100%;
+}
+
+
 .clickAnimation:active {
   animation: pop  0.3s linear 1;
 }
 
 @keyframes pop {
-  50%  {transform: scale(1.1);}
+  50%  {transform: scale(.95);}
 }
+

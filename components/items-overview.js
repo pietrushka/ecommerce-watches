@@ -47,15 +47,15 @@ export default function ItemsOverview ({ items }) {
           <ul onChange={handleChange} className='absolute z-20 w-1/2 max-w-sm p-4 text-lg rounded-b-lg shadow-lg md:w-1/3 lg:w-1/4 bg-secondary'>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='default' id='default' defaultChecked={sortValue === 'default'} />
-              <label onClick={closeDetails} htmlFor='default' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Default</label>
+              <label onClick={closeDetails} htmlFor='default' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow cursor-pointer'>Default</label>
             </li>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='lowestPrice' id='lowestPrice' />
-              <label onClick={closeDetails} htmlFor='lowestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Lowest price</label>
+              <label onClick={closeDetails} htmlFor='lowestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow cursor-pointer'>Lowest price</label>
             </li>
             <li>
               <input className='hidden fill-label' type='radio' name='sortValue' value='highestPrice' id='highestPrice' />
-              <label onClick={closeDetails} htmlFor='highestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow'>Highest price</label>
+              <label onClick={closeDetails} htmlFor='highestPrice' className='block w-4/6 p-2 mx-auto my-2 text-center bg-white rounded-lg shadow cursor-pointer'>Highest price</label>
             </li>
           </ul>
         </details>

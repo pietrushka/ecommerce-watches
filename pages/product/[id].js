@@ -7,6 +7,7 @@ import Heart from '../../components/heart'
 import { getItemsPaths, getItemById} from '../../lib/api'
 import { useCart } from '../../hooks/useCart'
 import ImageSlider from '../../components/image-slider'
+import CustomButton from '../../components/custom-button'
 
 export default function ProductPage ({ item }) {
   const { addItem } = useCart()
@@ -36,9 +37,12 @@ export default function ProductPage ({ item }) {
             </div>
 
             <div className='flex items-center justify-center w-full my-2 rounded-t-lg '>
-              <button 
+              <CustomButton
+                width='w-1/2'
                 onClick={() => addItem({ id, brand, model, price, images, cover, refCode, quantity: 1 })}
-                className='px-20 py-4 text-lg text-white rounded-full shadow-lg focus:outline-none bg-primary'>{`Add to cart $${price}`}</button>
+              >
+                {`Add to cart $${price}`}
+              </CustomButton>
             </div>
           </div>
 

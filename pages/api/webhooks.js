@@ -11,9 +11,7 @@ export default async (req, res) => {
   switch (event.type) {
     case 'checkout.session.completed': {
       const { orderId } = event.data.object.metadata
-      console.log(orderId)
-      const order = await collection.update({ _id: ObjectId(orderId) }, { $set: { paymentStatus: 'paid' } })
-      console.log(order)
+      await collection.update({ _id: ObjectId(orderId) }, { $set: { paymentStatus: 'paid' } })
       break
     }
     // ... handle other event types

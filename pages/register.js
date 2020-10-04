@@ -105,7 +105,7 @@ export default function RegisterPage () {
       <div className='flex flex-col items-center justify-center w-11/12 h-auto py-8 my-auto rounded-lg shadow-2xl lg:p-16 md:w-1/2 bg-secondary' style={{ maxWidth: '768px' }}>
 
         <div className='w-4/6'>
-          <h2 className='w-full text-2xl'>Register</h2>
+          <h2 className='w-full text-3xl'>Register</h2>
         </div>
 
         <form onSubmit={onRegister} className='flex flex-col items-center w-full'>
@@ -151,7 +151,7 @@ export default function RegisterPage () {
               {!isLoading ? 'Register' : 'Loading...'}
             </CustomButton>
           </div>
-          <p className='h-8 py-2 text-center'>If you alreadt have an account - <Link href='/login'><a className='font-bold'>Login</a></Link></p>
+          <p className='h-8 py-2 text-center'>If you alreadt have an account - <Link href='/login'><a className='inline-block font-bold transform hover:-skew-y-6'>Login</a></Link></p>
         </form>
 
       </div>

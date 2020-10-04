@@ -33,11 +33,11 @@ export default function OrderItem ({ order }) {
       {
         items.map(({ id, brand, model, quantity, price, cover }) => (
           <div key={id} className='flex items-center justify-around mx-2 my-4 bg-white rounded-lg md:text-lg xl:text-xl'>
-            <Link href='/'>
+            <Link href={`/product/${id}`}>
               <a className='w-1/4 lg:w-1/6'><img classame='inline-block object-cover' src={cover.formats.small.url} /></a>
             </Link>
             <div className='w-2/4'>
-              <Link href='/'>
+              <Link href={`/product/${id}`}>
                 <a>{`${brand} ${model}`}</a>
               </Link>
             </div>
