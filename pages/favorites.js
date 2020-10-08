@@ -13,7 +13,7 @@ const { CMS_URL } = process.env
 
 export default function FavoritesPage () {
   const [isLoading, setIsLoading] = useState(true)
-  const token = Cookies.get('token')
+  const token = Cookies.get('tokenSikory')
   const [favoritesData, setFavoritesData] = useState(null)
 
   useEffect(() => {

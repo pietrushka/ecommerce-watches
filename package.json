@@ -21,11 +21,16 @@
     "qs": "^6.9.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hook-form": "^6.9.2",
+    "react-test-renderer": "^16.13.1",
     "stripe": "^8.102.0",
     "tailwindcss": "^1.8.10"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0"
+    "@testing-library/dom": "^7.24.5",
+    "@testing-library/react": "^11.0.4",
+    "concurrently": "^5.3.0",
+    "jest": "^26.5.2"
   },
   "standard": {
     "env": [

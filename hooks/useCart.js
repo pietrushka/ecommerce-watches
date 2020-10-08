@@ -7,7 +7,7 @@ const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(null)
-  const token = Cookies.get('token')
+  const token = Cookies.get('tokenSikory')
 
   useEffect(() => {
     if (!token) {
@@ -86,7 +86,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     await window.localStorage.setItem('cart', JSON.stringify([]))
-    const freshToken = Cookies.get('token')
+    const freshToken = Cookies.get('tokenSikory')
     if (!freshToken) return
     try {
       const newCart = []

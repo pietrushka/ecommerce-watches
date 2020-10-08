@@ -16,7 +16,7 @@ export default function App ({ Component, pageProps }) {
 
   useEffect(() => {
     // grab token value from cookie
-    const token = Cookies.get('token')
+    const token = Cookies.get('tokenSikory')
 
     if (token) {
       // authenticate the token on the server and place set user object
@@ -28,7 +28,7 @@ export default function App ({ Component, pageProps }) {
         // if res comes back not valid, token is not valid
         // delete the token and log the user out on client
         if (res.statusText !== 'OK') {
-          Cookies.remove('token')
+          Cookies.remove('tokenSikory')
           setUser(null)
           return null
         }

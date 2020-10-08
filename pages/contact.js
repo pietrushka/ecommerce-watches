@@ -11,7 +11,7 @@ export default function ContactPage () {
   const [message, setMessage] = useState('')
   const [isLoading, setLoading] = useState(false)
 
-  // simulate call to lambda function
+  // simulate call to function
   const sendMessage = () => {
     return new Promise(function (resolve) {
       setTimeout(() => resolve(window.alert(`email: ${email}, message: ${message}`)), 1000)

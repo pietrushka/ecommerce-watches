@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 const { CMS_URL } = process.env
 
 export const putFavoritesOnDB = async (favorites) => {
-  const token = Cookies.get('token')
+  const token = Cookies.get('tokenSikory')
   const url = `${CMS_URL}/users/updateMe`
   const config = {
     headers: {
@@ -16,7 +16,7 @@ export const putFavoritesOnDB = async (favorites) => {
 }
 
 export const getFavoritesFromDB = async () => {
-  const token = Cookies.get('token')
+  const token = Cookies.get('tokenSikory')
   if (!token) return
   const url = `${CMS_URL}/users/getMyFavorites`
   const config = {

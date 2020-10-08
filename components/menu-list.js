@@ -42,7 +42,7 @@ export default function MenuList ({ orientation, closeMenu }) {
 
   const logout = async () => {
     // remove token and user cookie
-    await Cookies.remove('token')
+    await Cookies.remove('tokenSikory')
     delete window.__user
 
     setUser(null)
@@ -72,9 +72,7 @@ export default function MenuList ({ orientation, closeMenu }) {
       </li>
       {user ? (
         <li className={liStyles('logout')} onClick={closeMenu}>
-          <button className='outline-none' onClick={logout}>
-            Logout
-          </button>
+          <button className='font-bold outline-none' onClick={logout}>Logout</button>
         </li>
       ) : (
         <>

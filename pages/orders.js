@@ -14,7 +14,7 @@ const { CMS_URL } = process.env
 export default function OrdersPage () {
   const [isLoading, setIsLoading] = useState(true)
   const [ordersData, setOrdersData] = useState(null) // array
-  const token = Cookies.get('token')
+  const token = Cookies.get('tokenSikory')
 
   useEffect(() => {
     const fetchOrders = async () => {

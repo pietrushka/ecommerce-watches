@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 const { CMS_URL } = process.env
 
 export const putCartOnDB = async (cart) => {
-  const token = Cookies.get('token')
+  const token = Cookies.get('tokenSikory')
   // const jsonCart = await cart.json()
   const url = `${CMS_URL}/users/updateMe`
   const config = {
@@ -17,7 +17,7 @@ export const putCartOnDB = async (cart) => {
 }
 
 export const getCartFromDB = async () => {
-  const token = Cookies.get('token')
+  const token = Cookies.get('tokenSikory')
   if (!token) return
   const url = `${CMS_URL}/users/getMyCart`
   const config = {

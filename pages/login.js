@@ -67,8 +67,8 @@ export default function LoginPage () {
   const { identifier, password, isLoading, error } = state
 
   useEffect(() => {
-    if (isAuthenticated) Router.push('/')
-  })
+    if (isAuthenticated) return Router.push('/')
+  }, [])
 
   const handleChange = event => {
     dispatch({
@@ -84,7 +84,7 @@ export default function LoginPage () {
       dispatch({ type: 'login' })
       const res = await loginUser(identifier, password)
       dispatch({ type: 'success' })
-      Cookies.set('token', res.data.jwt, { expires: 1 })
+      Cookies.set('tokenSikory', res.data.jwt, { expires: 1 })
       setUser(res.data.user)
       Router.push('/')
     } catch (error) {
@@ -103,6 +103,7 @@ export default function LoginPage () {
 
       <div className='flex flex-col items-center justify-center w-11/12 h-auto py-8 my-auto rounded-lg shadow-2xl md:w-1/2 bg-secondary' style={{ maxWidth: '768px' }}>
         <div className='w-4/6 '>
+          <p className='text-sm text-center'>Test credentials<br />Identifier: test<br />password: password</p>
           <h2 className='w-full py-4 text-3xl'>Login</h2>
         </div>
 

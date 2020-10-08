@@ -97,7 +97,7 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
   console.log(isLoading)
 
   useEffect(() => {
-    const token = Cookies.get('token')
+    const token = Cookies.get('tokenSikory')
     if (!token) Router.push('/login')
     if (token && items) dispatch({ type: 'set_loading', payload: false })
   }, [items])
@@ -122,7 +122,7 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
     dispatch({ type: 'checkout' })
 
     const methods = { shipping, payment }
-    const token = Cookies.get('token')
+    const token = Cookies.get('tokenSikory')
     const personalData = { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber }
     try {
       const stripeResponse = await placeOrder({ items, methods, personalData, user, token })
