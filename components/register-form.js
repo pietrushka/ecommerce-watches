@@ -77,11 +77,15 @@ export default function RegisterForm () {
       event.preventDefault()
       dispatch({ type: 'register' })
 
-      const validPassword = () => (
-        [/[a-z]/, /[A-Z]/, /[0-9]/].every(pattern => pattern.test(password))
-      )
+      // Valid Length
+      if (password.trim().length < 8) {
+        return dispatch({ type: 'error', payload: 'Password must at least 8 characters' })
+      }
 
-      if (!validPassword()) return dispatch({ type: 'error', payload: 'Password must include lower, upper and number' })
+      // Valid Complexity
+      if (![/[a-z]/, /[A-Z]/, /[0-9]/].every(pattern => pattern.test(password))) {
+        return dispatch({ type: 'error', payload: 'Password must include lower, upper and number' })
+      }
 
       const res = await registerUser(username, email, password)
       dispatch({ type: 'success' })
