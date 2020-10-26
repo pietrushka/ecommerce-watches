@@ -42,8 +42,9 @@ export const addItemToCart = (cart, cartItemToAdd) => {
         : cartItem
     )
   }
-
-  return [...cart, { ...cartItemToAdd, quantity: 1 }]
+  
+  if(!cartItemToAdd.quantity) return [...cart, { ...cartItemToAdd, quantity: 1 }]
+  return [...cart, { ...cartItemToAdd, quantity: cartItemToAdd.quantity }]
 }
 
 export const removeItemFromCart = (cart, cartItemToRemove) => {

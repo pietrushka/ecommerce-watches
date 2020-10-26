@@ -10,7 +10,7 @@ export default function Card ({ item }) {
 
   const pdpLink = `/product/${id}`
 
-  const addToCart = () => addItem(({ id, brand, model, price, refCode, cover, images, quantity: 1 }))
+  const addToCart = () => addItem({ id, brand, model, price, refCode, cover, images, quantity: 1 })
 
   const imageUrl = cover.url
 

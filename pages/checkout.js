@@ -94,8 +94,6 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment, isLoading, error } = state
 
-  console.log(isLoading)
-
   useEffect(() => {
     const token = Cookies.get('tokenSikory')
     if (!token) Router.push('/login')
