@@ -17,7 +17,6 @@
 * [Tailwind](https://tailwindcss.com/)
 * [Jest](https://jestjs.io/)
 * [React Testing Library](https://testing-library.com/)
-* [React Testing Library] (https://testing-library.com/)
 
 ### Getting started
 
