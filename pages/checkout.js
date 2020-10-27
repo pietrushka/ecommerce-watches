@@ -155,9 +155,11 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
                   <p className='my-auto text-3xl text-center text-red-500'>Your cart is empty</p>
                 ) : (
                   <>
-                    {
-                      items.map(item => <CartItem key={item.id} item={item} />)
-                    }
+                    <div className='w-4/6 mx-auto'>
+                      {
+                        items.map(item => <CartItem key={item.id} item={item} />)
+                      }
+                    </div>
 
                     <form onSubmit={checkoutSubmit} className='p-4'>
 
