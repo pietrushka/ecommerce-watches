@@ -1,6 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
+  <img src="https://lh3.googleusercontent.com/qpWBa08_tai1hBS6roNj0BrfKe_FKUQUrjt70gx4qYwMCeLjYq-g3yzKt5hOGr4IcuMkUcFdBZ8LYomc9F1KxOcp8SlxVlakvFV4awqApw8S4ioyEXdCe8eSlexRFHdcndFrEogk=w2400" alt="Logo" width="240" height="160">
   <h3 align="center">Sikory.</h3>
 
   <p align="center">
