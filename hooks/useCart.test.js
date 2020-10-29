@@ -5,6 +5,7 @@ import { useCart, CartProvider } from './useCart'
 
 
 let hook = null;
+
 beforeEach(() => {
   const {result} = renderHook(() => useCart(), {
     wrapper: ({children}) => (
