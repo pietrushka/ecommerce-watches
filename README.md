@@ -9,6 +9,8 @@
     <br />
     <br />
     <a href="https://sikory.vercel.app/">View Demo</a>
+    <br />
+    <span>If you get 502 error, please refresh the page (free hosting plan)</span>
   </p>
 </p>
 

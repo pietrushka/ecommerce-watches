@@ -11,7 +11,6 @@ export default function MenuList ({ orientation, closeMenu }) {
   const { user, setUser } = useContext(AppContext)
   const { clearCart } = useCart()
   const pathName = Router.pathname.slice(1)
-  console.log(pathName)
 
   const liStyles = optionName => {
     if (orientation === 'horizontal') {
