@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Router from 'next/router'
-import Cookies from 'js-cookie'
 import { useReducer, useContext, useRef, useEffect } from 'react'
 
 import Layout from '../components/layout'
@@ -10,8 +9,8 @@ import CustomButton from '../components/custom-button'
 
 import { setFocus } from '../utils/utils'
 import { loginUser } from '../utils/auth'
-import AppContext from '../context/app-context'
 import Link from 'next/link'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 const loginReducer = (state, action) => {
   switch (action.type) {
@@ -61,7 +60,7 @@ const initialState = {
 }
 
 export default function LoginPage () {
-  const { setUser, isAuthenticated } = useContext(AppContext)
+  const { setUser, isAuthenticated } = useCurrentUser()
   const passwordRef = useRef()
   const [state, dispatch] = useReducer(loginReducer, initialState)
   const { identifier, password, isLoading, error } = state
@@ -84,12 +83,15 @@ export default function LoginPage () {
       dispatch({ type: 'login' })
       const res = await loginUser(identifier, password)
       dispatch({ type: 'success' })
-      Cookies.set('tokenSikory', res.data.jwt, { expires: 1 })
       setUser(res.data.user)
+      
+      if(!res.data.user) {
+        throw 'Cannot login. Please try again'
+      }
+      
       Router.push('/')
     } catch (error) {
-      const message = error.response.data.message[0].messages[0].message
-      dispatch({ type: 'error', payload: message })
+      dispatch({ type: 'error', payload: error })
       setFocus(passwordRef)
     }
   }

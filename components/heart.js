@@ -1,12 +1,11 @@
-import { route } from 'next/dist/next-server/server/router'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useContext } from 'react'
 
-import AppContext from '../context/app-context'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 import { useFavorites } from '../hooks/useFavorites'
 
 export default function Heart ({ itemId, size }) {
-  const { isAuthenticated } = useContext(AppContext)
+  const { isAuthenticated } = useCurrentUser()
   const [isFavorite, setFavorite] = useState(false)
   const { favorites, addFavorite, removeFavorite } = useFavorites()
   const router = useRouter()

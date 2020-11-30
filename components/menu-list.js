@@ -1,17 +1,27 @@
 import { useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Cookies from 'js-cookie'
 
-import AppContext from '../context/app-context'
 import { useCart } from '../hooks/useCart'
+import { useCurrentUser } from '../hooks/useCurrentUser'
+import {logoutUser} from '../utils/auth'
 
 export default function MenuList ({ orientation, closeMenu }) {
   const Router = useRouter()
-  const { user, setUser } = useContext(AppContext)
+  const { user, setUser } = useCurrentUser()
   const { clearCart } = useCart()
   const pathName = Router.pathname.slice(1)
 
+  const logout = async () => {
+    await logoutUser()
+
+    setUser(null)
+    await clearCart()
+    // redirect to the home page
+    Router.push('/')
+    Router.reload()
+  }
+  
   const liStyles = optionName => {
     if (orientation === 'horizontal') {
       let horizontalStyles = 'text-lg font-bold px-6 relative'
@@ -39,17 +49,6 @@ export default function MenuList ({ orientation, closeMenu }) {
     ? 'hidden md:flex lg:text-xl xl:text-2xl'
     : 'text-3xl flex flex-col justify-center mt-20'
 
-  const logout = async () => {
-    // remove token and user cookie
-    await Cookies.remove('tokenSikory')
-    delete window.__user
-
-    setUser(null)
-    await clearCart()
-    // redirect to the home page
-    Router.push('/')
-    Router.reload()
-  }
 
   return (
 

@@ -1,29 +1,25 @@
 import Head from 'next/head'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
 import axios from 'axios'
 
 import WithSpinner from '../components/with-spinner'
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import OrderItem from '../components/order-item'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 const { CMS_URL } = process.env
 
 export default function OrdersPage () {
+  const {isAuthenticated} = useCurrentUser()
   const [isLoading, setIsLoading] = useState(true)
   const [ordersData, setOrdersData] = useState(null) // array
-  const token = Cookies.get('tokenSikory')
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const responseOrdersIds = await axios.get(`${CMS_URL}/users/getMyOrders`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+        const responseOrdersIds = await axios.get(`${CMS_URL}/users/getMyOrders`, {withCredentials: true})
         setOrdersData(responseOrdersIds.data.orders)
         setIsLoading(false)
       } catch (error) {
@@ -31,7 +27,7 @@ export default function OrdersPage () {
       }
     }
 
-    token ? fetchOrders() : Router.push('/login')
+    isAuthenticated ? fetchOrders() : Router.push('/login')
   }, [])
 
   return (

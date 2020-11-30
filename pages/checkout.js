@@ -2,19 +2,17 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useReducer, useContext, useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import Cookies from 'js-cookie'
 
+import { useCart } from '../hooks/useCart'
+import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
+import { placeOrder } from '../utils/order'
+import WithSpinner from '../components/with-spinner'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 import Layout from '../components/layout'
 import InputField from '../components/input-field'
 import PrevPageNavbar from '../components/prev-page-navbar'
 import CartItem from '../components/cart-item'
 import CustomButton from '../components/custom-button'
-
-import AppContext from '../context/app-context'
-import { useCart } from '../hooks/useCart'
-import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
-import { placeOrder } from '../utils/order'
-import WithSpinner from '../components/with-spinner'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE)
 
@@ -89,15 +87,14 @@ const initialState = {
 
 export default function Checkout ({ shippingOptions, paymentOptions }) {
   const Router = useRouter()
-  const { user } = useContext(AppContext)
+  const { user, isAuthenticated } = useCurrentUser()
   const { items, getCartValue, clearCart } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment, isLoading, error } = state
 
   useEffect(() => {
-    const token = Cookies.get('tokenSikory')
-    if (!token) Router.push('/login')
-    if (token && items) dispatch({ type: 'set_loading', payload: false })
+    if (!isAuthenticated) Router.push('/login')
+    if (isAuthenticated && items) dispatch({ type: 'set_loading', payload: false })
   }, [items])
 
   const getCartValueWithShippingCost = () => {
@@ -120,10 +117,9 @@ export default function Checkout ({ shippingOptions, paymentOptions }) {
     dispatch({ type: 'checkout' })
 
     const methods = { shipping, payment }
-    const token = Cookies.get('tokenSikory')
     const personalData = { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber }
     try {
-      const stripeResponse = await placeOrder({ items, methods, personalData, user, token })
+      const stripeResponse = await placeOrder({ items, methods, personalData, user })
       const sessionId = stripeResponse.data.id
       const stripe = await stripePromise
       dispatch({ type: 'success' })

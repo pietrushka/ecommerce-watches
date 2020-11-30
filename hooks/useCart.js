@@ -1,16 +1,16 @@
 import React, { useState, useContext, createContext, useEffect } from 'react'
-import Cookies from 'js-cookie'
 
 import { addItemToCart, removeItemFromCart, clearItemFromCart, putCartOnDB, getCartFromDB } from '../utils/cart-utils'
+import { useCurrentUser } from './useCurrentUser'
 
 const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
+  const {isAuthenticated} = useCurrentUser()
   const [cart, setCart] = useState(null)
-  const token = Cookies.get('tokenSikory')
 
   useEffect(() => {
-    if (!token) {
+    if (!isAuthenticated) {
       const cartFromLS = JSON.parse(window.localStorage.getItem('cart'))
       if (cartFromLS) {
         return setCart(cartFromLS)
@@ -37,10 +37,10 @@ export const CartProvider = ({ children }) => {
     }
 
     fetchData()
-  }, [token])
+  }, [isAuthenticated])
 
   useEffect(() => {
-    if (!token) {
+    if (!isAuthenticated) {
       window.localStorage.setItem('cart', JSON.stringify(cart))
     }
   }, [cart])
@@ -48,8 +48,6 @@ export const CartProvider = ({ children }) => {
   const addItem = async (itemToAdd) => {
     const newCart = addItemToCart(cart, itemToAdd)
     setCart(newCart)
-
-    if (!token) return
 
     try {
       await putCartOnDB(newCart)
@@ -62,7 +60,6 @@ export const CartProvider = ({ children }) => {
     const newCart = removeItemFromCart(cart, itemToRemove)
     setCart(newCart)
 
-    if (!token) return
 
     try {
       await putCartOnDB(newCart)
@@ -75,7 +72,6 @@ export const CartProvider = ({ children }) => {
     const newCart = clearItemFromCart(cart, itemToClear)
     setCart(newCart)
 
-    if (!token) return
 
     try {
       await putCartOnDB(newCart)
@@ -86,8 +82,6 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     await window.localStorage.setItem('cart', JSON.stringify([]))
-    const freshToken = Cookies.get('tokenSikory')
-    if (!freshToken) return
     try {
       const newCart = []
       setCart([])

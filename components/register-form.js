@@ -1,15 +1,12 @@
 import Link from 'next/link'
 import Router from 'next/router'
-import Cookies from 'js-cookie'
 import { useReducer, useContext, useRef } from 'react'
-
-import InputField from '../components/input-field'
-import CustomButton from '../components/custom-button'
 
 import { setFocus } from '../utils/utils'
 import { registerUser } from '../utils/auth'
-
-import AppContext from '../context/app-context'
+import { useCurrentUser } from '../hooks/useCurrentUser'
+import InputField from '../components/input-field'
+import CustomButton from '../components/custom-button'
 
 const registerReducer = (state, action) => {
   switch (action.type) {
@@ -58,7 +55,7 @@ const initialState = {
 }
 
 export default function RegisterForm () {
-  const { setUser } = useContext(AppContext)
+  const { setUser } = useCurrentUser()
   const usernameRef = useRef(null)
   const emailRef = useRef(null)
   const [state, dispatch] = useReducer(registerReducer, initialState)
@@ -90,7 +87,6 @@ export default function RegisterForm () {
       const res = await registerUser(username, email, password)
       dispatch({ type: 'success' })
       setUser(res.data.user)
-      Cookies.set('tokenSikory', res.data.jwt, { expires: 1 })
       Router.push('/')
     } catch (error) {
       const message = error.response.data.message[0].messages[0].message

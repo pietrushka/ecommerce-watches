@@ -14,7 +14,8 @@ export const registerUser = (username, email, password) => {
   const config = {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
-    }
+    },
+    withCredentials: true
   }
 
   return axios.post(url, qs.stringify(requestBody), config)
@@ -26,8 +27,14 @@ export const loginUser = (identifier, password) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    withCredentials: true
   }
 
   return axios.post(url, JSON.stringify(requestBody), config)
 }
+
+export const authUser = () => axios.get(`${CMS_URL}/users/me`, {withCredentials: true})
+
+
+export const logoutUser = () => axios.post(`${CMS_URL}/logout`, {withCredentials: true})

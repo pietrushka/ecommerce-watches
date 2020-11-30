@@ -1,29 +1,25 @@
 import Head from 'next/head'
 import Router from 'next/router'
 import { useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
 import axios from 'axios'
 
 import WithSpinner from '../components/with-spinner'
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import Card from '../components/card'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 const { CMS_URL } = process.env
 
 export default function FavoritesPage () {
+  const {isAuthenticated} = useCurrentUser()
   const [isLoading, setIsLoading] = useState(true)
-  const token = Cookies.get('tokenSikory')
   const [favoritesData, setFavoritesData] = useState(null)
 
   useEffect(() => {
     const fetchFavs = async () => {
       try {
-        const response = await axios.get(`${CMS_URL}/users/myPopulatedFavorites`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+        const response = await axios.get(`${CMS_URL}/users/myPopulatedFavorites`, {withCredentials: true})
         setFavoritesData(response.data.favorites)
         setIsLoading(false)
       } catch (error) {
@@ -31,7 +27,7 @@ export default function FavoritesPage () {
       }
     }
 
-    token ? fetchFavs() : Router.push('/login')
+    isAuthenticated ? fetchFavs() : Router.push('/login')
   }, [])
 
   return (

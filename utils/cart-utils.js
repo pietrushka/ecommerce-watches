@@ -1,30 +1,26 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
 
 const { CMS_URL } = process.env
 
 export const putCartOnDB = async (cart) => {
-  const token = Cookies.get('tokenSikory')
   // const jsonCart = await cart.json()
   const url = `${CMS_URL}/users/updateMe`
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
+    },
+    withCredentials: true
   }
   return axios.put(url, { cart }, config)
 }
 
 export const getCartFromDB = async () => {
-  const token = Cookies.get('tokenSikory')
-  if (!token) return
   const url = `${CMS_URL}/users/getMyCart`
   const config = {
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
+      'Content-Type': 'application/json'
+    },
+    withCredentials: true
   }
 
   return await axios.get(url, config)
