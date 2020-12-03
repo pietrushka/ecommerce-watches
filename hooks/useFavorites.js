@@ -1,13 +1,13 @@
 import React, { useContext, createContext, useEffect, useState } from 'react'
 
-import AppContext from '../context/app-context'
+import { useCurrentUser } from './useCurrentUser'
 import { addItemToFavorites, removeItemFromFavorites, putFavoritesOnDB, getFavoritesFromDB } from '../utils/favorites-utils'
 
 const FavoritesContext = createContext()
 
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([])
-  const { isAuthenticated } = useContext(AppContext)
+  const { isAuthenticated } = useCurrentUser()
 
   useEffect(() => {
     if (!isAuthenticated) return

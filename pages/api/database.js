@@ -3,7 +3,6 @@ let cachedDB = null
 
 export const connectToDatabase = async () => {
   if (cachedDB) {
-    console.log('use existing connection')
     return Promise.resolve(cachedDB)
   } else {
     return MongoClient.connect(process.env.MONGODB_URI, {

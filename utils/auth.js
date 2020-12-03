@@ -31,3 +31,11 @@ export const loginUser = (identifier, password) => {
 
   return axios.post(url, JSON.stringify(requestBody), config)
 }
+
+export const authUser = (token) => {
+  return axios.get(`${CMS_URL}/users/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}

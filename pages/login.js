@@ -1,17 +1,16 @@
+import { useReducer, useRef, useEffect } from 'react'
 import Head from 'next/head'
 import Router from 'next/router'
+import Link from 'next/link'
 import Cookies from 'js-cookie'
-import { useReducer, useContext, useRef, useEffect } from 'react'
 
+import {useCurrentUser} from '../hooks/useCurrentUser'
+import { setFocus } from '../utils/utils'
+import { loginUser } from '../utils/auth'
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 import InputField from '../components/input-field'
 import CustomButton from '../components/custom-button'
-
-import { setFocus } from '../utils/utils'
-import { loginUser } from '../utils/auth'
-import AppContext from '../context/app-context'
-import Link from 'next/link'
 
 const loginReducer = (state, action) => {
   switch (action.type) {
@@ -61,7 +60,7 @@ const initialState = {
 }
 
 export default function LoginPage () {
-  const { setUser, isAuthenticated } = useContext(AppContext)
+  const { setUser, isAuthenticated } = useCurrentUser()
   const passwordRef = useRef()
   const [state, dispatch] = useReducer(loginReducer, initialState)
   const { identifier, password, isLoading, error } = state
@@ -88,9 +87,10 @@ export default function LoginPage () {
       setUser(res.data.user)
       Router.push('/')
     } catch (error) {
-      const message = error.response.data.message[0].messages[0].message
+      const message = error.response
       dispatch({ type: 'error', payload: message })
       setFocus(passwordRef)
+      console.log(error)
     }
   }
 

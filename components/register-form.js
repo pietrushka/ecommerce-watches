@@ -1,15 +1,13 @@
 import Link from 'next/link'
 import Router from 'next/router'
 import Cookies from 'js-cookie'
-import { useReducer, useContext, useRef } from 'react'
+import { useReducer, useRef } from 'react'
 
-import InputField from '../components/input-field'
-import CustomButton from '../components/custom-button'
-
+import {useCurrentUser} from '../hooks/useCurrentUser'
 import { setFocus } from '../utils/utils'
 import { registerUser } from '../utils/auth'
-
-import AppContext from '../context/app-context'
+import InputField from '../components/input-field'
+import CustomButton from '../components/custom-button'
 
 const registerReducer = (state, action) => {
   switch (action.type) {
@@ -58,7 +56,7 @@ const initialState = {
 }
 
 export default function RegisterForm () {
-  const { setUser } = useContext(AppContext)
+  const { setUser } = useCurrentUser()
   const usernameRef = useRef(null)
   const emailRef = useRef(null)
   const [state, dispatch] = useReducer(registerReducer, initialState)

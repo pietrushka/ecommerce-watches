@@ -1,15 +1,14 @@
 import Head from 'next/head'
 import Router from 'next/router'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 
-import AppContext from '../context/app-context'
-
+import { useCurrentUser } from '../hooks/useCurrentUser'
 import RegisterForm from '../components/register-form'
 import Layout from '../components/layout'
 import FullNavbar from '../components/full-navbar'
 
 export default function RegisterPage () {
-  const { isAuthenticated } = useContext(AppContext)
+  const { isAuthenticated } = useCurrentUser()
 
   useEffect(() => {
     if (isAuthenticated) Router.push('/')

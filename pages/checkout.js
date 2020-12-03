@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useReducer, useContext, useEffect, useState } from 'react'
+import { useReducer, useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import Cookies from 'js-cookie'
 
@@ -10,7 +10,7 @@ import PrevPageNavbar from '../components/prev-page-navbar'
 import CartItem from '../components/cart-item'
 import CustomButton from '../components/custom-button'
 
-import AppContext from '../context/app-context'
+import {useCurrentUser} from '../hooks/useCurrentUser'
 import { useCart } from '../hooks/useCart'
 import { getAllShippingOptions, getAllPaymentOptions } from '../lib/api'
 import { placeOrder } from '../utils/order'
@@ -89,7 +89,7 @@ const initialState = {
 
 export default function Checkout ({ shippingOptions, paymentOptions }) {
   const Router = useRouter()
-  const { user } = useContext(AppContext)
+  const { user } = useCurrentUser()
   const { items, getCartValue, clearCart } = useCart()
   const [state, dispatch] = useReducer(checkoutReducer, initialState)
   const { firstName, lastName, zipCode, city, streetAndNumber, email, phoneNumber, shipping, payment, isLoading, error } = state

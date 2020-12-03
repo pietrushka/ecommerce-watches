@@ -1,14 +1,13 @@
-import { useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 
-import AppContext from '../context/app-context'
 import { useCart } from '../hooks/useCart'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 export default function MenuList ({ orientation, closeMenu }) {
   const Router = useRouter()
-  const { user, setUser } = useContext(AppContext)
+  const { user, setUser } = useCurrentUser()
   const { clearCart } = useCart()
   const pathName = Router.pathname.slice(1)
 
@@ -71,7 +70,7 @@ export default function MenuList ({ orientation, closeMenu }) {
       </li>
       {user ? (
         <li className={liStyles('logout')} onClick={closeMenu}>
-          <button className='font-bold outline-none' onClick={logout}>Logout</button>
+          <button className='outline-none' onClick={logout}>Logout</button>
         </li>
       ) : (
         <>
